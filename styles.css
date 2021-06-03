@@ -1,0 +1,55 @@
+.block_mission_map .map {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-around;
+}
+
+.block_mission_map .map .chapter {
+  position: relative;
+  flex: 1 0 34%;
+  min-height: 300px;
+}
+
+.block_mission_map .map .chapter .mission {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.block_mission_map .map .black {
+  background-color: rgb(23, 21, 37);
+}
+.block_mission_map .map .green {
+  background-color: rgb(40, 80, 53);
+}
+.block_mission_map .map .purple {
+  background-color: rgb(28, 18, 90);
+}
+.block_mission_map .map .pink {
+  background-color: rgb(61, 21, 55);
+}
+
+@media screen and (max-width: 600px) {
+  .block_mission_map .map {
+    display: block;
+    height: auto;
+    flex: none;
+  }
+
+  .block_mission_map .map .chapter {
+    padding: 1em 0;
+  }
+
+  .block_mission_map .map .chapter .mission {
+    position: relative;
+    display: block;
+    margin: 20px auto;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
