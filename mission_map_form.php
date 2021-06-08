@@ -35,6 +35,7 @@ class block_mission_map_edit_form extends moodleform
             foreach ($course_sections as $course_section) {
                 $section = array();
                 $section['id'] = $course_section->id;
+                $section['no'] = $course_section->section;
                 $section['name'] = $course_section->name;
                 $course['sections'][] = $section;
             }

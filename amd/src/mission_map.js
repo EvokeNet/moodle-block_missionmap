@@ -5,9 +5,9 @@ export const init = (courses) => {
 
     campaign_select.addEventListener('change', (e) => {
         var course_id = e.target.value;
-        var dropdowns = document.querySelectorAll("[data-type='sections']");
 
-        clearOptions(dropdowns);
+        clearOptions();
+        var dropdowns = document.querySelectorAll("[data-type='sections']");
 
         for (var course of courses) {
             if (course.id == 0) {
@@ -18,7 +18,9 @@ export const init = (courses) => {
                     for (var section of course.sections) {
                         var el = document.createElement('option');
                         el.text =
-                            section.name !== null ? section.name : section.id;
+                            section.name !== null || section.name == ''
+                                ? section.name
+                                : 'Mission ' + section.no;
                         el.value = section.id;
                         dropdown.add(el);
                     }
@@ -28,10 +30,11 @@ export const init = (courses) => {
     });
 };
 
-const clearOptions = (dropdowns) => {
+const clearOptions = () => {
+    var dropdowns = document.querySelectorAll("[data-type='sections']");
     for (var dropdown of dropdowns) {
-        for (var option of dropdown.options) {
-            dropdown.options.remove(option);
+        while (dropdown.options.length > 0) {
+            dropdown.remove(0);
         }
     }
 };
