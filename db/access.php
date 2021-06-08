@@ -1,4 +1,7 @@
 <?php
+
+defined('MOODLE_INTERNAL') || die();
+
 $capabilities = array(
     'block/mission_map:myaddinstance' => array(
         'captype' => 'write',

@@ -13,38 +13,35 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * myprofile block rendrer
+ * Book module upgrade code
  *
- * @package    block_myprofile
- * @copyright  2018 Mihail Geshoski <mihail@moodle.com>
+ * @package    mod_book
+ * @copyright  2009-2011 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace block_mission_map\output;
 
 defined('MOODLE_INTERNAL') || die;
 
-use plugin_renderer_base;
-
 /**
- * myprofile block renderer
+ * Mission Map block upgrade task
  *
- * @package    block_myprofile
- * @copyright  2018 Mihail Geshoski <mihail@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @param int $oldversion the version we are upgrading from
+ * @return bool always true
  */
-class renderer extends plugin_renderer_base
+function xmldb_block_mission_map_upgrade($oldversion)
 {
+    global $CFG, $DB;
 
-    public function render_mission_map(map $mission_map)
-    {
-        return $this->render_from_template('block_mission_map/map', $mission_map->export_for_template($this));
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2021060600) {
+        $table = new xmldb_table('block_mission_map_chapters');
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        upgrade_mod_savepoint(true, 2021060600, 'block_mission_map');
     }
 
-    public function render_blank(blank $blank)
-    {
-        return $this->render_from_template('block_mission_map/blank', $blank->export_for_template($this));
-    }
+    return true;
 }
