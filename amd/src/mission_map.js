@@ -2,13 +2,16 @@
 
 export const init = (courses) => {
     var campaign_select = document.getElementById('campaign_select');
+    var dropdowns = document.querySelectorAll("[data-type='sections']");
+
+    for (var dropdown of dropdowns) {
+        dropdown.disabled = true;
+    }
 
     campaign_select.addEventListener('change', (e) => {
         var course_id = e.target.value;
 
         clearOptions();
-        var dropdowns = document.querySelectorAll("[data-type='sections']");
-
         for (var course of courses) {
             if (course.id == 0) {
                 break;
@@ -27,6 +30,7 @@ export const init = (courses) => {
                 }
             }
         }
+        dropdowns.disabled = false;
     });
 };
 
@@ -36,5 +40,6 @@ const clearOptions = () => {
         while (dropdown.options.length > 0) {
             dropdown.remove(0);
         }
+        dropdown.disabled = false;
     }
 };

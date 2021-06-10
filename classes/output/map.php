@@ -11,12 +11,12 @@ use templatable;
 class map implements renderable, templatable
 {
 
-    protected $missions;
+    private $chapters;
 
-    public function __construct($missions, $seed)
+    public function __construct($chapters, $url)
     {
-        $this->missions = $missions;
-        $this->seed = $seed;
+        $this->chapters = $chapters;
+        $this->url = $url;
     }
 
     public function export_for_template(renderer_base $output)
@@ -24,26 +24,30 @@ class map implements renderable, templatable
         global $CFG;
         $data = new \stdClass();
 
-        // Seed the random generator to displace missions across the map
-        srand($this->seed);
+        $left = 10;
+        $top = 45;
+        foreach ($this->chapters as &$chapter) {
+            $chapter->missions = json_decode($chapter->missions);
 
-        if (!empty($this->missions)) {
-            $left = 10;
-            $top = 45;
-            foreach ($this->missions as $mission) {
+            // Seed the random generator to displace missions across the chapter
+            srand($chapter->seed);
+
+            // Builds every mission object
+            foreach ($chapter->missions as &$mission) {
                 $noise = rand(-15, 15);
-                $data->missions[] = array(
-                    'section' => $mission->section,
-                    'url' => $CFG->wwwroot . "/course/view.php?id=" . $mission->course . '&section=' . $mission->section,
-                    'name' => $mission->name,
-                    'left' => $left,
-                    'top' => $top + $noise
-                );
+                $id = $mission;
+
+                $mission = new \stdClass();
+                $mission->id = $id;
+                $mission->url = $CFG->wwwroot . "/course/view.php?id=" . $chapter->courseid . "&section=" . $mission->id;
+                $mission->left = $left;
+                $mission->top = $top + $noise;
                 $left += 15;
             }
-        } else {
-            $data->missions = '';
+            $data->chapters[] = $chapter;
         }
+        $data->url = $this->url;
+
         return $data;
     }
 }

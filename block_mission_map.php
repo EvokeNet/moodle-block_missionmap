@@ -1,4 +1,5 @@
 <?php
+require_once("{$CFG->libdir}/completionlib.php");
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -19,36 +20,16 @@ class block_mission_map extends block_base
 
         $this->title = get_string('block_title', 'block_mission_map');
 
+        $chapters = $DB->get_records('block_mission_map', ['blockid' => $this->instance->id]);
+
         $url = new moodle_url('/blocks/mission_map/chapters.php', array('blockid' => $this->instance->id, 'courseid' => $COURSE->id));
-
-        if (!empty($this->config->course)) {
-            $sections = get_fast_modinfo($this->config->course)->get_section_info_all();
-
-            // Removes first section as it is a summary one
-            array_shift($sections);
-
-            foreach ($sections as $section) {
-                $missions[] = $section;
-            }
-        }
-
-        if (!empty($this->config->chapters)) {
-            print_r($this->config->chapters);
-        }
-
-        if (!empty($this->config->seed)) {
-            $seed = $this->config->seed;
-        } else {
-            $seed = 1;
-        }
-
         if (empty($chapters)) {
             $blank = new \block_mission_map\output\blank(html_writer::link($url, get_string('add_page', 'block_mission_map')));
             $renderer = $this->page->get_renderer('block_mission_map');
             $this->content = new stdClass;
             $this->content->text = $renderer->render($blank);
         } else {
-            $map = new \block_mission_map\output\map($missions, $seed);
+            $map = new \block_mission_map\output\map($chapters, $url);
             $renderer = $this->page->get_renderer('block_mission_map');
             $this->content = new stdClass;
             $this->content->text = $renderer->render($map);

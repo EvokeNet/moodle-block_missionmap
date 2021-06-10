@@ -8,6 +8,8 @@
     position: relative;
     flex: 1 0 34%;
     min-height: 300px;
+    border: 1px solid #aeaeae;
+    padding: 1em;
 }
 
 .block_mission_map .map .chapter .mission {

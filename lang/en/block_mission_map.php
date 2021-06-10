@@ -1,6 +1,6 @@
 <?php
-$string['pluginname'] = 'Mission Map for all Agents';
-$string['mission_map'] = 'Mission Map';
+$string['pluginname'] = 'Missions Map';
+$string['mission_map'] = 'Missions Map';
 $string['mission_map:addinstance'] = 'Add a new Mission Map block';
 $string['mission_map:myaddinstance'] = 'Add a new Mission Map block to the My Moodle page';
 

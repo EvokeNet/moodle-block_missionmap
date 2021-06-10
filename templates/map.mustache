@@ -2,14 +2,15 @@
     @template block_mission_map/map
 }}
 <div class="map">
-    <div id="chapter-1" class="chapter pink">
-        {{#missions}}
-            <a href="{{url}}">
-                <span class="mission" style="left: {{left}}%; top: {{top}}%">{{section}}</span>
-            </a>
-        {{/missions}}
-    </div>
-    <div id="chapter-2" class="chapter black"></div>
-    <div id="chapter-3" class="chapter green"></div>
-    <div id="chapter-4" class="chapter purple"></div>
+    {{#chapters}}
+        <div class="chapter">
+            <h3>{{name}}</h3>
+            {{#missions}}
+                <a href="{{url}}">
+                    <span class="mission" style="left: {{left}}%; top: {{top}}%">{{id}}</span>
+                </a>
+            {{/missions}}
+        </div>
+    {{/chapters}}
 </div>
+<a href="{{{url}}}">Edit chapters</a>
