@@ -39,11 +39,6 @@ class block_mission_map extends block_base
         return $this->content;
     }
 
-    function instance_config_save($data, $nolongerused = false)
-    {
-        parent::instance_config_save($data);
-    }
-
     public function instance_allow_multiple()
     {
         return true;

@@ -18,11 +18,6 @@ class block_mission_map_edit_form extends moodleform
 
         $mform = &$this->_form;
 
-        $mform->addElement('hidden', 'blockid');
-        $mform->setType('blockid', PARAM_INT);
-        $mform->addElement('hidden', 'courseid');
-        $mform->setType('courseid', PARAM_INT);
-
         $topcategory = core_course_category::top();
         $categories = $topcategory->get_children();
         $category = array_shift($categories);
@@ -51,13 +46,20 @@ class block_mission_map_edit_form extends moodleform
             $courses[] = $course;
         }
 
-        $PAGE->requires->js_call_amd('block_mission_map/mission_map', 'init', array($courses));
+        $PAGE->requires->js_call_amd('block_mission_map/mission_map', 'init', array($courses, $this->is_editing));
 
         // Form header
         $mform->addElement('header', 'config_header', get_string('form_settings', 'block_mission_map'));
 
         // Select field to choose course to pull sections and plot in the map
-        $mform->addElement('select', 'config_course', get_string('form_course', 'block_mission_map'), $course_options, ['id' => 'campaign_select']);
+        $mform->addElement('select', 'config_course', get_string('form_course', 'block_mission_map'), $course_options, array('id' => 'campaign_select'));
+
+        // For correct redirects
+        $mform->addElement('hidden', 'blockid');
+        $mform->setType('blockid', PARAM_INT);
+
+        $mform->addElement('hidden', 'courseid');
+        $mform->setType('courseid', PARAM_INT);
 
         // Add new chapters
         $repeat_chapters = array();
@@ -65,10 +67,14 @@ class block_mission_map_edit_form extends moodleform
         $repeat_chapters[] = &$mform->createElement('text', 'chapters', get_string('form_chapter', 'block_mission_map'));
         $repeat_chapters[] = &$mform->createElement('select', 'sections', get_string('form_missions', 'block_mission_map'), $section_options, ['data-type' => 'sections', 'multiple' => true]);
         $repeat_chapters[] = &$mform->createElement('text', 'seeds', get_string('form_seed', 'block_mission_map'));
+        // $repeat_chapters[] = &$mform->createElement('hidden', 'blockid');
+        // $repeat_chapters[] = &$mform->createElement('hidden', 'courseid');
 
         $repeat_chapters_options = array();
         $repeat_chapters_options['chapters']['type'] = PARAM_RAW;
         $repeat_chapters_options['seeds']['type'] = PARAM_INT;
+        // $repeat_chapters_options['blockid']['type'] = PARAM_INT;
+        // $repeat_chapters_options['courseid']['type'] = PARAM_INT;
         $repeat_chapters_options['seeds']['default'] = 95878957349875;
 
         if ($this->is_editing) {

@@ -44,6 +44,7 @@ class map implements renderable, templatable
                 $mission->top = $top + $noise;
                 $left += 15;
             }
+            $left = 10;
             $data->chapters[] = $chapter;
         }
         $data->url = $this->url;

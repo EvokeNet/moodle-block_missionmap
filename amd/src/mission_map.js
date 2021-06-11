@@ -1,11 +1,13 @@
 // import * as Str from 'core/str';
 
-export const init = (courses) => {
+export const init = (courses, is_editing) => {
     var campaign_select = document.getElementById('campaign_select');
     var dropdowns = document.querySelectorAll("[data-type='sections']");
 
-    for (var dropdown of dropdowns) {
-        dropdown.disabled = true;
+    if (!is_editing) {
+        for (var dropdown of dropdowns) {
+            dropdown.disabled = true;
+        }
     }
 
     campaign_select.addEventListener('change', (e) => {

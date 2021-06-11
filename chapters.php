@@ -1,5 +1,7 @@
 <?php
 
+use core_question\bank\view;
+
 require_once('../../config.php');
 require_once('mission_map_form.php');
 
@@ -24,13 +26,25 @@ $editurl = new moodle_url('/blocks/mission_map/chapters.php', array('courseid' =
 $editnode = $settingsnode->add(get_string('view_chapters', 'block_mission_map'), $editurl);
 $editnode->make_active();
 
-$chapters = $DB->get_records('block_mission_map', ['blockid' => $blockid]);
+$chapters = $DB->get_records('block_mission_map', array('blockid' => $blockid));
+$chapters = array_values($chapters);
+
+$toform['blockid'] = $blockid;
+$toform['courseid'] = $courseid;
+
+if (!empty($chapters)) {
+    $toform['config_course'] = $chapters[0]->courseid;
+    for ($i = 0; $i < sizeof($chapters); $i++) {
+        $toform['chapters[' . $i . ']'] = $chapters[$i]->name;
+        $toform['seeds[' . $i . ']'] = $chapters[$i]->seed;
+    }
+}
 
 $is_editing = false;
 if (!empty($chapters)) $is_editing = true;
 
 $mission_map = new block_mission_map_edit_form($is_editing, sizeof($chapters));
-$mission_map->set_data($chapters);
+$mission_map->set_data($toform);
 
 if ($mission_map->is_cancelled()) {
     $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
