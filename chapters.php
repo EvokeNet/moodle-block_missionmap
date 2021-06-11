@@ -5,7 +5,6 @@ use core_question\bank\view;
 require_once('../../config.php');
 require_once('mission_map_form.php');
 
-
 global $DB, $OUTPUT, $PAGE;
 
 $courseid = required_param('courseid', PARAM_INT);
@@ -36,6 +35,7 @@ if (!empty($chapters)) {
     $toform['config_course'] = $chapters[0]->courseid;
     for ($i = 0; $i < sizeof($chapters); $i++) {
         $toform['chapters[' . $i . ']'] = $chapters[$i]->name;
+        $toform['sections[' . $i . ']'] = json_decode($chapters[$i]->missions);
         $toform['seeds[' . $i . ']'] = $chapters[$i]->seed;
     }
 }
@@ -56,7 +56,7 @@ if ($mission_map->is_cancelled()) {
     $chapters = array();
     for ($i = 0; $i < sizeof($quadrants); $i++) {
         $chapters[$i]['blockid'] = $data->blockid;
-        $chapters[$i]['courseid'] = $data->courseid;
+        $chapters[$i]['courseid'] = $data->config_course;
         $chapters[$i]['name'] = $quadrants[$i];
         $chapters[$i]['seed'] = $seeds[$i];
         $chapters[$i]['missions'] = json_encode($sections[$i]);

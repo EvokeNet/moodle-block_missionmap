@@ -67,14 +67,10 @@ class block_mission_map_edit_form extends moodleform
         $repeat_chapters[] = &$mform->createElement('text', 'chapters', get_string('form_chapter', 'block_mission_map'));
         $repeat_chapters[] = &$mform->createElement('select', 'sections', get_string('form_missions', 'block_mission_map'), $section_options, ['data-type' => 'sections', 'multiple' => true]);
         $repeat_chapters[] = &$mform->createElement('text', 'seeds', get_string('form_seed', 'block_mission_map'));
-        // $repeat_chapters[] = &$mform->createElement('hidden', 'blockid');
-        // $repeat_chapters[] = &$mform->createElement('hidden', 'courseid');
 
         $repeat_chapters_options = array();
         $repeat_chapters_options['chapters']['type'] = PARAM_RAW;
         $repeat_chapters_options['seeds']['type'] = PARAM_INT;
-        // $repeat_chapters_options['blockid']['type'] = PARAM_INT;
-        // $repeat_chapters_options['courseid']['type'] = PARAM_INT;
         $repeat_chapters_options['seeds']['default'] = 95878957349875;
 
         if ($this->is_editing) {

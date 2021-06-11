@@ -51,7 +51,7 @@
         position: relative;
         display: block;
         margin: 20px auto;
-        top: 0;
-        left: 0;
+        top: 0 !important;
+        left: 0 !important;
     }
 }
