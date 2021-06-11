@@ -38,13 +38,14 @@ if (!empty($chapters)) {
         $toform['sections[' . $i . ']'] = json_decode($chapters[$i]->missions);
         $toform['seeds[' . $i . ']'] = $chapters[$i]->seed;
     }
+    // receives __construct($is_editing, $chaptersno, $selected_course = null) {}
+    $mission_map = new block_mission_map_edit_form(true, sizeof($chapters), $chapters[0]->courseid);
+    $mission_map->set_data($toform);
+} else {
+    // receives __construct($is_editing, $chaptersno, $selected_course = null) {}
+    $mission_map = new block_mission_map_edit_form(false, sizeof($chapters));
+    $mission_map->set_data($toform);
 }
-
-$is_editing = false;
-if (!empty($chapters)) $is_editing = true;
-
-$mission_map = new block_mission_map_edit_form($is_editing, sizeof($chapters));
-$mission_map->set_data($toform);
 
 if ($mission_map->is_cancelled()) {
     $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));

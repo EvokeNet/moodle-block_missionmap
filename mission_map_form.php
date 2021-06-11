@@ -5,10 +5,11 @@ require_once("{$CFG->libdir}/formslib.php");
 class block_mission_map_edit_form extends moodleform
 {
 
-    function __construct($is_editing, $chaptersno)
+    function __construct($is_editing, $chaptersno, $selected_course = null)
     {
         $this->is_editing = $is_editing;
         $this->chaptersno = $chaptersno;
+        $this->selected_course = $selected_course;
         parent::__construct();
     }
 
@@ -46,7 +47,7 @@ class block_mission_map_edit_form extends moodleform
             $courses[] = $course;
         }
 
-        $PAGE->requires->js_call_amd('block_mission_map/mission_map', 'init', array($courses, $this->is_editing));
+        $PAGE->requires->js_call_amd('block_mission_map/mission_map', 'init', array($courses, $this->is_editing, $this->selected_course));
 
         // Form header
         $mform->addElement('header', 'config_header', get_string('form_settings', 'block_mission_map'));
