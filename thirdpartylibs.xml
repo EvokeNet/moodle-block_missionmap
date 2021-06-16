@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>amd/src</location>
+        <name>LeaderLine</name>
+        <version>1.0.5</version>
+        <license>GPL</license>
+        <licenseversion>2.0</licenseversion>
+    </library>
+</libraries>

@@ -37,7 +37,7 @@ class block_mission_map_edit_form extends moodleform
             $course_sections = get_fast_modinfo($course['id'])->get_section_info_all();
             foreach ($course_sections as $course_section) {
                 $section = array();
-                $section_options[$course_section->id] = $course_section->name ? $course_section->name : $course_section->id;
+                $section_options[$course_section->section] = $course_section->name ? $course_section->name : $course_section->section;
                 $section['id'] = $course_section->id;
                 $section['no'] = $course_section->section;
                 $section['name'] = $course_section->name;

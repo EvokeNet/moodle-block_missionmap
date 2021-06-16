@@ -1,7 +1,5 @@
 <?php
 
-use core_question\bank\view;
-
 require_once('../../config.php');
 require_once('mission_map_form.php');
 

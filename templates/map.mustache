@@ -6,9 +6,15 @@
         <div class="chapter">
             <h3>{{name}}</h3>
             {{#missions}}
-                <a href="{{url}}">
-                    <span class="mission" style="left: {{left}}%; top: {{top}}%">{{id}}</span>
-                </a>
+                <div class="mission">
+                    <a href="{{url}}">
+                        {{id}}
+                    </a>
+                </div>
+                <svg>
+                    <line class="line"/>
+                    <path class="curve" d=""/>
+                </svg>
             {{/missions}}
         </div>
     {{/chapters}}

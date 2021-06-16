@@ -12,7 +12,7 @@ class block_mission_map extends block_base
 
     public function get_content()
     {
-        global $COURSE, $DB;
+        global $COURSE, $DB, $CFG;
 
         if ($this->content !== null) {
             return $this->content;
@@ -35,6 +35,12 @@ class block_mission_map extends block_base
             $this->content->text = $renderer->render($map);
             $this->content->footer = '';
         }
+
+        $config = ['paths' => ['leaderline' => $CFG->wwwroot . '/blocks/mission_map/amd/src/leaderline']];
+        $requirejs = 'require.config(' . json_encode($config) . ')';
+        $this->page->requires->js_amd_inline($requirejs);
+
+        $this->page->requires->js_call_amd('block_mission_map/connectors', 'init');
 
         return $this->content;
     }
