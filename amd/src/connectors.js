@@ -5,16 +5,25 @@ export const init = () => {
         const missions = chapter.querySelectorAll('.mission');
         const curves = chapter.querySelectorAll('.curve');
 
-        const width = chapter.offsetWidth;
-        const height = chapter.offsetHeight;
-        const division = width / missions.length;
+        const chapter_width = chapter.offsetWidth;
+        const chapter_height = chapter.offsetHeight;
+        const division = chapter_width / missions.length;
         const offsetLeft = division / 2;
-        const offsetHeight = height / 2;
+        const offsetHeight = chapter_height / 2;
 
-        for (var mission of missions) {
-            mission.style.top = offsetHeight - 25 + 'px';
-            mission.style.left = offsetLeft - 25 + 'px';
+        const m_no = missions.length;
+        const height_step = chapter_height / (m_no * 1.5);
+        let height_add = 0;
+
+        for (var i = 0; i < m_no; i++) {
+            const mission_width = missions[i].offsetWidth;
+            const mission_height = missions[i].offsetHeight;
+            missions[i].style.top =
+                offsetHeight + mission_height + height_add + 'px';
+            missions[i].style.left = offsetLeft - mission_width / 2 + 'px';
+            missions[i].style.transform = `rotate(-15deg)`;
             offsetLeft += division;
+            height_add -= height_step;
         }
 
         for (var i = 0; i < missions.length; i++) {
@@ -44,7 +53,7 @@ const connect = (from, to, curve) => {
     };
 
     const middle_2 = {
-        x: end.x,
+        x: end.x - 60,
         y: middle_1.y,
     };
 

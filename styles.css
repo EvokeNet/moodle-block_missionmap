@@ -1,15 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap');
+
 .block_mission_map .map {
+    font-family: 'Roboto Mono', monospace;
     display: flex;
     flex-flow: wrap;
     justify-content: space-around;
+    background: #333a47;
+    color: #14dff4;
+    position: relative;
+    overflow: hidden;
+}
+
+.block_mission_map .map:before,
+.block_mission_map .map:after {
+    display: block;
+    pointer-events: none;
+    content: '';
+    position: absolute;
+}
+.block_mission_map .map:before {
+    width: 100%;
+    height: 2px;
+    z-index: 2147483649;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0.75;
+    animation: scanline 4s linear infinite;
+}
+.block_mission_map .map:after {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2147483648;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.2) 51%
+    );
+    background-size: 100% 4px;
+    animation: scanlines 3s steps(60) infinite;
 }
 
 .block_mission_map .map .chapter {
     position: relative;
     flex: 1 0 34%;
     min-height: 300px;
-    border: 1px solid #aeaeae;
+    border: 1px solid #fff;
+    box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.5);
     padding: 1em;
+}
+
+.block_mission_map .map .chapter h3 {
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 3px #fff, 0 0 9px rgb(20, 223, 244);
 }
 
 .block_mission_map .map .chapter .mission {
@@ -19,9 +63,17 @@
     width: 50px;
     line-height: 50px;
     text-align: center;
-    background-color: navajowhite;
+    background-color: #fff;
     border-radius: 50%;
     display: inline-block;
+    box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.5);
+}
+
+.block_mission_map .map .chapter .mission a {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+    font-size: 1.4em;
+    color: #333a47;
 }
 
 .block_mission_map .map .chapter svg {
@@ -33,26 +85,25 @@
 
 .block_mission_map .map .chapter svg .line {
     stroke-width: 10px;
-    stroke: navajowhite;
+    stroke: #fff;
 }
 
 .block_mission_map .map .chapter svg .curve {
     fill: transparent;
     stroke-width: 10px;
-    stroke: navajowhite;
+    stroke: #fff;
+    filter: drop-shadow(3px 3px 6px rgba(20, 223, 244, 0.4));
 }
 
-.block_mission_map .map .black {
-    background-color: rgb(23, 21, 37);
+@keyframes scanline {
+    0% {
+        transform: translate3d(0, 200000%, 0);
+    }
 }
-.block_mission_map .map .green {
-    background-color: rgb(40, 80, 53);
-}
-.block_mission_map .map .purple {
-    background-color: rgb(28, 18, 90);
-}
-.block_mission_map .map .pink {
-    background-color: rgb(61, 21, 55);
+@keyframes scanlines {
+    0% {
+        background-position: 0 50%;
+    }
 }
 
 @media screen and (max-width: 600px) {
