@@ -1,64 +1,81 @@
 export const init = () => {
     const chapters = document.querySelectorAll('.chapter');
+    let invert_flow = false;
+    let counter = 0;
 
-    for (var chapter of chapters) {
-        const missions = chapter.querySelectorAll('.mission');
-        const curves = chapter.querySelectorAll('.curve');
-
-        const chapter_width = chapter.offsetWidth;
-        const chapter_height = chapter.offsetHeight;
-        const division = chapter_width / missions.length;
-        const offsetLeft = division / 2;
-        const offsetHeight = chapter_height / 2;
-
-        const m_no = missions.length;
-        const height_step = chapter_height / (m_no * 1.5);
-        let height_add = 0;
-
-        for (var i = 0; i < m_no; i++) {
-            const mission_width = missions[i].offsetWidth;
-            const mission_height = missions[i].offsetHeight;
-            missions[i].style.top =
-                offsetHeight + mission_height + height_add + 'px';
-            missions[i].style.left = offsetLeft - mission_width / 2 + 'px';
-            missions[i].style.transform = `rotate(-15deg)`;
-            offsetLeft += division;
-            height_add -= height_step;
+    for (var i = 0; i < chapters.length; i++) {
+        const missions = chapters[i].querySelectorAll('.mission');
+        const mission_texts = chapters[i].querySelectorAll('.mission-text');
+        place_missions(missions, mission_texts, chapters[i], i, invert_flow);
+        if (counter == 2) {
+            invert_flow = !invert_flow;
+            counter = 0;
         }
-
-        for (var i = 0; i < missions.length; i++) {
-            var curve = curves[i];
-            if (i == missions.length - 1) {
-                break;
-            }
-            connect(missions[i], missions[i + 1], curve);
-        }
+        counter++;
     }
 };
 
-const connect = (from, to, curve) => {
-    const start = {
-        x: from.offsetLeft + from.offsetWidth / 2,
-        y: from.offsetTop - from.offsetHeight / 2,
-    };
+// const connect = (from, to, curve) => {
+//     const start = {
+//         x: from.offsetLeft + from.offsetWidth / 2,
+//         y: from.offsetTop - from.offsetHeight / 2,
+//     };
 
-    const middle_1 = {
-        x: start.x,
-        y: start.y - 20,
-    };
+//     const middle_1 = {
+//         x: start.x,
+//         y: start.y - 20,
+//     };
 
-    const end = {
-        x: to.offsetLeft + to.offsetWidth / 2,
-        y: to.offsetTop - to.offsetHeight / 2,
-    };
+//     const end = {
+//         x: to.offsetLeft + to.offsetWidth / 2,
+//         y: to.offsetTop - to.offsetHeight / 2,
+//     };
 
-    const middle_2 = {
-        x: end.x - 60,
-        y: middle_1.y,
-    };
+//     const middle_2 = {
+//         x: end.x - 60,
+//         y: middle_1.y,
+//     };
 
-    curve.setAttribute(
-        'd',
-        `M${start.x},${start.y} C${middle_1.x},${middle_1.y} ${middle_2.x},${middle_2.y} ${end.x},${end.y}`
-    );
+//     curve.setAttribute(
+//         'd',
+//         `M${start.x},${start.y} C${middle_1.x},${middle_1.y} ${middle_2.x},${middle_2.y} ${end.x},${end.y}`
+//     );
+// };
+
+/**
+ *  Path along div
+ **/
+const place_missions = (
+    missions,
+    mission_texts,
+    chapter,
+    chapter_no,
+    invert_flow
+) => {
+    let path = chapter.querySelector(`.path${chapter_no + 1}`);
+    let pathLength = path.getTotalLength();
+    let increment = 1 / missions.length;
+    let percentage = 0.1;
+
+    if (invert_flow) {
+        for (let m = missions.length - 1; m >= 0; m--) {
+            let p = path.getPointAtLength(percentage * pathLength);
+            missions[m].setAttribute('transform', `translate(${p.x}, ${p.y})`);
+            mission_texts[m].setAttribute(
+                'transform',
+                `translate(${p.x}, ${p.y + 12})`
+            );
+            percentage += increment;
+        }
+    } else {
+        for (let m = 0; m < missions.length; m++) {
+            let p = path.getPointAtLength(percentage * pathLength);
+            missions[m].setAttribute('transform', `translate(${p.x}, ${p.y})`);
+            mission_texts[m].setAttribute(
+                'transform',
+                `translate(${p.x}, ${p.y + 12})`
+            );
+            percentage += increment;
+        }
+    }
 };

@@ -56,43 +56,39 @@
     text-shadow: 0 0 3px #fff, 0 0 9px rgb(20, 223, 244);
 }
 
-.block_mission_map .map .chapter .mission {
+.block_mission_map .map .chapter .wrapper {
     position: absolute;
     z-index: 900;
-    height: 50px;
-    width: 50px;
-    line-height: 50px;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.5);
-}
-
-.block_mission_map .map .chapter .mission a {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: bold;
-    font-size: 1.4em;
-    color: #333a47;
-}
-
-.block_mission_map .map .chapter svg {
-    position: absolute;
-    z-index: 800;
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
 }
 
-.block_mission_map .map .chapter svg .line {
-    stroke-width: 10px;
-    stroke: #fff;
+.block_mission_map .map .chapter .wrapper .path1,
+.block_mission_map .map .chapter .wrapper .path2,
+.block_mission_map .map .chapter .wrapper .path3,
+.block_mission_map .map .chapter .wrapper .path4 {
+    fill: none;
+    stroke: none;
 }
 
-.block_mission_map .map .chapter svg .curve {
+.block_mission_map .map .chapter .wrapper .curve {
     fill: transparent;
     stroke-width: 10px;
     stroke: #fff;
     filter: drop-shadow(3px 3px 6px rgba(20, 223, 244, 0.4));
+}
+
+.block_mission_map .map .chapter .wrapper .mission {
+    fill: #fff;
+    r: 40px;
+    filter: drop-shadow(3px 3px 10px rgba(20, 223, 244, 0.8));
+}
+
+.block_mission_map .map .chapter .wrapper .mission-text {
+    fill: #333a47;
+    font-size: 35px;
 }
 
 @keyframes scanline {
