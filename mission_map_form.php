@@ -18,36 +18,36 @@ class block_mission_map_edit_form extends moodleform
         global $PAGE, $DB;
 
         $mform = &$this->_form;
+        $courses = $DB->get_records('course');
 
-        $topcategory = core_course_category::top();
-        $categories = $topcategory->get_children();
-        $category = array_shift($categories);
-        $category_courses = $category->get_courses();
-
-        $courses = array();
+        $courses_arr = array();
+        $section_options = array();
         $course_options = array(
             0 => get_string('form_course_blank', 'block_mission_map')
         );
-        foreach ($category_courses as $category_course) {
-            $course = array();
-            $course['id'] = $category_course->id;
-            $course['fullname'] = $category_course->fullname;
-            $course['sections'] = array();
 
-            $course_sections = get_fast_modinfo($course['id'])->get_section_info_all();
-            foreach ($course_sections as $course_section) {
-                $section = array();
-                $section_options[$course_section->section] = $course_section->name ? $course_section->name : $course_section->section;
-                $section['id'] = $course_section->id;
-                $section['no'] = $course_section->section;
-                $section['name'] = $course_section->name;
-                $course['sections'][] = $section;
+        foreach ($courses as $course) {
+            $course_arr = array();
+            $course_arr['id'] = $course->id;
+            $course_arr['fullname'] = $course->fullname;
+            $course_arr['sections'] = array();
+
+            $courseformat = course_get_format($course);
+            $sections = $courseformat->get_sections();
+            foreach ($sections as $section) {
+                $section_arr = array();
+                $section_options[$section->section] = $section->name ? $section->name : $section->section;
+                $section_arr['id'] = $section->id;
+                $section_arr['no'] = $section->section;
+                $section_arr['name'] = $section->name;
+                $section_arr['is_sidequest'] = $courseformat->get_format_options($section);
+                $course_arr['sections'][] = $section_arr;
             }
-            $course_options[$course['id']] = $course['fullname'];
-            $courses[] = $course;
+            $course_options[$course_arr['id']] = $course_arr['fullname'];
+            $courses_arr[] = $course_arr;
         }
 
-        $PAGE->requires->js_call_amd('block_mission_map/mission_map', 'init', array($courses, $this->is_editing, $this->selected_course));
+        $PAGE->requires->js_call_amd('block_mission_map/mission_map', 'init', array($courses_arr, $this->is_editing, $this->selected_course));
 
         // Form header
         $mform->addElement('header', 'config_header', get_string('form_settings', 'block_mission_map'));
