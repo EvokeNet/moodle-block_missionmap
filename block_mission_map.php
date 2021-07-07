@@ -12,7 +12,7 @@ class block_mission_map extends block_base
 
     public function get_content()
     {
-        global $COURSE, $DB, $CFG;
+        global $DB, $CFG, $USER;
 
         if ($this->content !== null) {
             return $this->content;
@@ -20,15 +20,18 @@ class block_mission_map extends block_base
 
         $this->title = get_string('block_title', 'block_mission_map');
 
-        $chapters = $DB->get_records('block_mission_map', ['blockid' => $this->instance->id]);
+        $courses = enrol_get_all_users_courses($USER->id);
 
-        $url = new moodle_url('/blocks/mission_map/chapters.php', array('blockid' => $this->instance->id, 'courseid' => $COURSE->id));
+        // Ugly hack: for now, only shows first course
+        $courses = reset($courses);
+
+        $chapters = $DB->get_records('block_mission_map_chapters', ['courseid' => $courses->id]);
+
         if (empty($chapters)) {
-            $blank = new \block_mission_map\output\blank(html_writer::link($url, get_string('add_page', 'block_mission_map')));
-            $renderer = $this->page->get_renderer('block_mission_map');
             $this->content = new stdClass;
-            $this->content->text = $renderer->render($blank);
+            $this->content->text = null;
         } else {
+            $url = new moodle_url('/blocks/mission_map/chapters.php', array('blockid' => $this->instance->id));
             $map = new \block_mission_map\output\map($chapters, $url);
             $renderer = $this->page->get_renderer('block_mission_map');
             $this->content = new stdClass;
@@ -45,8 +48,49 @@ class block_mission_map extends block_base
         return $this->content;
     }
 
+    public function get_content_for_output($output)
+    {
+        global $DB, $USER;
+        $bc = parent::get_content_for_output($output);
+        $courses = enrol_get_all_users_courses($USER->id);
+
+        // Ugly hack: for now, only shows first course
+        $course = reset($courses);
+
+        if (isset($bc)) {
+            $context = context_system::instance();
+            if (
+                $this->page->user_can_edit_blocks() && has_capability('block/mission_map:managechapters', $context)
+            ) {
+                $str = new lang_string('add_page', 'block_mission_map');
+                $controls = new action_menu_link_secondary(
+                    new moodle_url('/blocks/mission_map/chapters.php', array('courseid' => $course->id, 'blockid' => $bc->blockinstanceid)),
+                    new pix_icon('a/view_list_active', $str, 'moodle', array('class' => 'iconsmall', 'title' => '')),
+                    $str,
+                    array('class' => 'editing_manage')
+                );
+
+                array_unshift($bc->controls, $controls);
+            }
+        }
+
+        return $bc;
+    }
+
     public function instance_allow_multiple()
     {
+        return true;
+    }
+
+    public function hide_header()
+    {
+        $context = context_system::instance();
+        if (
+            $this->page->user_can_edit_blocks() &&
+            has_capability('block/mission_map:managechapters', $context)
+        ) {
+            return false;
+        }
         return true;
     }
 }

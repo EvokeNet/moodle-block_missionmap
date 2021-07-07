@@ -47,4 +47,9 @@ class renderer extends plugin_renderer_base
     {
         return $this->render_from_template('block_mission_map/blank', $blank->export_for_template($this));
     }
+
+    public function render_chapters(chapters $mission_map)
+    {
+        return $this->render_from_template('block_mission_map/chapter', $mission_map->export_for_template($this));
+    }
 }

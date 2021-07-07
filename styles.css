@@ -11,7 +11,7 @@
     overflow: hidden;
 }
 
-.block_mission_map .map:before,
+/* .block_mission_map .map:before,
 .block_mission_map .map:after {
     display: block;
     pointer-events: none;
@@ -39,7 +39,7 @@
     );
     background-size: 100% 4px;
     animation: scanlines 3s steps(60) infinite;
-}
+} */
 
 .block_mission_map .map .chapter {
     position: relative;
@@ -48,6 +48,14 @@
     border: 1px solid #fff;
     box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.5);
     padding: 1em;
+}
+
+.block_mission_map .map .chapter .add_supermission {
+    color: white;
+    text-decoration: underline;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 .block_mission_map .map .chapter h3 {

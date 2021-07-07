@@ -2,7 +2,7 @@
 
 require_once("{$CFG->libdir}/formslib.php");
 
-class block_mission_map_edit_form extends moodleform
+class block_mission_map_chapter_form extends moodleform
 {
 
     function __construct($is_editing, $chaptersno, $selected_course = null)

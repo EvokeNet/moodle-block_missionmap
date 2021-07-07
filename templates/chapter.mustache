@@ -1,0 +1,18 @@
+{{!
+    @template block_mission_map/map
+}}
+<div id="mission_map" class="map">
+    {{#chapters}}
+        <div class="chapter">
+            <h3>{{name}}</h3>
+        </div>
+    {{/chapters}}
+</div>
+<a href="#" class="btn btn-primary" id="add_chapter">Add Chapter</a>
+{{#js}}
+    require(['block_mission_map/chapters'],
+        function(module) {
+            module.init({{{contextid}}});
+        }
+    ); 
+{{/js}}
