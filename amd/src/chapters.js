@@ -15,18 +15,12 @@ export const init = (contextid) => {
     .then(function(modal) {
         const trigger = document.getElementById('add_chapter');
         const root = modal.getRoot();
+        const form = root.find('form');
         //const output = document.getElementById('mission_map');
+        trigger.addEventListener('click', (event) => showModal(event, modal));
+        root.on(ModalEvents.save, (event) => submitForm(event, form));
+        form.on('submit', (event) => submitFormAjax(event, form, contextid));
 
-        trigger.addEventListener('click', confirm);
-
-        function confirm(event) {
-            event.preventDefault();
-            modal.show();
-        }
-
-        root.on(ModalEvents.save, function(event) {
-            submitFormAjax(event, root, contextid);
-        });
     })
     // Close modal
     .then(function(modal) {
@@ -38,19 +32,29 @@ const get_form = (formdata, contextid) => {
     if (typeof formdata === "undefined") {
         formdata = {};
     }
-    // Get the content of the modal.
     var params = {jsonformdata: JSON.stringify(formdata)};
     return Fragment.loadFragment('block_mission_map', 'chapter_form', contextid, params);
 
 };
 
-/* eslint-disable */
-const submitFormAjax = (event, root, contextid) => {
+const showModal = (event, modal) => {
     event.preventDefault();
-    let formData = root.find('form').serialize();
+    modal.show();
+};
+
+const submitForm = (event, form) => {
+    event.preventDefault();
+    form.submit();
+};
+
+const submitFormAjax = (event, form, contextid) => {
+    event.preventDefault();
+    let formData = form.serialize();
+    window.console.log(formData);
     Ajax.call([{
-        methodname: 'block_mission_map_create_chapter',
+        methodname: 'block_mission_map_create',
         args: {contextid: contextid, jsonformdata: JSON.stringify(formData)}
     }]);
 };
+/* eslint-disable */
 /* eslint-enable */

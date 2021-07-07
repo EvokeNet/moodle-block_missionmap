@@ -27,5 +27,6 @@ $string['mission_no'] = 'mission-{no}';
 
 $string['campaign_add_chapter'] = 'Chapter name';
 $string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
+$string['create_chapter_success'] = 'Chapter created!';
 
 $string['form_seed'] = 'Seed to displace missions on the map';

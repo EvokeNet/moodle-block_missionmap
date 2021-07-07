@@ -26,9 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $functions = [
     'block_mission_map_create_chapter' => [
-        'classname' => 'block_mission_map_external',
-        'classpath' => 'block_mission_map/external',
+        'classname' => 'block_mission_map\external\chapter',
         'methodname' => 'create',
+        'classpath' => 'mission_map/classes/external/chapter.php',
         'description' => 'Creates a new Chapter for a Campaign',
         'type' => 'write',
         'ajax' => true

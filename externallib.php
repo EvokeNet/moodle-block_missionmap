@@ -5,7 +5,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/externallib.php");
 require_once($CFG->dirroot . '/blocks/mission_map/chapter_form.php');
 
-class chapter extends external_api
+class block_mission_map_external extends external_api
 {
     /**
      * Create chapter parameters
@@ -53,7 +53,7 @@ class chapter extends external_api
         $data = [];
         parse_str($serialiseddata, $data);
 
-        $mform = new block_mission_map_chapter_form($data);
+        $mform = new block_mission_map_chapter_form(null, $data);
 
         $validateddata = $mform->get_data();
 
@@ -71,7 +71,7 @@ class chapter extends external_api
 
         return [
             'status' => 'ok',
-            'message' => get_string('createcompetency_success', 'local_proacompetencies'),
+            'message' => get_string('create_chapter_success', 'block_mission_map'),
             'data' => json_encode($data)
         ];
     }

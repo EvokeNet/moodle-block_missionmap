@@ -7,8 +7,7 @@ use external_api;
 use external_value;
 use external_single_structure;
 use external_function_parameters;
-
-require_once($CFG->dirroot . '/blocks/mission_map/chapter_form.php');
+use block_mission_map\local\forms\chapter_form;
 
 class chapter extends external_api
 {
@@ -58,7 +57,7 @@ class chapter extends external_api
         $data = [];
         parse_str($serialiseddata, $data);
 
-        $mform = new block_mission_map_chapter_form($data);
+        $mform = new chapter_form($data);
 
         $validateddata = $mform->get_data();
 
@@ -72,6 +71,7 @@ class chapter extends external_api
         $data->timemodified = time();
 
         $chapterid = $DB->insert_record('block_mission_map_chapters', $data);
+
         $data->id = $chapterid;
 
         return [
