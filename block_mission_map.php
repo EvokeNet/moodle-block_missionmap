@@ -25,7 +25,7 @@ class block_mission_map extends block_base
         // Ugly hack: for now, only shows first course
         $courses = reset($courses);
 
-        $chapters = $DB->get_records('block_mission_map_chapters', ['courseid' => $courses->id]);
+        $chapters = $DB->get_records('block_mission_map_chapters');
 
         if (empty($chapters)) {
             $this->content = new stdClass;
@@ -50,7 +50,7 @@ class block_mission_map extends block_base
 
     public function get_content_for_output($output)
     {
-        global $DB, $USER;
+        global $USER;
         $bc = parent::get_content_for_output($output);
         $courses = enrol_get_all_users_courses($USER->id);
 

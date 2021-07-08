@@ -1,7 +1,5 @@
 <?php
 
-require_once($CFG->dirroot . '/blocks/mission_map/chapter_form.php');
-
 function block_mission_map_output_fragment_chapter_form($args)
 {
     $args = (object) $args;
@@ -13,7 +11,13 @@ function block_mission_map_output_fragment_chapter_form($args)
         parse_str($serialiseddata, $formdata);
     }
 
-    $mform = new block_mission_map_chapter_form($formdata, ['id' => $serialiseddata->id, 'name' => $serialiseddata->name]);
+    $mform = new \block_mission_map\local\forms\chapter_form(
+        $formdata,
+        [
+            'id' => $serialiseddata->id,
+            'name' => $serialiseddata->name
+        ]
+    );
 
     if (!empty($args->jsonformdata)) {
         // If we were passed non-empty form data we want the mform to call validation functions and show errors.

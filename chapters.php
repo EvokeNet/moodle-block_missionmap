@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once('chapter_form.php');
 
 global $DB, $OUTPUT, $PAGE;
 
@@ -26,10 +25,9 @@ $editnode = $settingsnode->add(get_string('view_chapters', 'block_mission_map'),
 $editnode->make_active();
 
 // Retrieves all chapters from this course
-$chapters = $DB->get_records('block_mission_map_chapters', array('courseid' => $courseid));
+$chapters = $DB->get_records('block_mission_map_chapters');
 $chapters = array_values($chapters);
 
-$chapters = $DB->get_records('block_mission_map_chapters', ['courseid' => $courseid]);
 $campaign = new \block_mission_map\output\chapters($chapters, $context);
 $renderer = $PAGE->get_renderer('block_mission_map');
 

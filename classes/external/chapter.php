@@ -76,7 +76,7 @@ class chapter extends external_api
 
         return [
             'status' => 'ok',
-            'message' => get_string('createcompetency_success', 'local_proacompetencies'),
+            'message' => get_string('create_chapter_success', 'block_mission_map'),
             'data' => json_encode($data)
         ];
     }
