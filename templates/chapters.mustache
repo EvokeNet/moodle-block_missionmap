@@ -1,10 +1,21 @@
 {{!
-    @template block_mission_map/map
+    @template block_mission_map/chapters
 }}
 <div id="mission_map" class="map">
     {{#chapters}}
-        <div id=chapter-{{id}} class="chapter">
+        <div class="chapter" data-cid="{{id}}">
             <h3>{{name}}</h3>
+            <svg class="wrapper" width="100%" height="100%" viewBox="0 0 1200 400">
+                {{#levels}}
+                    <a href={{url}}>
+                        <circle class="mission" />
+                        <text text-anchor="middle" class="mission-text">
+                            {{id}}
+                        </text>
+                    </a>
+                {{/levels}}
+            </svg>
+            <a href="#" class="btn btn-primary add_level">Add Level</a>
         </div>
     {{/chapters}}
 </div>
@@ -14,5 +25,10 @@
         function(module) {
             module.init({{{contextid}}});
         }
-    ); 
+    );
+    require(['block_mission_map/levels'],
+        function(module) {
+            module.init({{{contextid}}});
+        }
+    );
 {{/js}}

@@ -13,34 +13,15 @@ class map implements renderable, templatable
 
     private $chapters;
 
-    public function __construct($chapters, $url)
+    public function __construct($chapters)
     {
         $this->chapters = $chapters;
-        $this->url = $url;
     }
 
     public function export_for_template(renderer_base $output)
     {
-        global $CFG;
         $data = new \stdClass();
-
-        foreach ($this->chapters as &$chapter) {
-            $chapter->missions = json_decode($chapter->missions);
-
-            // Seed the random generator to displace missions across the chapter
-            srand($chapter->seed);
-
-            // Builds every mission object
-            foreach ($chapter->missions as &$mission) {
-                $id = $mission;
-
-                $mission = new \stdClass();
-                $mission->id = $id;
-                $mission->url = $CFG->wwwroot . "/course/view.php?id=" . $chapter->courseid . "&section=" . $mission->id;
-            }
-            $data->chapters[] = $chapter;
-        }
-
+        $data->chapters = $this->chapters;
         return $data;
     }
 }

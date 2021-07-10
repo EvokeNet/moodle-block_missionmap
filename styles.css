@@ -50,9 +50,7 @@
     padding: 1em;
 }
 
-.block_mission_map .map .chapter .add_supermission {
-    color: white;
-    text-decoration: underline;
+.block_mission_map .map .chapter .add_level {
     position: absolute;
     bottom: 10px;
     right: 10px;

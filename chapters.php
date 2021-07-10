@@ -26,8 +26,16 @@ $editnode->make_active();
 
 // Retrieves all chapters from this course
 $chapters = $DB->get_records('block_mission_map_chapters');
+
+// Fetch all levels associated with each chapter
+foreach ($chapters as &$chapter) {
+    $levels = $DB->get_records('block_mission_map_levels', ['chapterid' => $chapter->id]);
+    $levels = array_values($levels);
+    if (!empty($levels)) $chapter->levels = $levels;
+}
 $chapters = array_values($chapters);
 
+// Pass data to editable map
 $campaign = new \block_mission_map\output\chapters($chapters, $context);
 $renderer = $PAGE->get_renderer('block_mission_map');
 

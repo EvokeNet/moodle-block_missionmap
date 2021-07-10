@@ -40,16 +40,25 @@ class renderer extends plugin_renderer_base
 
     public function render_mission_map(map $mission_map)
     {
-        return $this->render_from_template('block_mission_map/map', $mission_map->export_for_template($this));
+        return $this->render_from_template(
+            'block_mission_map/map',
+            $mission_map->export_for_template($this)
+        );
     }
 
     public function render_blank(blank $blank)
     {
-        return $this->render_from_template('block_mission_map/blank', $blank->export_for_template($this));
+        return $this->render_from_template(
+            'block_mission_map/blank',
+            $blank->export_for_template($this)
+        );
     }
 
     public function render_chapters(chapters $mission_map)
     {
-        return $this->render_from_template('block_mission_map/chapters', $mission_map->export_for_template($this));
+        return $this->render_from_template(
+            'block_mission_map/chapters',
+            $mission_map->export_for_template($this)
+        );
     }
 }

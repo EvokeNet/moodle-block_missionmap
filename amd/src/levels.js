@@ -10,15 +10,17 @@ export const init = (contextid) => {
     // Set up a SAVE_CANCEL modal.
     ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
-        title: 'Add Chapter',
+        title: 'Add Level',
         body: get_form(null, contextid)
     })
     // Set up the listeners
     .then(modal => {
-        const trigger = document.getElementById('add_chapter');
+        const triggers = document.querySelectorAll('.add_level');
         const root = modal.getRoot();
         const form = root.find('form');
-        trigger.addEventListener('click', (event) => showModal(event, modal));
+        for (let i = 0; i < triggers.length; i++) {
+            triggers[i].addEventListener('click', (event) => showModal(event, modal));
+        }
         root.on(ModalEvents.save, (event) => submitForm(event, form));
         form.on('submit', (event) => submitFormAjax(event, modal, form, contextid));
 
@@ -29,6 +31,14 @@ export const init = (contextid) => {
     });
 };
 
+const showModal = (event, modal) => {
+    event.preventDefault();
+    let root = modal.getRoot();
+    modal.show();
+    // Adds chapter ID to invoked modal form so we can save to DB
+    root.find('form').find('input[name="chapterid"]').val(event.target.parentNode.dataset.cid);
+};
+
 const get_form = (formdata, contextid) => {
     if (typeof formdata === "undefined") {
         formdata = {};
@@ -36,15 +46,10 @@ const get_form = (formdata, contextid) => {
     var params = {jsonformdata: JSON.stringify(formdata)};
     return Fragment.loadFragment(
         'block_mission_map',
-        'chapter_form',
+        'level_form',
         contextid,
         params
     );
-};
-
-const showModal = (event, modal) => {
-    event.preventDefault();
-    modal.show();
 };
 
 const submitForm = (event, form) => {
@@ -55,52 +60,49 @@ const submitForm = (event, form) => {
 const submitFormAjax = (event, modal, form, contextid) => {
     event.preventDefault();
 
-    // var changeEvent = document.createEvent('HTMLEvents');
-    // changeEvent.initEvent('change', true, true);
-
-    // form.find(':input').each((element) => {
-    //     element.dispatchEvent(changeEvent);
-    // });
-
     let formData = form.serialize();
     Ajax.call([{
-        methodname: 'block_mission_map_create_chapter',
+        methodname: 'block_mission_map_create_level',
         args: {contextid: contextid, jsonformdata: JSON.stringify(formData)},
         done: (data) => handleFormSubmissionResponse(data, modal),
-        fail: (data) => handleFormSubmissionFailure(data),
+        fail: (data) => handleFormSubmissionFailure(data, modal),
     }]);
 };
 
-const handleFormSubmissionFailure = (data) => {
-   Notification.alert('Warning', JSON.parse(data), 'Continue');
-};
+const handleFormSubmissionFailure = (data, modal) => {
+    modal.hide();
+    Notification.alert('Warning', JSON.parse(data), 'Continue');
+ };
 
-/**
-*   chapter {
+ /**
+*   level {
 *       id: 0,
-*       name: 'ChapterName',
+*       chapterid: 0,
+*       parentlevelid: 0,
+*       name: 'LevelName',
+*       url: 'https://levelurl',
 *       timecreated: 0000000000,
 *       timemodified: 0000000000
 *   }
 **/
 const handleFormSubmissionResponse = (data, modal) => {
-    const map = document.getElementById('mission_map');
-    let chapter = JSON.parse(data.data);
+    let level = JSON.parse(data.data);
     let context = {
-        id: chapter.id,
-        name: chapter.name
+        id: level.id,
+        chapterid: level.chapterid,
+        name: level.name,
+        url: level.url
     };
 
+    const chapter = document.querySelectorAll(`[data-cid="${level.chapterid}"]`);
+
     Template
-    .render('block_mission_map/chapter', context)
+    .render('block_mission_map/level', context)
     .then((html, js) => {
-        Template.appendNodeContents(map, html, js);
+        Template.appendNodeContents(chapter, html, js);
         modal.hide();
     })
     .fail((ex) => {
         Notification.alert('Warning', ex, 'Continue');
     });
 };
-
-/* eslint-disable */
-/* eslint-enable */

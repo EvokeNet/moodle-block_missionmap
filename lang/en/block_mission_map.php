@@ -28,5 +28,11 @@ $string['mission_no'] = 'mission-{no}';
 $string['campaign_add_chapter'] = 'Chapter name';
 $string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
 $string['create_chapter_success'] = 'Chapter created!';
+$string['campaign_add_level_name'] = 'Level name';
+$string['campaign_add_level_url'] = 'Level URL';
+$string['campaign_add_level_error_name'] = 'Level name can\'t be null';
+$string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
+
+$string['create_level_success'] = 'Level created succesfuly!';
 
 $string['form_seed'] = 'Seed to displace missions on the map';
