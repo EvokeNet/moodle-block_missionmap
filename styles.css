@@ -51,6 +51,7 @@
 }
 
 .block_mission_map .map .chapter .add_level {
+    z-index: 999;
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -62,39 +63,20 @@
     text-shadow: 0 0 3px #fff, 0 0 9px rgb(20, 223, 244);
 }
 
-.block_mission_map .map .chapter .wrapper {
+.block_mission_map .map .chapter .mission {
     position: absolute;
-    z-index: 900;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.8);
+    text-align: center;
 }
 
-.block_mission_map .map .chapter .wrapper .path1,
-.block_mission_map .map .chapter .wrapper .path2,
-.block_mission_map .map .chapter .wrapper .path3,
-.block_mission_map .map .chapter .wrapper .path4 {
-    fill: none;
-    stroke: none;
-}
-
-.block_mission_map .map .chapter .wrapper .curve {
-    fill: transparent;
-    stroke-width: 10px;
-    stroke: #fff;
-    filter: drop-shadow(3px 3px 6px rgba(20, 223, 244, 0.4));
-}
-
-.block_mission_map .map .chapter .wrapper .mission {
-    fill: #fff;
-    r: 40px;
-    filter: drop-shadow(3px 3px 10px rgba(20, 223, 244, 0.8));
-}
-
-.block_mission_map .map .chapter .wrapper .mission-text {
-    fill: #333a47;
-    font-size: 35px;
+.block_mission_map .map .chapter .mission .mission-text {
+    color: #333a47;
+    font-size: 1.5rem;
+    vertical-align: middle;
 }
 
 @keyframes scanline {
@@ -102,6 +84,7 @@
         transform: translate3d(0, 200000%, 0);
     }
 }
+
 @keyframes scanlines {
     0% {
         background-position: 0 50%;

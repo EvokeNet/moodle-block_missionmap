@@ -11,29 +11,32 @@ export const init = (contextid) => {
     ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
         title: 'Add Chapter',
-        body: get_form(null, contextid)
+        body: get_form(null, contextid),
     })
-    // Set up the listeners
-    .then(modal => {
-        const trigger = document.getElementById('add_chapter');
-        const root = modal.getRoot();
-        const form = root.find('form');
-        trigger.addEventListener('click', (event) => showModal(event, modal));
-        root.on(ModalEvents.save, (event) => submitForm(event, form));
-        form.on('submit', (event) => submitFormAjax(event, modal, form, contextid));
-
-    })
-    // Close modal
-    .then(modal => {
-        modal.close();
-    });
+        // Set up the listeners
+        .then((modal) => {
+            const trigger = document.getElementById('add_chapter');
+            const root = modal.getRoot();
+            const form = root.find('form');
+            trigger.addEventListener('click', (event) =>
+                showModal(event, modal)
+            );
+            root.on(ModalEvents.save, (event) => submitForm(event, form));
+            form.on('submit', (event) =>
+                submitFormAjax(event, modal, form, contextid)
+            );
+        })
+        // Close modal
+        .then((modal) => {
+            modal.close();
+        });
 };
 
 const get_form = (formdata, contextid) => {
-    if (typeof formdata === "undefined") {
+    if (typeof formdata === 'undefined') {
         formdata = {};
     }
-    var params = {jsonformdata: JSON.stringify(formdata)};
+    var params = { jsonformdata: JSON.stringify(formdata) };
     return Fragment.loadFragment(
         'block_mission_map',
         'chapter_form',
@@ -63,43 +66,47 @@ const submitFormAjax = (event, modal, form, contextid) => {
     // });
 
     let formData = form.serialize();
-    Ajax.call([{
-        methodname: 'block_mission_map_create_chapter',
-        args: {contextid: contextid, jsonformdata: JSON.stringify(formData)},
-        done: (data) => handleFormSubmissionResponse(data, modal),
-        fail: (data) => handleFormSubmissionFailure(data),
-    }]);
+    Ajax.call([
+        {
+            methodname: 'block_mission_map_create_chapter',
+            args: {
+                contextid: contextid,
+                jsonformdata: JSON.stringify(formData),
+            },
+            done: (data) => handleFormSubmissionResponse(data, modal),
+            fail: (data) => handleFormSubmissionFailure(data),
+        },
+    ]);
 };
 
 const handleFormSubmissionFailure = (data) => {
-   Notification.alert('Warning', JSON.parse(data), 'Continue');
+    Notification.alert('Warning', JSON.parse(data), 'Continue');
 };
 
 /**
-*   chapter {
-*       id: 0,
-*       name: 'ChapterName',
-*       timecreated: 0000000000,
-*       timemodified: 0000000000
-*   }
-**/
+ *   chapter {
+ *       id: 0,
+ *       name: 'ChapterName',
+ *       timecreated: 0000000000,
+ *       timemodified: 0000000000
+ *   }
+ **/
 const handleFormSubmissionResponse = (data, modal) => {
     const map = document.getElementById('mission_map');
     let chapter = JSON.parse(data.data);
     let context = {
         id: chapter.id,
-        name: chapter.name
+        name: chapter.name,
     };
 
-    Template
-    .render('block_mission_map/chapter', context)
-    .then((html, js) => {
-        Template.appendNodeContents(map, html, js);
-        modal.hide();
-    })
-    .fail((ex) => {
-        Notification.alert('Warning', ex, 'Continue');
-    });
+    Template.render('block_mission_map/chapter', context)
+        .then((html, js) => {
+            Template.appendNodeContents(map, html, js);
+            modal.hide();
+        })
+        .fail((ex) => {
+            Notification.alert('Warning', ex, 'Continue');
+        });
 };
 
 /* eslint-disable */
