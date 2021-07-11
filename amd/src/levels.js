@@ -23,14 +23,36 @@ export const init = (contextid) => {
                     showModal(event, modal);
                 }
             });
+            // document.addEventListener('mousedown', (event) => {
+            //     if (
+            //         event.target &&
+            //         event.target.classList.contains('mission')
+            //     ) {
+            //         userPressed(event);
+            //     }
+            // });
             const triggers = document.querySelectorAll('.add_level');
+            const missions = document.querySelectorAll('.mission');
             const root = modal.getRoot();
             const form = root.find('form');
+
+            // Adds click event listeners to all buttons already added to the DOM
             for (let i = 0; i < triggers.length; i++) {
                 triggers[i].addEventListener('click', (event) =>
                     showModal(event, modal)
                 );
             }
+
+            // Adds dragging event listeners to all missions already added to the DOM
+            for (let i = 0; i < missions.length; i++) {
+                missions[i].addEventListener('mousedown', (event) =>
+                    dragstart(event, missions[i])
+                );
+                missions[i].addEventListener('dragstart', () => {
+                    return false;
+                });
+            }
+
             root.on(ModalEvents.save, (event) => submitForm(event, form));
             form.on('submit', (event) =>
                 submitFormAjax(event, modal, form, contextid)
@@ -123,3 +145,32 @@ const handleFormSubmissionResponse = (data, modal) => {
             Notification.alert('Warning', ex, 'Continue');
         });
 };
+
+const dragstart = (event, element) => {
+    event.preventDefault();
+    element.classList.add('dimmed');
+    let cOffX = event.clientX - element.offsetLeft;
+    let cOffY = event.clientY - element.offsetTop;
+    element.addEventListener('mousemove', (event) =>
+        dragmove(event, element, cOffX, cOffY)
+    );
+    element.addEventListener('mouseup', (event) => dragend(event, element));
+    element.style.cursor = 'move';
+};
+
+const dragmove = (event, element, cOffX, cOffY) => {
+    window.console.log('dragggggiiiiinnnnnggggg');
+    event.preventDefault();
+    element.style.top = (event.clientY - cOffY).toString() + 'px';
+    element.style.left = (event.clientX - cOffX).toString() + 'px';
+};
+
+const dragend = (event, element) => {
+    event.preventDefault();
+    window.console.log('STAHP');
+    element.removeEventListener('mousemove', dragmove);
+    element.removeEventListener('mouseup', dragend);
+    element.classList.remove('dimmed');
+};
+/* eslint-disable */
+/* eslint-enable */

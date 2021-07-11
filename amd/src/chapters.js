@@ -108,6 +108,3 @@ const handleFormSubmissionResponse = (data, modal) => {
             Notification.alert('Warning', ex, 'Continue');
         });
 };
-
-/* eslint-disable */
-/* eslint-enable */

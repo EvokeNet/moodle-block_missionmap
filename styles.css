@@ -65,12 +65,17 @@
 
 .block_mission_map .map .chapter .mission {
     position: absolute;
+    z-index: 9999;
     background: #fff;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.8);
     text-align: center;
+}
+
+.block_mission_map .map .chapter .mission.dimmed {
+    opacity: 0.4;
 }
 
 .block_mission_map .map .chapter .mission .mission-text {
