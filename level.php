@@ -21,6 +21,12 @@ $editurl = new moodle_url('/blocks/mission_map/level.php', array('chapterid' => 
 $editnode = $settingsnode->add(get_string('view_level', 'block_mission_map'), $editurl);
 $editnode->make_active();
 
+$chapter = $DB->get_record('block_mission_map_chapters', ['id' => $chapterid]);
+$level = $DB->get_record('block_mission_map_levels', ['id' => $levelid]);
+
 echo $OUTPUT->header();
-echo html_writer::div('hi');
+echo html_writer::div('Chapter:');
+echo html_writer::div($chapter->name);
+echo html_writer::div('Level:');
+echo html_writer::div($level->name);
 echo $OUTPUT->footer();

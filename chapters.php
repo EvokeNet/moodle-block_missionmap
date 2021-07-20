@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once('level_edit_form.php');
 
 global $DB, $OUTPUT, $PAGE;
 
