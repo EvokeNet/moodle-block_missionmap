@@ -8,6 +8,9 @@ use external_value;
 use external_single_structure;
 use external_function_parameters;
 use block_mission_map\local\forms\level_form;
+use block_mission_map\local\forms\level_edit_form;
+
+require_once('../../level_edit_form.php');
 
 class level extends external_api
 {
@@ -90,6 +93,93 @@ class level extends external_api
      * @return external_single_structure
      */
     public static function create_returns()
+    {
+        return new external_single_structure(
+            array(
+                'status' => new external_value(PARAM_TEXT, 'Operation status'),
+                'message' => new external_value(PARAM_RAW, 'Return message'),
+                'data' => new external_value(PARAM_RAW, 'Return data')
+            )
+        );
+    }
+
+    /**
+     * Edit level parameters
+     *
+     * @return external_function_parameters
+     */
+    public static function edit_parameters()
+    {
+        return new external_function_parameters([
+            'contextid' => new external_value(PARAM_INT, 'The context id for the course module'),
+            'jsonformdata' => new external_value(PARAM_RAW, 'The data from the level form, encoded as a json array')
+        ]);
+    }
+
+    /**
+     * Edit level method
+     *
+     * @param int $contextid
+     * @param string $jsonformdata
+     *
+     * @return array
+     *
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \invalid_parameter_exception
+     * @throws \moodle_exception
+     */
+    public static function edit($contextid, $jsonformdata)
+    {
+        global $DB;
+
+        // We always must pass webservice params through validate_parameters.
+        $params = self::validate_parameters(
+            self::edit_parameters(),
+            ['contextid' => $contextid, 'jsonformdata' => $jsonformdata]
+        );
+
+        $context = context::instance_by_id($params['contextid'], MUST_EXIST);
+
+        // We always must call validate_context in a webservice.
+        self::validate_context($context);
+
+        $serialiseddata = json_decode($params['jsonformdata']);
+
+        $data = [];
+        parse_str($serialiseddata, $data);
+
+        $mform = new level_edit_form($data);
+        $validateddata = $mform->get_data();
+
+        if (!$validateddata) {
+            throw new \moodle_exception('invalidformdata');
+        }
+
+        $data = new \stdClass();
+        $data->id = $validateddata->levelid;
+        $data->chapterid = $validateddata->chapterid;
+        $data->coordinates = json_encode([
+            'x' => $validateddata->posx,
+            'y' => $validateddata->posy
+        ]);
+        $data->timemodified = time();
+
+        $DB->update_record('block_mission_map_levels', $data);
+
+        return [
+            'status' => 'ok',
+            'message' => get_string('edit_level_success', 'block_mission_map'),
+            'data' => json_encode($data)
+        ];
+    }
+
+    /**
+     * Edit level return fields
+     *
+     * @return external_single_structure
+     */
+    public static function edit_returns()
     {
         return new external_single_structure(
             array(

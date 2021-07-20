@@ -54,7 +54,7 @@ class block_mission_map extends block_base
     {
         global $USER, $COURSE;
         $bc = parent::get_content_for_output($output);
-        $courses = enrol_get_all_users_courses($USER->id);
+        // $courses = enrol_get_all_users_courses($USER->id);
 
         if (isset($bc)) {
             $context = context_system::instance();

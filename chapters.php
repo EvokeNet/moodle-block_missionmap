@@ -1,6 +1,7 @@
 <?php
 
 require_once('../../config.php');
+require_once('level_edit_form.php');
 
 global $DB, $OUTPUT, $PAGE;
 
@@ -37,9 +38,11 @@ $chapters = array_values($chapters);
 
 // Pass data to editable map
 $campaign = new \block_mission_map\output\chapters($chapters, $context);
+$levelform = new \block_mission_map\local\forms\level_edit_form(null);
 $renderer = $PAGE->get_renderer('block_mission_map');
 
 // Prints editable mission map
 echo $OUTPUT->header();
 echo html_writer::div($renderer->render($campaign), 'block_mission_map');
+$levelform->display();
 echo $OUTPUT->footer();

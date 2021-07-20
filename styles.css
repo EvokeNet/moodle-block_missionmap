@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 .block_mission_map .map {
-    font-family: 'Roboto Mono', monospace;
     display: flex;
     flex-flow: wrap;
     justify-content: space-around;
-    background: #333a47;
-    color: #14dff4;
+    font-family: 'Bangers', monospace;
+    background-image: url([[pix:block_mission_map|map-2000px]]);
+    background-size: cover;
+    color: rgb(255, 255, 255);
     position: relative;
     overflow: hidden;
 }
@@ -45,8 +47,7 @@
     position: relative;
     flex: 1 0 34%;
     min-height: 300px;
-    border: 1px solid #fff;
-    box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.5);
+    outline: 5px solid rgb(255, 255, 255);
     padding: 1em;
 }
 
@@ -58,20 +59,23 @@
 }
 
 .block_mission_map .map .chapter h3 {
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 3px #fff, 0 0 9px rgb(20, 223, 244);
+    color: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
+    display: inline-block;
+    padding: 0 0.2em 0 0.2em;
 }
 
 .block_mission_map .map .chapter .mission {
+    font-family: 'Bungee';
     position: absolute;
-    z-index: 9999;
-    background: #fff;
-    width: 40px;
-    height: 40px;
+    z-index: 800;
+    background: rgb(255, 5, 64);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    box-shadow: 3px 3px 10px rgba(20, 223, 244, 0.8);
     text-align: center;
+    cursor: pointer;
 }
 
 .block_mission_map .map .chapter .mission.dimmed {
@@ -79,9 +83,33 @@
 }
 
 .block_mission_map .map .chapter .mission .mission-text {
-    color: #333a47;
+    color: rgb(255, 255, 255);
     font-size: 1.5rem;
-    vertical-align: middle;
+    line-height: 2.5;
+    background-size: contain;
+}
+
+.block_mission_map .map .chapter .mission .mission-text:hover {
+    text-decoration: none;
+}
+
+.block_mission_map .map .chapter .mission .mission-tools {
+    z-index: 900;
+    visibility: hidden;
+    position: absolute;
+    top: 5px;
+    right: -130px;
+    padding-left: 30px;
+}
+
+.block_mission_map .map .chapter .mission:hover > .mission-tools,
+.block_mission_map
+    .map
+    .chapter
+    .mission
+    .mission-tools:hover
+    > .mission-tools {
+    visibility: visible;
 }
 
 @keyframes scanline {

@@ -34,7 +34,7 @@ require_once($CFG->dirroot . '/lib/formslib.php');
  * @copyright  2021 onwards Marcos Soledade {@link https://msoledade.com.br}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class level_form extends \moodleform
+class level_edit_form extends \moodleform
 {
 
     /**
@@ -45,8 +45,7 @@ class level_form extends \moodleform
      */
     public function __construct($formdata, $customdata = null)
     {
-        parent::__construct(null, $customdata, 'level',  '', ['class' => 'block_mission_map_level_form'], true, $formdata);
-        $this->set_display_vertical();
+        parent::__construct(null, $customdata, 'level',  '', ['class' => 'block_mission_map_level_edit_form'], true, $formdata);
     }
 
     /**
@@ -61,31 +60,20 @@ class level_form extends \moodleform
 
         $id = !(empty($this->_customdata['id'])) ? $this->_customdata['id'] : null;
         $chapterid = !(empty($this->_customdata['chapterid'])) ? $this->_customdata['chapterid'] : null;
-        $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
-        $url = !(empty($this->_customdata['url'])) ? $this->_customdata['url'] : null;
         $posx = !(empty($this->_customdata['posx'])) ? $this->_customdata['posx'] : null;
         $posy = !(empty($this->_customdata['posy'])) ? $this->_customdata['posy'] : null;
 
-        $mform->addElement('hidden', 'id', $id);
-        $mform->addElement('hidden', 'chapterid', $chapterid);
-        $mform->addElement('hidden', 'posx', $posx);
-        $mform->addElement('hidden', 'posy', $posy);
+        $mform->addElement('hidden', 'id', $id, ['id' => 'levelid']);
+        $mform->setType('id', PARAM_INT);
 
-        $mform->addElement('text', 'name', get_string('campaign_add_level_name', 'block_mission_map'));
-        $mform->addRule('name', get_string('required'), 'required', null, 'client');
-        $mform->setType('name', PARAM_TEXT);
+        $mform->addElement('hidden', 'chapterid', $chapterid, ['id' => 'chapterid']);
+        $mform->setType('chapterid', PARAM_INT);
 
-        $mform->addElement('text', 'url', get_string('campaign_add_level_url', 'block_mission_map'));
-        $mform->addRule('url', get_string('required'), 'required', null, 'client');
-        $mform->setType('url', PARAM_TEXT);
+        $mform->addElement('hidden', 'posx', $posx, ['id' => 'posx']);
+        $mform->setType('posx', PARAM_INT);
 
-        if ($name) {
-            $mform->setDefault('name', $name);
-        }
-
-        if ($url) {
-            $mform->setDefault('url', $url);
-        }
+        $mform->addElement('hidden', 'posy', $posy, ['id' => 'posy']);
+        $mform->setType('posy', PARAM_INT);
     }
 
     /**
@@ -102,15 +90,6 @@ class level_form extends \moodleform
     public function validation($data, $files)
     {
         $errors = parent::validation($data, $files);
-
-        $name = isset($data['name']) ? $data['name'] : null;
-        $url = isset($data['url']) ? $data['url'] : null;
-
-        if ($this->is_submitted() && (empty($name) || empty($url))) {
-            $errors['name'] = get_string('campaign_add_level_error_name', 'block_mission_map');
-            $errors['url'] = get_string('campaign_add_level_error_url', 'block_mission_map');
-        }
-
         return $errors;
     }
 }

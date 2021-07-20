@@ -5,16 +5,13 @@
     {{#chapters}}
         <div class="chapter">
             <h3>{{name}}</h3>
-            <svg class="wrapper" width="100%" height="100%" viewBox="0 0 1200 400">
-                {{#levels}}
-                    <a href={{url}}>
-                        <circle class="mission" />
-                        <text text-anchor="middle" class="mission-text">
-                            {{id}}
-                        </text>
-                    </a>
-                {{/levels}}
-            </svg>
+            {{#levels}}
+                <a href="http://localhost/moodle/blocks/mission_map/level.php?chapterid={{cid}}&levelid={{lid}}" class="mission">
+                    <span class="mission-text">
+                        {{id}}
+                    </span>
+                </a>
+            {{/levels}}
         </div>
     {{/chapters}}
 </div>

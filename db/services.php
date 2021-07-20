@@ -41,4 +41,12 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'block_mission_map_edit_level' => [
+        'classname' => 'block_mission_map\external\level',
+        'methodname' => 'edit',
+        'classpath' => 'mission_map/classes/external/level.php',
+        'description' => 'Edits a Level within a Chapter',
+        'type' => 'write',
+        'ajax' => true
+    ],
 ];
