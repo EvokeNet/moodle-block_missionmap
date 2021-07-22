@@ -54,11 +54,19 @@ class renderer extends plugin_renderer_base
         );
     }
 
-    public function render_chapters(chapters $mission_map)
+    public function render_chapters(chapters $chapter)
     {
         return $this->render_from_template(
             'block_mission_map/chapters',
-            $mission_map->export_for_template($this)
+            $chapter->export_for_template($this)
+        );
+    }
+
+    public function render_level(level $level)
+    {
+        return $this->render_from_template(
+            'block_mission_map/level',
+            $level->export_for_template($this)
         );
     }
 }

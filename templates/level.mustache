@@ -1,12 +1,25 @@
 {{!
     @template block_mission_map/level
 }}
-<div class="mission" data-lid="{{id}}">
-    <div class="mission-tools">
-        <span class="btn btn-primary btn-sm edit">edit</span>
-        <span class="btn btn-danger btn-sm delete">delete</span>
-    </div>
-    <span class="mission-text">
-        {{id}}
-    </span>
+<div id="mission_map" class="map">
+    {{#level}}
+        <div class="chapter">
+            <h3>{{name}}</h3>
+            {{#sublevels}}
+                <a href="{{url}}" class="mission" data-lid="{{id}}">
+                    <span class="mission-text">
+                        {{id}}
+                    </span>
+                </a>
+            {{/sublevels}}
+            <a href="#" class="btn btn-primary add_level">Add Sublevel</a>
+        </div>
+    {{/level}}
 </div>
+{{#js}}
+    require(['block_mission_map/levels'],
+        function(module) {
+            module.init_add({{{contextid}}});
+        }
+    );
+{{/js}}

@@ -4,10 +4,12 @@ import Fragment from 'core/fragment';
 import Ajax from 'core/ajax';
 import Notification from 'core/notification';
 import Template from 'core/templates';
-import $ from 'jquery';
 
 // The function called from the Mustache template to render the ADD_LEVEL modal
 export const init_add = (contextid) => {
+    const chapters = document.querySelectorAll('.chapter');
+    randomize(chapters);
+
     // Set up a SAVE_CANCEL modal.
     ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
@@ -24,16 +26,15 @@ export const init_add = (contextid) => {
                     showModal(event, modal);
                 }
             });
-            document.addEventListener('mousedown', (event) => {
-                if (
-                    event.target &&
-                    event.target.classList.contains('mission')
-                ) {
-                    dragstart(event, event.target, contextid);
-                }
-            });
+            // document.addEventListener('mousedown', (event) => {
+            //     if (
+            //         event.target &&
+            //         event.target.classList.contains('mission')
+            //     ) {
+            //         dragstart(event, event.target, contextid);
+            //     }
+            // });
             const triggers = document.querySelectorAll('.add_level');
-            const missions = document.querySelectorAll('.mission');
             const root = modal.getRoot();
             const form = root.find('form');
 
@@ -45,11 +46,11 @@ export const init_add = (contextid) => {
             }
 
             // Adds dragging event listeners to all missions already added to the DOM
-            for (let i = 0; i < missions.length; i++) {
-                missions[i].addEventListener('mousedown', (event) =>
-                    dragstart(event, missions[i], contextid)
-                );
-            }
+            // for (let i = 0; i < missions.length; i++) {
+            //     missions[i].addEventListener('mousedown', (event) =>
+            //         dragstart(event, missions[i], contextid)
+            //     );
+            // }
 
             root.on(ModalEvents.save, (event) => submitForm(event, form));
             form.on('submit', (event) =>
@@ -192,7 +193,7 @@ const handleAddFormSubmissionResponse = (data, modal) => {
 
     const chapter = document.querySelector(`[data-cid="${level.chapterid}"]`);
 
-    Template.render('block_mission_map/level', context)
+    Template.render('block_mission_map/dot', context)
         .then((html, js) => {
             Template.appendNodeContents(chapter, html, js);
             modal.hide();
@@ -209,61 +210,83 @@ const handleEditFormSubmissionResponse = (data, modal) => {
     modal.hide();
 };
 
-const dragstart = (event, element, contextid) => {
-    event.preventDefault();
+const randomize = (chapters) => {
+    for (let i = 0; i < chapters.length; i++) {
+        let chapter_width = chapters[i].offsetWidth;
+        let chapter_height = chapters[i].offsetHeight;
+        let missions = chapters[i].querySelectorAll('.mission');
 
-    element.classList.add('dimmed');
-    element.style.cursor = 'move';
+        for (let j = 0; j < missions.length; j++) {
+            let mission_width = missions[j].offsetWidth;
+            let mission_height = missions[j].offsetHeight;
+            let posx =
+                Math.random() *
+                (chapter_width - (mission_width + 20)).toFixed();
+            var posy =
+                Math.random() *
+                (chapter_height - (mission_height + 20)).toFixed();
 
-    let cOffX = event.clientX - element.offsetLeft;
-    let cOffY = event.clientY - element.offsetTop;
-
-    element.onmousemove = (event) => {
-        element.style.top = (event.clientY - cOffY).toString() + 'px';
-        element.style.left = (event.clientX - cOffX).toString() + 'px';
-    };
-
-    document.onmouseup = () => {
-        element.onmousemove = null;
-        element.style.cursor = 'pointer';
-        element.classList.remove('dimmed');
-
-        const level_edit_form = $('.block_mission_map_level_edit_form');
-        document.getElementById('levelid').value = element.dataset.lid;
-        document.getElementById('chapterid').value =
-            element.parentNode.dataset.cid;
-        document.getElementById('posx').value = element.style.top;
-        document.getElementById('posy').value = element.style.left;
-        submitLevelEditFormAjax(level_edit_form, contextid);
-    };
-
-    element.ondragstart = () => {
-        return false;
-    };
+            missions[j].style.left = `${posx}px`;
+            missions[j].style.top = `${posy}px`;
+        }
+    }
 };
 
-const submitLevelEditFormAjax = (form, contextid) => {
-    let formData = form.serialize();
-    Ajax.call([
-        {
-            methodname: 'block_mission_map_edit_level',
-            args: {
-                contextid: contextid,
-                jsonformdata: JSON.stringify(formData),
-            },
-            done: (data) => handleLevelEditFormSubmissionResponse(data),
-            fail: (data) => handleLevelEditFormSubmissionFailure(data),
-        },
-    ]);
-};
-
-const handleLevelEditFormSubmissionFailure = (data) => {
-    Notification.alert('Warning', JSON.stringify(data), 'Continue');
-    return false;
-};
-
-const handleLevelEditFormSubmissionResponse = (data) => {
-    Notification.alert('Success', data, 'Continue');
-};
 /* eslint-disable */
+// const dragstart = (event, element) => {
+//     event.preventDefault();
+
+//     element.classList.add('dimmed');
+//     element.style.cursor = 'move';
+
+//     let cOffX = event.clientX - element.offsetLeft;
+//     let cOffY = event.clientY - element.offsetTop;
+
+//     element.onmousemove = (event) => {
+//         element.style.top = (event.clientY - cOffY).toString() + 'px';
+//         element.style.left = (event.clientX - cOffX).toString() + 'px';
+//     };
+
+//     document.onmouseup = () => {
+//         element.onmousemove = null;
+//         element.style.cursor = 'pointer';
+//         element.classList.remove('dimmed');
+
+// const level_edit_form = $('.block_mission_map_level_edit_form');
+// document.getElementById('levelid').value = element.dataset.lid;
+// document.getElementById('chapterid').value =
+//     element.parentNode.dataset.cid;
+// document.getElementById('posx').value = element.style.top;
+// document.getElementById('posy').value = element.style.left;
+// submitLevelEditFormAjax(level_edit_form, contextid);
+//     };
+
+//     element.ondragstart = () => {
+//         return false;
+//     };
+// };
+
+// const submitLevelEditFormAjax = (form, contextid) => {
+//     let formData = form.serialize();
+//     Ajax.call([
+//         {
+//             methodname: 'block_mission_map_edit_level',
+//             args: {
+//                 contextid: contextid,
+//                 jsonformdata: JSON.stringify(formData),
+//             },
+//             done: (data) => handleLevelEditFormSubmissionResponse(data),
+//             fail: (data) => handleLevelEditFormSubmissionFailure(data),
+//         },
+//     ]);
+// };
+
+// const handleLevelEditFormSubmissionFailure = (data) => {
+//     Notification.alert('Warning', JSON.stringify(data), 'Continue');
+//     return false;
+// };
+
+// const handleLevelEditFormSubmissionResponse = (data) => {
+//     Notification.alert('Success', data, 'Continue');
+// };
 /* eslint-enable */

@@ -34,5 +34,6 @@ $string['campaign_add_level_name'] = 'Level name';
 $string['campaign_add_level_url'] = 'Level URL';
 $string['campaign_add_level_error_name'] = 'Level name can\'t be null';
 $string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
+$string['campaign_add_level_hassublevel'] = 'Has sub levels?';
 
 $string['create_level_success'] = 'Level created succesfuly!';

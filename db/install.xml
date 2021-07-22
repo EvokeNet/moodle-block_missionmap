@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mission_map/db" VERSION="20210709" COMMENT="XMLDB file for Moodle blocks/mission_map"
+<XMLDB PATH="blocks/mission_map/db" VERSION="20210722" COMMENT="XMLDB file for Moodle blocks/mission_map"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -20,6 +20,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="chapterid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="parentlevelid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="has_sublevel" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="coordinates" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
@@ -30,21 +31,6 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="chapterid_fk" TYPE="foreign" FIELDS="chapterid" REFTABLE="block_mission_map_chapters" REFFIELDS="id"/>
         <KEY NAME="parentlevelid_fk" TYPE="foreign" FIELDS="parentlevelid" REFTABLE="block_mission_map_levels" REFFIELDS="id"/>
-      </KEYS>
-    </TABLE>
-    <TABLE NAME="block_mission_map_sublevels" COMMENT="Default comment for the table, please edit me">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="levelid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="coordinates" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="levelid_fk" TYPE="foreign" FIELDS="levelid" REFTABLE="block_mission_map_levels" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

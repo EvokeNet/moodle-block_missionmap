@@ -50,3 +50,15 @@ $functions = [
         'ajax' => true
     ],
 ];
+
+$services = array(
+    'block_missionmap_edit_level_service' => array(
+        'functions' => array('block_mission_map_edit_level'),
+        'requiredcapability' => '',
+        'restrictedusers' => 0,
+        'enabled' => 1,
+        'shortname' =>  '',
+        'downloadfiles' => 0,
+        'uploadfiles'  => 0
+    )
+);

@@ -89,7 +89,7 @@
     background-size: contain;
 }
 
-.block_mission_map .map .chapter .mission .mission-text:hover {
+/* .block_mission_map .map .chapter .mission .mission-text:hover {
     text-decoration: none;
 }
 
@@ -100,9 +100,9 @@
     top: 5px;
     right: -130px;
     padding-left: 30px;
-}
+} */
 
-.block_mission_map .map .chapter .mission:hover > .mission-tools,
+/* .block_mission_map .map .chapter .mission:hover > .mission-tools,
 .block_mission_map
     .map
     .chapter
@@ -110,7 +110,7 @@
     .mission-tools:hover
     > .mission-tools {
     visibility: visible;
-}
+} */
 
 @keyframes scanline {
     0% {

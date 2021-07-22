@@ -9,8 +9,7 @@ use external_single_structure;
 use external_function_parameters;
 use block_mission_map\local\forms\level_form;
 use block_mission_map\local\forms\level_edit_form;
-
-require_once('../../level_edit_form.php');
+use context_system;
 
 class level extends external_api
 {
@@ -61,7 +60,6 @@ class level extends external_api
         parse_str($serialiseddata, $data);
 
         $mform = new level_form($data);
-
         $validateddata = $mform->get_data();
 
         if (!$validateddata) {
@@ -73,6 +71,7 @@ class level extends external_api
         $data->chapterid = $validateddata->chapterid;
         $data->parentlevelid = $validateddata->parentlevelid;
         $data->url = $validateddata->url;
+        $data->has_sublevel = $validateddata->has_sublevel;
         $data->timecreated = time();
         $data->timemodified = time();
 
@@ -110,9 +109,19 @@ class level extends external_api
      */
     public static function edit_parameters()
     {
+        // return new external_function_parameters([
+        //     'contextid' => new external_value(PARAM_INT, 'The context id for the course module'),
+        //     'jsonformdata' => new external_value(PARAM_RAW, 'The data from the level form, encoded as a json array')
+        // ]);
         return new external_function_parameters([
-            'contextid' => new external_value(PARAM_INT, 'The context id for the course module'),
-            'jsonformdata' => new external_value(PARAM_RAW, 'The data from the level form, encoded as a json array')
+            'level' => new external_single_structure([
+                'id' => new external_value(PARAM_INT, 'id of level'),
+                'name' => new external_value(PARAM_RAW, 'name of level'),
+                'url' => new external_value(PARAM_RAW, 'URL of level'),
+                'chapterid' => new external_value(PARAM_INT, 'chapterid of level'),
+                'posx' => new external_value(PARAM_INT, 'x position of level'),
+                'posy' => new external_value(PARAM_INT, 'y position of level')
+            ])
         ]);
     }
 
@@ -129,49 +138,71 @@ class level extends external_api
      * @throws \invalid_parameter_exception
      * @throws \moodle_exception
      */
-    public static function edit($contextid, $jsonformdata)
+    public static function edit($level)
     {
         global $DB;
 
-        // We always must pass webservice params through validate_parameters.
-        $params = self::validate_parameters(
-            self::edit_parameters(),
-            ['contextid' => $contextid, 'jsonformdata' => $jsonformdata]
-        );
+        $params = self::validate_parameters(self::edit_parameters(), array('level' => $level));
+        $context = context_system::instance();
 
-        $context = context::instance_by_id($params['contextid'], MUST_EXIST);
-
-        // We always must call validate_context in a webservice.
         self::validate_context($context);
 
-        $serialiseddata = json_decode($params['jsonformdata']);
+        $transaction = $DB->start_delegated_transaction();
 
-        $data = [];
-        parse_str($serialiseddata, $data);
+        // Builds level object with ID
+        $level = new \stdClass();
+        $level->id = $params['level']->id;
+        $level->chapterid = $params['level']->chapterid;
+        !empty($params['level']->name) ? $level->name = $params['level']->name : '';
+        !empty($params['level']->url) ? $level->url = $params['level']->url : '';
+        $params['level']->coordinates = json_encode([$params['level']->posx, $params['level']->posy]);
+        $level->timemodified = time();
 
-        $mform = new level_edit_form($data);
-        $validateddata = $mform->get_data();
+        $level = $DB->update_record('block_mission_map_levels', $level);
 
-        if (!$validateddata) {
-            throw new \moodle_exception('invalidformdata');
-        }
+        $transaction->allow_commit();
 
-        $data = new \stdClass();
-        $data->id = $validateddata->levelid;
-        $data->chapterid = $validateddata->chapterid;
-        $data->coordinates = json_encode([
-            'x' => $validateddata->posx,
-            'y' => $validateddata->posy
-        ]);
-        $data->timemodified = time();
+        return $level;
 
-        $DB->update_record('block_mission_map_levels', $data);
+        // We always must pass webservice params through validate_parameters.
+        // $params = self::validate_parameters(
+        //     self::edit_parameters(),
+        //     ['contextid' => $contextid, 'jsonformdata' => $jsonformdata]
+        // );
 
-        return [
-            'status' => 'ok',
-            'message' => get_string('edit_level_success', 'block_mission_map'),
-            'data' => json_encode($data)
-        ];
+        // $context = context::instance_by_id($params['contextid'], MUST_EXIST);
+
+        // We always must call validate_context in a webservice.
+        // self::validate_context($context);
+
+        // $serialiseddata = json_decode($params['jsonformdata']);
+
+        // $data = [];
+        // parse_str($serialiseddata, $data);
+
+        // $mform = new level_edit_form($data);
+        // $validateddata = $mform->get_data();
+
+        // if (!$validateddata) {
+        //     throw new \moodle_exception('invalidformdata');
+        // }
+
+        // $data = new \stdClass();
+        // $data->id = $validateddata->levelid;
+        // $data->chapterid = $validateddata->chapterid;
+        // $data->coordinates = json_encode([
+        //     'x' => $validateddata->posx,
+        //     'y' => $validateddata->posy
+        // ]);
+        // $data->timemodified = time();
+
+        // $DB->update_record('block_mission_map_levels', $data);
+
+        // return [
+        //     'status' => 'ok',
+        //     'message' => get_string('edit_level_success', 'block_mission_map'),
+        //     'data' => json_encode($data)
+        // ];
     }
 
     /**
@@ -181,12 +212,22 @@ class level extends external_api
      */
     public static function edit_returns()
     {
-        return new external_single_structure(
-            array(
-                'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_RAW, 'Return message'),
-                'data' => new external_value(PARAM_RAW, 'Return data')
-            )
-        );
+        // return new external_single_structure(
+        //     array(
+        //         'status' => new external_value(PARAM_TEXT, 'Operation status'),
+        //         'message' => new external_value(PARAM_RAW, 'Return message'),
+        //         'data' => new external_value(PARAM_RAW, 'Return data')
+        //     )
+        // );
+        return new external_function_parameters([
+            'level' => new external_single_structure([
+                'id' => new external_value(PARAM_INT, VALUE_REQUIRED),
+                'name' => new external_value(PARAM_RAW, VALUE_OPTIONAL),
+                'url' => new external_value(PARAM_RAW, VALUE_OPTIONAL),
+                'chapterid' => new external_value(PARAM_INT, VALUE_REQUIRED),
+                'posx' => new external_value(PARAM_INT, VALUE_REQUIRED),
+                'posy' => new external_value(PARAM_INT, VALUE_REQUIRED)
+            ])
+        ]);
     }
 }

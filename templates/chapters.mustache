@@ -6,16 +6,16 @@
         <div class="chapter" data-cid="{{id}}">
             <h3>{{name}}</h3>
             {{#levels}}
-                <div class="mission" data-lid="{{id}}">
-                    <div class="mission-tools">
+                <a href="{{url}}" class="mission" data-lid="{{id}}">
+                    <!--<div class="mission-tools">
                         <a href={{url}} class="btn btn-secondary btn-sm go_level">go</a>
                         <a class="btn btn-primary btn-sm edit_level">edit</a>
                         <a class="btn btn-danger btn-sm delete_level">&times;</a>
-                    </div>
+                    </div> -->
                     <span class="mission-text">
                         {{id}}
                     </span>
-                </div>
+                </a>
             {{/levels}}
             <a href="#" class="btn btn-primary add_level">Add Level</a>
         </div>
