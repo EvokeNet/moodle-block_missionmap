@@ -15,3 +15,10 @@
         </div>
     {{/chapters}}
 </div>
+{{#js}}
+    require(['block_mission_map/randomizer'],
+        function(module) {
+            module.init();
+        }
+    );
+{{/js}}
