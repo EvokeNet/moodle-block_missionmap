@@ -23,9 +23,11 @@ class map implements renderable, templatable
     {
         $data = new \stdClass();
 
+        $i = 0;
         foreach ($this->chapters as &$chapter) {
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
+                $level->no = ++$i;
                 if ($level->has_sublevel) {
                     $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                 }
