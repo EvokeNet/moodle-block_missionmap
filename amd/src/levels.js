@@ -7,9 +7,6 @@ import Template from 'core/templates';
 
 // The function called from the Mustache template to render the ADD_LEVEL modal
 export const init_add = (contextid) => {
-    const chapters = document.querySelectorAll('.chapter');
-    randomize(chapters);
-
     // Set up a SAVE_CANCEL modal.
     ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
@@ -208,28 +205,6 @@ const handleEditFormSubmissionResponse = (data, modal) => {
     const level = document.querySelector(`[data-lid="${level_data.levelid}"]`);
     level.href = level_data.url;
     modal.hide();
-};
-
-const randomize = (chapters) => {
-    for (let i = 0; i < chapters.length; i++) {
-        let chapter_width = chapters[i].offsetWidth;
-        let chapter_height = chapters[i].offsetHeight;
-        let missions = chapters[i].querySelectorAll('.mission');
-
-        for (let j = 0; j < missions.length; j++) {
-            let mission_width = missions[j].offsetWidth;
-            let mission_height = missions[j].offsetHeight;
-            let posx =
-                Math.random() *
-                (chapter_width - (mission_width + 20)).toFixed();
-            var posy =
-                Math.random() *
-                (chapter_height - (mission_height + 20)).toFixed();
-
-            missions[j].style.left = `${posx}px`;
-            missions[j].style.top = `${posy}px`;
-        }
-    }
 };
 
 /* eslint-disable */

@@ -31,7 +31,11 @@
     require(['block_mission_map/levels'],
         function(module) {
             module.init_add({{{contextid}}});
-            module.init_edit({{{contextid}}});
+        }
+    );
+    require(['block_mission_map/randomizer'],
+        function(module) {
+            module.init();
         }
     );
 {{/js}}
