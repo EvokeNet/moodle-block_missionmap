@@ -15,11 +15,12 @@ class level implements renderable, templatable
     private $level;
     private $context;
 
-    public function __construct($level, $sublevels, $context)
+    public function __construct($level, $sublevels, $context, $isEditing = false)
     {
         $this->level = $level;
         $this->sublevels = $sublevels;
         $this->context = $context;
+        $this->isEditing = $isEditing;
     }
 
     public function export_for_template(renderer_base $output)
@@ -38,6 +39,7 @@ class level implements renderable, templatable
 
         $data->level = $this->level;
         $data->contextid = $this->context->id;
+        $data->isEditing = $this->isEditing;
 
         return $data;
     }

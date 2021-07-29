@@ -1,6 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+/* .block_mission_map.card {
+    background: rgb(39, 192, 227);
+    background: linear-gradient(
+        90deg,
+        rgba(39, 192, 227, 1) 0%,
+        rgba(73, 142, 179, 1) 99%
+    );
+    border: none;
+    margin: 0;
+} */
+
 .block_mission_map .map {
     display: flex;
     flex-flow: wrap;
@@ -11,6 +22,7 @@
     color: rgb(255, 255, 255);
     position: relative;
     overflow: hidden;
+    margin: 0 10em;
 }
 
 /* .block_mission_map .map:before,
@@ -46,8 +58,8 @@
 .block_mission_map .map .chapter {
     position: relative;
     flex: 1 0 34%;
-    min-height: 300px;
-    outline: 5px solid rgb(255, 255, 255);
+    min-height: 350px;
+    outline: 5px solid white;
     padding: 1em;
 }
 

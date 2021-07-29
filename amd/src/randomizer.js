@@ -1,7 +1,7 @@
 export const init = () => {
     const chapters = document.querySelectorAll('.chapter');
 
-    const seed = xmur3('avocado');
+    const seed = xmur3('avocadotoast');
     const rand = sfc32(seed(), seed(), seed(), seed());
 
     for (let i = 0; i < chapters.length; i++) {
@@ -9,16 +9,19 @@ export const init = () => {
         let chapter_height = chapters[i].offsetHeight;
         let missions = chapters[i].querySelectorAll('.mission');
 
+        let division = chapter_width / missions.length;
+        let offsetLeft = division / 2;
+
         for (let j = 0; j < missions.length; j++) {
             let mission_width = missions[j].offsetWidth;
             let mission_height = missions[j].offsetHeight;
-            let posx =
-                rand() * (chapter_width - (mission_width + 20)).toFixed();
+            let posx = offsetLeft - mission_width / 2;
             var posy =
                 rand() * (chapter_height - (mission_height + 20)).toFixed();
 
             missions[j].style.left = `${posx}px`;
             missions[j].style.top = `${posy}px`;
+            offsetLeft += division;
         }
     }
 };

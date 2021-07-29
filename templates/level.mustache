@@ -12,7 +12,9 @@
                     </span>
                 </a>
             {{/sublevels}}
-            <a href="#" class="btn btn-primary add_sublevel">Add Sublevel</a>
+            {{#isEditing}}
+                <a href="#" class="btn btn-primary add_sublevel">Add Sublevel</a>
+            {{/isEditing}}
         </div>
     {{/level}}
 </div>

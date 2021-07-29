@@ -26,8 +26,16 @@ $level = $DB->get_record('block_mission_map_levels', ['id' => $levelid]);
 $sublevels = $DB->get_records('block_mission_map_levels', ['parentlevelid' => $levelid]);
 $sublevels = array_values($sublevels);
 
-$level = new \block_mission_map\output\level($level, $sublevels, $context);
-$renderer = $PAGE->get_renderer('block_mission_map');
+if (
+    has_capability('block/mission_map:managechapters', $context)
+) {
+
+    $level = new \block_mission_map\output\level($level, $sublevels, $context, true);
+    $renderer = $PAGE->get_renderer('block_mission_map');
+} else {
+    $level = new \block_mission_map\output\level($level, $sublevels, $context, false);
+    $renderer = $PAGE->get_renderer('block_mission_map');
+}
 
 echo $OUTPUT->header();
 echo html_writer::div($renderer->render($level), 'block_mission_map');
