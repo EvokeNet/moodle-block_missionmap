@@ -1,7 +1,7 @@
 export const init = () => {
     const chapters = document.querySelectorAll('.chapter');
 
-    const seed = xmur3('evoke21');
+    const seed = xmur3('avocado');
     const rand = sfc32(seed(), seed(), seed(), seed());
 
     for (let i = 0; i < chapters.length; i++) {
