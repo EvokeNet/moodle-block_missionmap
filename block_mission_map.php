@@ -92,4 +92,11 @@ class block_mission_map extends block_base
         }
         return true;
     }
+
+    public function instance_delete()
+    {
+        global $DB;
+        $DB->delete_records('block_mission_map_chapters');
+        $DB->delete_records('block_mission_map_levels');
+    }
 }
