@@ -6,9 +6,9 @@
         <div class="chapter" data-cid="{{chapterid}}" data-plid="{{id}}">
             <h3>{{name}}</h3>
             {{#sublevels}}
-                <a href="{{url}}" class="mission">
+                <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
                     <span class="mission-text">
-                        {{id}}
+                        {{no}}
                     </span>
                 </a>
             {{/sublevels}}
