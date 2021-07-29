@@ -77,11 +77,11 @@ class level_form extends \moodleform
 
         $mform->addElement('text', 'url', get_string('campaign_add_level_url', 'block_mission_map'));
         $mform->addRule('url', get_string('required'), 'required', null, 'client');
-        $mform->setType('url', PARAM_TEXT);
+        $mform->setType('url', PARAM_RAW);
 
         $mform->addElement('selectyesno', 'has_sublevel', get_string('campaign_add_level_hassublevel', 'block_mission_map'));
         $mform->addRule('has_sublevel', get_string('required'), 'required', null, 'client');
-        $mform->setType('url', PARAM_BOOL);
+        $mform->setType('has_sublevel', PARAM_BOOL);
 
         if ($name) {
             $mform->setDefault('name', $name);
