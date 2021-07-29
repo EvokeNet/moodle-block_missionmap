@@ -27,7 +27,7 @@ class block_mission_map extends block_base
 
         // Fetches all levels associated with each chapter
         foreach ($chapters as &$chapter) {
-            $levels = $DB->get_records('block_mission_map_levels', ['chapterid' => $chapter->id]);
+            $levels = $DB->get_records('block_mission_map_levels', ['chapterid' => $chapter->id, 'parentlevelid' => null]);
             $levels = array_values($levels);
             if (!empty($levels)) $chapter->levels = $levels;
         }

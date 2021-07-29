@@ -15,9 +15,10 @@ class level implements renderable, templatable
     private $level;
     private $context;
 
-    public function __construct($level, $context)
+    public function __construct($level, $sublevels, $context)
     {
         $this->level = $level;
+        $this->sublevels = $sublevels;
         $this->context = $context;
     }
 
@@ -25,14 +26,15 @@ class level implements renderable, templatable
     {
         $data = new \stdClass();
 
-        // foreach ($this->chapters as &$chapter) {
-        //     if (!isset($chapter->levels)) continue;
-        //     foreach ($chapter->levels as &$level) {
-        //         if ($level->has_sublevel) {
-        //             $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
-        //         }
-        //     }
-        // }
+        $i = 0;
+        foreach ($this->sublevels as &$sublevel) {
+            $sublevel->no = ++$i;
+            if ($sublevel->has_sublevel) {
+                $sublevel->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
+            }
+        }
+
+        $this->level->sublevels = $this->sublevels;
 
         $data->level = $this->level;
         $data->contextid = $this->context->id;

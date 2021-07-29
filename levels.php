@@ -23,8 +23,10 @@ $editnode->make_active();
 
 $chapter = $DB->get_record('block_mission_map_chapters', ['id' => $chapterid]);
 $level = $DB->get_record('block_mission_map_levels', ['id' => $levelid]);
+$sublevels = $DB->get_records('block_mission_map_levels', ['parentlevelid' => $levelid]);
+$sublevels = array_values($sublevels);
 
-$level = new \block_mission_map\output\level($level, $context);
+$level = new \block_mission_map\output\level($level, $sublevels, $context);
 $renderer = $PAGE->get_renderer('block_mission_map');
 
 echo $OUTPUT->header();

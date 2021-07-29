@@ -51,7 +51,8 @@
     padding: 1em;
 }
 
-.block_mission_map .map .chapter .add_level {
+.block_mission_map .map .chapter .add_level,
+.block_mission_map .map .chapter .add_sublevel {
     z-index: 999;
     position: absolute;
     bottom: 10px;

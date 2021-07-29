@@ -8,7 +8,6 @@ use external_value;
 use external_single_structure;
 use external_function_parameters;
 use block_mission_map\local\forms\level_form;
-use block_mission_map\local\forms\level_edit_form;
 use context_system;
 
 class level extends external_api
@@ -119,6 +118,7 @@ class level extends external_api
                 'name' => new external_value(PARAM_RAW, 'name of level'),
                 'url' => new external_value(PARAM_RAW, 'URL of level'),
                 'chapterid' => new external_value(PARAM_INT, 'chapterid of level'),
+                'parentlevelid' => new external_value(PARAM_INT, 'parentlevelid of level'),
                 'posx' => new external_value(PARAM_INT, 'x position of level'),
                 'posy' => new external_value(PARAM_INT, 'y position of level')
             ])

@@ -41,6 +41,14 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'block_mission_map_create_sublevel' => [
+        'classname' => 'block_mission_map\external\sublevel',
+        'methodname' => 'create',
+        'classpath' => 'mission_map/classes/external/sublevel.php',
+        'description' => 'Creates a new SubLevel for a Chapter',
+        'type' => 'write',
+        'ajax' => true
+    ],
     'block_mission_map_edit_level' => [
         'classname' => 'block_mission_map\external\level',
         'methodname' => 'edit',
