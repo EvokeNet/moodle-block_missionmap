@@ -63,6 +63,8 @@ class level_form extends \moodleform
         $chapterid = !(empty($this->_customdata['chapterid'])) ? $this->_customdata['chapterid'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
         $url = !(empty($this->_customdata['url'])) ? $this->_customdata['url'] : null;
+        $has_sublevel = !(empty($this->_customdata['has_sublevel'])) ? $this->_customdata['has_sublevel'] : null;
+        $has_voting = !(empty($this->_customdata['has_voting'])) ? $this->_customdata['has_voting'] : null;
         $posx = !(empty($this->_customdata['posx'])) ? $this->_customdata['posx'] : null;
         $posy = !(empty($this->_customdata['posy'])) ? $this->_customdata['posy'] : null;
 
@@ -83,12 +85,26 @@ class level_form extends \moodleform
         $mform->addRule('has_sublevel', get_string('required'), 'required', null, 'client');
         $mform->setType('has_sublevel', PARAM_BOOL);
 
+        $mform->addElement('selectyesno', 'has_voting', get_string('campaign_add_level_hasvoting', 'block_mission_map'));
+        $mform->addRule('has_voting', get_string('required'), 'required', null, 'client');
+        $mform->setType('has_voting', PARAM_BOOL);
+
+        $mform->disabledIf('has_voting', 'has_sublevel', 'eq', true);
+
         if ($name) {
             $mform->setDefault('name', $name);
         }
 
         if ($url) {
             $mform->setDefault('url', $url);
+        }
+
+        if ($has_sublevel) {
+            $mform->setDefault('has_sublevel', $has_sublevel);
+        }
+
+        if ($has_voting) {
+            $mform->setDefault('has_voting', $has_voting);
         }
     }
 

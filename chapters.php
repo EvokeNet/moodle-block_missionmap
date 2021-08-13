@@ -16,12 +16,12 @@ $blockid = required_param('blockid', PARAM_INT);
 $PAGE->set_context($context);
 $PAGE->set_url('/blocks/mission_map/chapters.php', array('courseid' => $courseid, 'blockid' => $blockid));
 $PAGE->set_pagelayout('course');
-$PAGE->set_heading(get_string('view_chapters', 'block_mission_map'));
+$PAGE->set_heading(get_string('chapter_settings', 'block_mission_map'));
 
 // Breadcrumbs navigation
-$settingsnode = $PAGE->settingsnav->add(get_string('mission_map_settings', 'block_mission_map'));
+$settingsnode = $PAGE->settingsnav->add(get_string('chapter_settings', 'block_mission_map'));
 $editurl = new moodle_url('/blocks/mission_map/chapters.php', array('blockid' => $blockid));
-$editnode = $settingsnode->add(get_string('view_chapters', 'block_mission_map'), $editurl);
+$editnode = $settingsnode->add(get_string('chapter_settings', 'block_mission_map'), $editurl);
 $editnode->make_active();
 
 // Retrieves all chapters from this course

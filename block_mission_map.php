@@ -12,7 +12,7 @@ class block_mission_map extends block_base
 
     public function get_content()
     {
-        global $DB, $CFG, $USER;
+        global $DB;
 
         if ($this->content !== null) {
             return $this->content;
@@ -52,7 +52,7 @@ class block_mission_map extends block_base
 
     public function get_content_for_output($output)
     {
-        global $USER, $COURSE;
+        global $COURSE;
         $bc = parent::get_content_for_output($output);
         // $courses = enrol_get_all_users_courses($USER->id);
 
@@ -81,22 +81,12 @@ class block_mission_map extends block_base
         return true;
     }
 
-    public function hide_header()
-    {
-        $context = context_system::instance();
-        if (
-            $this->page->user_can_edit_blocks() &&
-            has_capability('block/mission_map:managechapters', $context)
-        ) {
-            return false;
-        }
-        return true;
-    }
-
     public function instance_delete()
     {
         global $DB;
         $DB->delete_records('block_mission_map_chapters');
         $DB->delete_records('block_mission_map_levels');
+        $DB->delete_records('block_mission_map_votings');
+        $DB->delete_records('block_mission_map_options');
     }
 }

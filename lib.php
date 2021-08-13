@@ -1,5 +1,31 @@
 <?php
 
+// Voting session types
+define('BLOCK_MISSIONMAP_VOTINGTYPE_ALL', 1);
+define('BLOCK_MISSIONMAP_VOTINGTYPE_GROUPS', 2);
+
+// Voting algorithms
+define('BLOCK_MISSIONMAP_VOTINGAL_MAJORITY', 1);
+define('BLOCK_MISSIONMAP_VOTINGAL_TIMEBOUND', 2);
+define('BLOCK_MISSIONMAP_VOTINGAL_THRESHOLD', 3);
+define('BLOCK_MISSIONMAP_VOTINGAL_RANDOM', 4);
+
+// Voting tiebreaker types
+define('BLOCK_MISSIONMAP_TIEBREAKER_RANDOM', 1);
+define('BLOCK_MISSIONMAP_TIEBREAKER_SECONDROUND', 2);
+define('BLOCK_MISSIONMAP_TIEBREAKER_MINERVA', 3);
+
+// Voting thresholds
+define('BLOCK_MISSIONMAP_THRESHOLD_25', 1);
+define('BLOCK_MISSIONMAP_THRESHOLD_50', 2);
+define('BLOCK_MISSIONMAP_THRESHOLD_75', 3);
+define('BLOCK_MISSIONMAP_THRESHOLD_90', 4);
+
+// Voting result options
+define('BLOCK_MISSIONMAP_OPTION_URL', 1);
+define('BLOCK_MISSIONMAP_OPTION_SECTION', 2);
+define('BLOCK_MISSIONMAP_OPTION_SUBLEVEL', 3);
+
 function block_mission_map_output_fragment_chapter_form($args)
 {
     $args = (object) $args;
@@ -84,7 +110,8 @@ function block_mission_map_output_fragment_sublevel_form($args)
             'chapterid' => $serialiseddata->chapterid,
             'parentlevelid' => $serialiseddata->parentlevelid,
             'name' => $serialiseddata->name,
-            'url' => $serialiseddata->url
+            'url' => $serialiseddata->url,
+            'has_voting' => $serialiseddata->has_voting
         ]
     );
 

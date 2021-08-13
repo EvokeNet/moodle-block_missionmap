@@ -1,0 +1,43 @@
+{{!
+    @template block_mission_map/voting_session
+}}
+{{#session}}
+    <div class="voting_session">
+        <div class="banner">
+            {{#totalizing}}
+                <h1>{{#str}} voting_totalizing, block_mission_map {{/str}}</h1>
+                <p>{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
+            {{/totalizing}}
+
+            {{#tie}}
+                <h1>{{#str}} voting_tie, block_mission_map {{/str}}</h1>
+                <p>{{#str}} voting_tie_info, block_mission_map {{/str}}</p>
+            {{/tie}}
+
+            {{#completed}}
+                <h1>{{#str}} voting_completed, block_mission_map, {{winner_name}} {{/str}}</h1>
+                <p>{{#str}} voting_completed_info, block_mission_map, {{winner_votes}} {{/str}}</p>
+            {{/completed}}
+
+            {{#isOpen}}
+                <h1>{{#str}} voting_choose_path, block_mission_map {{/str}}</h1>
+                <p>{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
+            {{/isOpen}}
+        </div>
+        {{#completed}}
+            <div class="options">
+                {{#options}}
+                    <div class="option">
+                        <div class="option_image">
+                            <span class="title">{{name}}</span>
+                            <img src="http://placehold.it/300x200"/>
+                        </div>
+                        <button class="btn btn-danger">
+                            {{#str}} vote_continue, block_mission_map {{/str}}
+                        </button>
+                    </div>
+                {{/options}}
+            </div>
+        {{/completed}}
+    </div>
+{{/session}}

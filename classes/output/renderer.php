@@ -69,4 +69,12 @@ class renderer extends plugin_renderer_base
             $level->export_for_template($this)
         );
     }
+
+    public function render_voting_session(voting_session $voting_session)
+    {
+        return $this->render_from_template(
+            'block_mission_map/voting_session',
+            $voting_session->export_for_template($this)
+        );
+    }
 }

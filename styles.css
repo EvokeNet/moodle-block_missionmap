@@ -126,6 +126,48 @@
     visibility: visible;
 } */
 
+.voting_session .banner {
+    text-align: center;
+}
+
+.voting_session .banner h1 {
+    font-family: 'Bangers', monospace;
+    font-size: 3.5em;
+}
+
+.voting_session .banner p {
+    font-family: 'Bangers', monospace;
+    font-size: 1.5em;
+    color: rgb(255, 5, 64);
+}
+
+.voting_session .options {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+}
+
+.voting_session .options .option {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    position: relative;
+    flex: 1 0 34%;
+    min-height: 250px;
+    padding: 1em;
+    text-align: center;
+}
+
+.voting_session .options .option .title {
+    font-family: 'Bangers', monospace;
+    font-size: 1.3em;
+    margin-bottom: 1em;
+}
+
+.voting_session .options .option img {
+    margin-bottom: 1em;
+}
+
 @keyframes scanline {
     0% {
         transform: translate3d(0, 200000%, 0);

@@ -32,6 +32,8 @@ class chapters implements renderable, templatable
                 $level->no = ++$i;
                 if ($level->has_sublevel) {
                     $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                } else if ($level->has_voting) {
+                    $level->url = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                 }
             }
         }

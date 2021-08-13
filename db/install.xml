@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/mission_map/db" VERSION="20210722" COMMENT="XMLDB file for Moodle blocks/mission_map"
+<XMLDB PATH="blocks/mission_map/db" VERSION="20210803" COMMENT="XMLDB file for Moodle blocks/mission_map"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="block_mission_map_chapters" COMMENT="Chapters for this campaign">
+    <TABLE NAME="block_mission_map_chapters" COMMENT="Chapters for campaign.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Chapter name"/>
@@ -15,12 +15,13 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_mission_map_levels" COMMENT="Default comment for the table, please edit me">
+    <TABLE NAME="block_mission_map_levels" COMMENT="Levels and sublevels for map.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="chapterid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="parentlevelid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="has_sublevel" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="has_sublevel" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="0"/>
+        <FIELD NAME="has_voting" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="0"/>
         <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="coordinates" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
@@ -31,6 +32,60 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="chapterid_fk" TYPE="foreign" FIELDS="chapterid" REFTABLE="block_mission_map_chapters" REFFIELDS="id"/>
         <KEY NAME="parentlevelid_fk" TYPE="foreign" FIELDS="parentlevelid" REFTABLE="block_mission_map_levels" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="block_mission_map_votings" COMMENT="Voting sessions to select path inside level.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="chapterid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="levelid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="model" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="mechanic" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="tiebreaker" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="threshold" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="voting_deadline" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="minerva_userid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="tiebreaker_deadline" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="chapterid_fk" TYPE="foreign" FIELDS="chapterid" REFTABLE="block_mission_map_chapters" REFFIELDS="id"/>
+        <KEY NAME="minerva_userid_fk" TYPE="foreign" FIELDS="minerva_userid" REFTABLE="users" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="block_mission_map_options" COMMENT="Voting session options.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="votingid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="type" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="sectionid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="votingid_fk" TYPE="foreign" FIELDS="votingid" REFTABLE="block_mission_map_votings" REFFIELDS="id"/>
+        <KEY NAME="courseid_fk" TYPE="foreign" FIELDS="courseid" REFTABLE="courses" REFFIELDS="id"/>
+        <KEY NAME="sectionid_fk" TYPE="foreign" FIELDS="sectionid" REFTABLE="course_sections" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="block_mission_map_votes" COMMENT="Votes for voting session options.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="optionid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="optionid_fk" TYPE="foreign" FIELDS="optionid" REFTABLE="block_missionmap_options" REFFIELDS="id"/>
+        <KEY NAME="userid_fk" TYPE="foreign" FIELDS="userid" REFTABLE="users" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

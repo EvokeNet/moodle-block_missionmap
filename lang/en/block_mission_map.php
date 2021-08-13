@@ -10,10 +10,64 @@ $string['block_title'] = 'Your missions';
 $string['add_page'] = 'Configure chapters';
 $string['edit_chapters'] = 'Chapters configuration';
 $string['view_chapters'] = 'Campaign Chapters';
-$string['mission_map_settings'] = 'Chapters configuration';
+$string['chapter_settings'] = 'Chapters configuration';
 
 // LEVEL
 $string['view_level'] = 'Level settings';
+
+// VOTING
+$string['view_voting'] = 'Voting session';
+$string['edit_voting'] = 'Voting edit';
+$string['mission_map_voting_settings'] = 'Voting configuration';
+
+$string['voting_select_course'] = 'Select a course to fetch sections';
+$string['voting_select_section'] = 'Select a section to redirect';
+
+$string['voting_option_name'] = 'Option name';
+$string['voting_option_type'] = 'Option type';
+$string['voting_option_url'] = 'Redirects to URL';
+$string['voting_option_course'] = 'Course to fetch sections';
+$string['voting_option_section'] = 'Redirects to this course section';
+$string['voting_option_sublevel'] = 'Redirects to sublevel';
+$string['voting_option_title'] = 'Voting option {no}';
+
+$string['voting_type'] = 'Model of voting';
+$string['voting_type_help'] = '<b>All participants</b>: Every enrolled member of the course has a chance to cast a vote.<br/><br/><b>Group participants</b>: Votes will be computed inside every group in the course.';
+
+$string['voting_type_all'] = 'All participants';
+$string['voting_type_groups'] = 'Group participants';
+
+$string['voting_algorithm'] = 'Voting mechanic';
+$string['voting_algorithm_help'] = '<b>Simple majority</b>: Every member of population must vote. Winner option is decided upon simple majority (50% + 1).<br/><br/> <b>Time bound voting</b>: Not every member of population needs vote. Valid votes will be computed if casted before the deadline. Option with majority of votes wins.<br/><br/><b>Threshold voting</b>: Chosen N% of members from population must cast a vote. Option with simple majority (50% of N% + 1) wins.<br/><br/><b>Random selection</b>: Winner option will be immediately chosen randomly (50% chance of selection).';
+
+$string['voting_al_simplemajority'] = 'Simple majority';
+$string['voting_al_timebound'] = 'Time bound voting';
+$string['voting_al_threshold'] = 'Threshold voting';
+$string['voting_al_random'] = 'Random selection';
+$string['voting_deadline'] = 'Deadline for voting';
+$string['voting_threshold'] = 'Threshold (%)';
+
+$string['voting_tiebreak'] = 'Tie breaking strategy';
+$string['voting_tiebreak_help'] = '<b>Second round</b>: Every member of population must cast a second vote before a given deadline. Winner option is decided upon simple majority (50% + 1) or, if no vote is cast, randomly selected (50% chance of selection).<br/><br/><b>Minerva vote</b>: Appointed "Minerva voter" must cast a deciding vote if before a given deadline. If no vote is cast, option is selected randomly (50% chance of selection).<br/><br/><b>Random selection</b>: Winner option will be immediately chosen randomly (50% chance of selection).';
+
+$string['voting_tiebreak_secondround'] = 'Second round';
+$string['voting_tiebreak_minerva'] = 'Minerva vote';
+$string['voting_tiebreak_random'] = 'Random selection';
+
+$string['voting_minerva'] = 'Appointed Minerva voter';
+$string['voting_tiebreak_deadline'] = 'Deadline for tie breaking decision';
+
+$string['voting_save'] = 'Save voting session';
+
+$string['voting_choose_path'] = 'Choose your path';
+$string['voting_totalizing'] = 'We are waiting for your group\'s votes';
+$string['voting_tie'] = 'It was a tie!';
+$string['voting_tie_info'] = 'Here comes the tie breaker';
+$string['voting_completed'] = 'Winner is {$a}!';
+$string['voting_completed_info'] = 'It won with {$a} votes';
+$string['vote_save'] = 'Vote';
+$string['vote_continue'] = 'Continue to chosen path';
+
 
 // FORMS
 $string['form_settings'] = 'Campaign settings';
@@ -35,5 +89,6 @@ $string['campaign_add_level_url'] = 'Level URL';
 $string['campaign_add_level_error_name'] = 'Level name can\'t be null';
 $string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
 $string['campaign_add_level_hassublevel'] = 'Has sub levels?';
+$string['campaign_add_level_hasvoting'] = 'Has voting?';
 
 $string['create_level_success'] = 'Level created succesfuly!';
