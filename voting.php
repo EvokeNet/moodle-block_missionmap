@@ -145,6 +145,8 @@ else {
     }
 }
 
+$PAGE->requires->js_call_amd('block_mission_map/colorizer', 'init');
+
 echo $OUTPUT->footer();
 
 

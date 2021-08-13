@@ -83,13 +83,13 @@ class vote_form extends \moodleform
         $mform->addElement('hidden', 'optionid', $this->optionid);
         $mform->setType('optionid', PARAM_INT);
 
-        $mform->addElement('html', '<span class="title">');
+        $mform->addElement('html', '<div class="title">');
         $mform->addElement('html', $this->name);
-        $mform->addElement('html', '</span>');
+        $mform->addElement('html', '</div>');
 
         $mform->addElement('html', '<img src="http://placehold.it/400x200"/>');
 
-        $this->add_action_buttons(false, get_string('vote_save', 'block_mission_map'));
+        $mform->addElement('submit', 'votesubmit', get_string('vote_save', 'block_mission_map'), ['class' => 'vote_btn']);
     }
 
     /**
