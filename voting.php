@@ -97,7 +97,7 @@ if (!empty($user_votes)) {
                     // Now let's prepare the URL for redirection
                     // If it's a course section, let's build the URL
                     if ($option->type == BLOCK_MISSIONMAP_OPTION_SECTION) {
-                        $voting_session->url = new moodle_url('/course/view.php', ['id' => $option->courseid, 'section' => $option->sectionid]);
+                        $voting_session->url = new moodle_url('/course/view.php') . "?id={$option->courseid}&section={$option->sectionid}";
                     }
 
                     // If it's a simple URL, let's add it to the voting session

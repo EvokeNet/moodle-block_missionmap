@@ -81,7 +81,13 @@ class block_mission_map extends block_base
             'site-index' => false,
             'course-view' => true,
             'mod' => false,
+            'my' => false
         );
+    }
+
+    public function hide_header()
+    {
+        return true;
     }
 
     public function instance_allow_multiple()

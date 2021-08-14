@@ -137,6 +137,10 @@
     );
 }
 
+.voting_session {
+    padding: 1em;
+}
+
 .voting_session .banner {
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(0, 0, 0, 1);
@@ -164,6 +168,7 @@
     justify-content: space-between;
     max-width: 75%;
     margin: 0 auto;
+    padding: 0.5em;
 }
 
 .voting_session button {
@@ -178,10 +183,10 @@
     flex-flow: column wrap;
     align-items: center;
     position: relative;
-    flex: 0.3 0.3 25%;
+    flex: 1 1 auto;
     padding: 1em;
     text-align: center;
-    margin: 0;
+    margin: 0.5em;
 }
 
 .voting_session .options .option .dimmed {
