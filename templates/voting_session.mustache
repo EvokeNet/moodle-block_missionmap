@@ -16,9 +16,9 @@
 
             {{#completed}}
                 <h1>{{#str}} voting_completed, block_mission_map, {{winner_name}} {{/str}}</h1>
-                <button class="btn btn-danger">
+                <a href="{{url}}" class="btn btn-danger">
                     {{#str}} vote_continue, block_mission_map {{/str}}
-                </button>
+                </a>
             {{/completed}}
 
             {{#isOpen}}

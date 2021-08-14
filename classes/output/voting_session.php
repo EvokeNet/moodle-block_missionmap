@@ -4,14 +4,12 @@ namespace block_mission_map\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use moodle_url;
 use renderable;
 use renderer_base;
 use templatable;
 
 class voting_session implements renderable, templatable
 {
-
     private $isOpen;
     private $user;
     private $colleagues;
@@ -28,7 +26,7 @@ class voting_session implements renderable, templatable
         $colleagues,
         $session,
         $options,
-        $votes = null,
+        $votes,
         $totalizing = false,
         $tie = false,
         $completed = false
@@ -52,6 +50,7 @@ class voting_session implements renderable, templatable
         $data->session->user = $this->user;
         $data->session->colleagues = $this->colleagues;
         $data->session->options = $this->options;
+        $data->session->votes = $this->votes;
         $data->session->totalizing = $this->totalizing;
         $data->session->tie = $this->tie;
         $data->session->completed = $this->completed;

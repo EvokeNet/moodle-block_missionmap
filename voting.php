@@ -67,8 +67,7 @@ if (!empty($user_votes)) {
 
             // Lets display "waiting" information if there are still pending votes to be cast and
             // the deadline for voting didn't end yet.
-            if ($groupsize < 1 && $votesize < $groupsize && $voting_session->voting_deadline < time()) {
-                // Prints header with "waiting" and countdown
+            if ($votesize < $groupsize && $voting_session->voting_deadline < time()) {
                 $voting_header = new \block_mission_map\output\voting_session(
                     $isOpen = false,
                     $USER,
@@ -76,7 +75,9 @@ if (!empty($user_votes)) {
                     $voting_session,
                     $voting_options,
                     $cast_votes,
-                    $totalizing = true
+                    $totalizing = true,
+                    $tie = false,
+                    $completed = false
                 );
                 $renderer = $PAGE->get_renderer('block_mission_map');
                 echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
@@ -92,8 +93,25 @@ if (!empty($user_votes)) {
             foreach ($voting_options as &$option) {
                 if (in_array($option->id, $winners)) {
                     $option->isWinner = true;
+
+                    // Now let's prepare the URL for redirection
+                    // If it's a course section, let's build the URL
+                    if ($option->type == BLOCK_MISSIONMAP_OPTION_SECTION) {
+                        $voting_session->url = new moodle_url('/course/view.php', ['id' => $option->courseid, 'section' => $option->sectionid]);
+                    }
+
+                    // If it's a simple URL, let's add it to the voting session
+                    else if ($option->type == BLOCK_MISSIONMAP_OPTION_URL) {
+                        $voting_session->url = $option->url;
+                    }
                 }
-                $option->votes = str_pad($totalization[$option->id], 2, '0', STR_PAD_LEFT);
+
+                // Add votes to each option, to display them
+                if (isset($totalization[$option->id])) {
+                    $option->votes = str_pad($totalization[$option->id], 2, '0', STR_PAD_LEFT);
+                } else {
+                    $option->votes = str_pad(0, 2, '0', STR_PAD_LEFT);
+                }
             }
 
             // It's a tie, so we need to display all tied options and provide a second round of voting
@@ -113,7 +131,7 @@ if (!empty($user_votes)) {
                 echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
             }
 
-            // There is a winner, let's show it!
+            // There is a winner, let's show it and render the link to the desired path
             else {
                 $voting_header = new \block_mission_map\output\voting_session(
                     $isOpen = false,
@@ -135,15 +153,22 @@ if (!empty($user_votes)) {
             // Voting threshold means N% must cast a vote, simple majority wins
             break;
         default:
-            // No votes cast for this user, so print the form
-            echo '<p>What now?</p>';
+            // No algorithm defined? Something went VERY wrong
+            echo html_writer::div('Houston, we have a problem.', 'block_mission_map');
             break;
     }
 }
 
 // User has not cast a vote, so it's time to do it!
 else {
-    $voting_header = new \block_mission_map\output\voting_session(true, $USER, $groupmembers, $voting_session, $voting_options);
+    $voting_header = new \block_mission_map\output\voting_session(
+        $isOpen = true,
+        $USER,
+        $groupmembers,
+        $voting_session,
+        $voting_options,
+        $cast_votes
+    );
     $renderer = $PAGE->get_renderer('block_mission_map');
     echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
 
