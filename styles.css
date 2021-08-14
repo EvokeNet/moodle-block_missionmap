@@ -184,8 +184,6 @@
     align-items: center;
     position: relative;
     flex: 1 1 auto;
-    padding: 1em;
-    text-align: center;
     margin: 0.5em;
 }
 
@@ -198,19 +196,33 @@
 }
 
 .voting_session .options .option .title {
+    position: absolute;
     font-family: 'Bangers', monospace;
     color: rgba(0, 0, 0, 1);
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgb(0, 0, 0);
+    padding: 0 1em;
     font-size: 1.3em;
-    margin-bottom: 1em;
+    top: 1em;
+    left: 1em;
 }
 
-.voting_session .options .option img {
+.voting_session .options .option .vote_image {
+    min-height: 250px;
     margin-bottom: 1em;
-    max-width: 100%;
+    width: 100%;
+}
+
+.voting_session .options .option div.vote_image.image_1 {
+    background-image: url([[pix:block_mission_map|votinga]]);
+}
+
+.voting_session .options .option div.vote_image.image_2 {
+    background-image: url([[pix:block_mission_map|votingb]]);
 }
 
 .voting_session .options .option input.vote_btn {
-    margin-left: 0;
+    margin-left: -2.5em;
     background: rgba(255, 5, 64, 1);
     padding: 0.5em 2em;
     border: none;

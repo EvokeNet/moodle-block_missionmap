@@ -55,6 +55,7 @@ class vote_form extends \moodleform
         $this->optionid = $customdata['optionid'];
         $this->name = $customdata['name'];
         $this->deadline = $customdata['deadline'];
+        $this->iteration = $customdata['iteration'];
         parent::__construct(null, $customdata, 'chapter',  '', ['class' => 'option'], true);
     }
 
@@ -87,7 +88,7 @@ class vote_form extends \moodleform
         $mform->addElement('html', $this->name);
         $mform->addElement('html', '</div>');
 
-        $mform->addElement('html', '<img src="http://placehold.it/400x200"/>');
+        $mform->addElement('html', "<div class='vote_image image_{$this->iteration}'></div>");
 
         $mform->addElement('submit', 'votesubmit', get_string('vote_save', 'block_mission_map'), ['class' => 'vote_btn']);
     }

@@ -174,6 +174,8 @@ else {
 
     echo html_writer::start_tag('div', ['class' => 'voting_session']);
     echo html_writer::start_tag('div', ['class' => 'options']);
+
+    $iteration = 0;
     foreach ($voting_options as $option) {
         $option_form = new \block_mission_map\local\forms\vote_form([
             'chapterid' => $chapterid,
@@ -182,7 +184,8 @@ else {
             'deadline' => $voting_session->voting_deadline,
             'userid' => $USER->id,
             'optionid' => $option->id,
-            'name' => $option->name
+            'name' => $option->name,
+            'iteration' => ++$iteration
         ]);
         echo html_writer::div($option_form->display(), 'block_mission_map');
     }
