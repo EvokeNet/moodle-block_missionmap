@@ -12,10 +12,15 @@ use templatable;
 class voting_session implements renderable, templatable
 {
 
+    private $isOpen;
     private $user;
     private $colleagues;
     private $session;
     private $options;
+    private $votes;
+    private $totalizing;
+    private $tie;
+    private $completed;
 
     public function __construct(
         $isOpen = true,
@@ -23,20 +28,20 @@ class voting_session implements renderable, templatable
         $colleagues,
         $session,
         $options,
+        $votes = null,
         $totalizing = false,
         $tie = false,
-        $completed = false,
-        $winner = null
+        $completed = false
     ) {
         $this->isOpen = $isOpen;
         $this->user = $user;
         $this->colleagues = $colleagues;
         $this->session = $session;
-        $this->options = $options;
+        $this->options = array_values($options);
+        $this->votes = $votes;
         $this->totalizing = $totalizing;
         $this->tie = $tie;
         $this->completed = $completed;
-        $this->winner = $winner;
     }
 
     public function export_for_template(renderer_base $output)
@@ -50,8 +55,6 @@ class voting_session implements renderable, templatable
         $data->session->totalizing = $this->totalizing;
         $data->session->tie = $this->tie;
         $data->session->completed = $this->completed;
-        $data->session->winner_name = (!empty($this->winner->option)) ? $this->winner->option : null;
-        $data->session->winner_votes = (!empty($this->winner->votes)) ? $this->winner->votes : null;
 
         return $data;
     }

@@ -47,6 +47,8 @@ class block_mission_map extends block_base
             $this->content->text = $renderer->render($map);
             $this->content->footer = '';
         }
+        $this->page->requires->js_call_amd('block_mission_map/colorizer', 'init', ['.block_mission_map']);
+
         return $this->content;
     }
 

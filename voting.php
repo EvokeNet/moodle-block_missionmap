@@ -41,10 +41,6 @@ $sql2 = "SELECT * FROM {block_mission_map_votes} WHERE userid = '$USER->id' AND 
 $cast_votes = $DB->get_records_sql($sql1, $params);
 $user_votes = $DB->get_records_sql($sql2, $params);
 
-// var_dump(mktime(0, 0, 0, 9, 1, 2021));
-// die();
-
-
 echo $OUTPUT->header();
 
 // User voted and session is closed, so let's show results based on voting algorithm
@@ -69,25 +65,67 @@ if (!empty($user_votes)) {
         case BLOCK_MISSIONMAP_VOTINGAL_MAJORITY:
             // Simple majority means 50% + 1 defines a winner
 
-            // Lets display "waiting" information if there are still pending votes to be cast
-            if ($groupsize > 1 && $votesize < $groupsize && $voting_session->voting_deadline < time()) {
+            // Lets display "waiting" information if there are still pending votes to be cast and
+            // the deadline for voting didn't end yet.
+            if ($groupsize < 1 && $votesize < $groupsize && $voting_session->voting_deadline < time()) {
                 // Prints header with "waiting" and countdown
-                $voting_header = new \block_mission_map\output\voting_session(false, $USER, $groupmembers, $voting_session, $voting_options, true);
+                $voting_header = new \block_mission_map\output\voting_session(
+                    $isOpen = false,
+                    $USER,
+                    $groupmembers,
+                    $voting_session,
+                    $voting_options,
+                    $cast_votes,
+                    $totalizing = true
+                );
                 $renderer = $PAGE->get_renderer('block_mission_map');
                 echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
                 break;
             }
 
-            $winner = isMajority($totalization);
-            if (!$winner) {
-                $voting_header = new \block_mission_map\output\voting_session(false, $USER, $groupmembers, $voting_session, $voting_options, false, true);
+            // Now it's time to check if there is a winner or if there is a tie
+            // We get the higher vote count and return an array with the indexes of the option_ids with that count
+            $max_score = max($totalization);
+            $winners = array_keys($totalization, $max_score);
+
+            // Let's prepare the voting_options array with needed information
+            foreach ($voting_options as &$option) {
+                if (in_array($option->id, $winners)) {
+                    $option->isWinner = true;
+                }
+                $option->votes = str_pad($totalization[$option->id], 2, '0', STR_PAD_LEFT);
+            }
+
+            // It's a tie, so we need to display all tied options and provide a second round of voting
+            if (sizeof($winners) > 1) {
+                $voting_header = new \block_mission_map\output\voting_session(
+                    $isOpen = false,
+                    $USER,
+                    $groupmembers,
+                    $voting_session,
+                    $voting_options,
+                    $cast_votes,
+                    $totalizing = false,
+                    $tie = true,
+                    $completed = false
+                );
                 $renderer = $PAGE->get_renderer('block_mission_map');
                 echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
-            } else {
-                $result = new \stdClass;
-                $result->option = $voting_options[$winner->index]->name;
-                $result->votes = $winner->score;
-                $voting_header = new \block_mission_map\output\voting_session(false, $USER, $groupmembers, $voting_session, $voting_options, false, false, true, $result);
+            }
+
+            // There is a winner, let's show it!
+            else {
+                $voting_header = new \block_mission_map\output\voting_session(
+                    $isOpen = false,
+                    $USER,
+                    $groupmembers,
+                    $voting_session,
+                    $voting_options,
+                    $cast_votes,
+                    $totalizing = false,
+                    $tie = false,
+                    $completed = true
+                );
                 $renderer = $PAGE->get_renderer('block_mission_map');
                 echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
             }
@@ -102,13 +140,6 @@ if (!empty($user_votes)) {
             break;
     }
 }
-
-// Session is not expired, but user already cast a vote
-// else if ($voting_session->voting_deadline > time()) {
-//     $voting_header = new \block_mission_map\output\voting_session(false, $USER, $groupmembers, $voting_session, $voting_options, true);
-//     $renderer = $PAGE->get_renderer('block_mission_map');
-//     echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
-// }
 
 // User has not cast a vote, so it's time to do it!
 else {
@@ -145,24 +176,6 @@ else {
     }
 }
 
-$PAGE->requires->js_call_amd('block_mission_map/colorizer', 'init');
+$PAGE->requires->js_call_amd('block_mission_map/colorizer', 'init', ['.voting_session']);
 
 echo $OUTPUT->footer();
-
-
-function isMajority(array $arr)
-{
-    $max_score = max($arr);
-    $winners = array_keys($arr, $max_score);
-
-    // There is a tie!
-    if (sizeof($winners) > 1) {
-        return false;
-    }
-
-    $result = new \stdClass;
-    $result->index = reset($winners);
-    $result->score = $max_score;
-
-    return $result;
-}

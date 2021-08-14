@@ -63,10 +63,10 @@ $string['voting_choose_path'] = 'Choose your path';
 $string['voting_totalizing'] = 'We are waiting for your group\'s votes';
 $string['voting_tie'] = 'It was a tie!';
 $string['voting_tie_info'] = 'Here comes the tie breaker';
-$string['voting_completed'] = 'Winner is {$a}!';
-$string['voting_completed_info'] = 'It won with {$a} votes';
+$string['voting_completed'] = 'Your path is chosen!';
 $string['vote_save'] = 'Vote';
-$string['vote_continue'] = 'Continue to chosen path';
+$string['vote_continue'] = 'Proceed to chosen mission';
+$string['votes'] = 'votes';
 
 
 // FORMS

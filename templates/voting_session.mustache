@@ -16,7 +16,9 @@
 
             {{#completed}}
                 <h1>{{#str}} voting_completed, block_mission_map, {{winner_name}} {{/str}}</h1>
-                <p>{{#str}} voting_completed_info, block_mission_map, {{winner_votes}} {{/str}}</p>
+                <button class="btn btn-danger">
+                    {{#str}} vote_continue, block_mission_map {{/str}}
+                </button>
             {{/completed}}
 
             {{#isOpen}}
@@ -28,16 +30,44 @@
             <div class="options">
                 {{#options}}
                     <div class="option">
+                        {{^isWinner}}
+                            <div class="dimmed"></div>
+                        {{/isWinner}}
+                        <div class="title">{{name}}</div>
                         <div class="option_image">
-                            <span class="title">{{name}}</span>
                             <img src="http://placehold.it/300x200"/>
                         </div>
-                        <button class="btn btn-danger">
-                            {{#str}} vote_continue, block_mission_map {{/str}}
-                        </button>
+                        <div class="casted_votes">
+                            {{votes}}
+                        </div>
+                        <div class="casted_votes_label">
+                            {{#str}} votes, block_mission_map {{/str}}
+                        </div>
                     </div>
                 {{/options}}
             </div>
         {{/completed}}
+
+        {{#tie}}
+        <div class="options">
+            {{#options}}
+                <div class="option">
+                    {{^isWinner}}
+                        <div class="dimmed"></div>
+                    {{/isWinner}}
+                    <div class="title">{{name}}</div>
+                    <div class="option_image">
+                        <img src="http://placehold.it/300x200"/>
+                    </div>
+                    <div class="casted_votes">
+                        {{votes}}
+                    </div>
+                    <div class="casted_votes_label">
+                        {{#str}} votes, block_mission_map {{/str}}
+                    </div>
+                </div>
+            {{/options}}
+        </div>
+    {{/tie}}
     </div>
 {{/session}}
