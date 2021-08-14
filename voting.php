@@ -90,6 +90,7 @@ if (!empty($user_votes)) {
             $winners = array_keys($totalization, $max_score);
 
             // Let's prepare the voting_options array with needed information
+            $iterator = 0;
             foreach ($voting_options as &$option) {
                 if (in_array($option->id, $winners)) {
                     $option->isWinner = true;
@@ -112,6 +113,9 @@ if (!empty($user_votes)) {
                 } else {
                     $option->votes = str_pad(0, 2, '0', STR_PAD_LEFT);
                 }
+
+                // Purely cosmetic for interchangeable images
+                $option->index = ++$iterator;
             }
 
             // It's a tie, so we need to display all tied options and provide a second round of voting
