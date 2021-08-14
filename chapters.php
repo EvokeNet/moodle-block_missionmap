@@ -2,9 +2,9 @@
 
 require_once('../../config.php');
 
-global $DB, $OUTPUT, $PAGE;
+global $DB, $COURSE, $OUTPUT, $PAGE;
 
-$context = context_system::instance();
+$context = context_course::instance($COURSE->id);
 
 // Only users that can manage chapters (managers) can access this page
 require_capability('block/mission_map:managechapters', $context);
@@ -36,7 +36,7 @@ foreach ($chapters as &$chapter) {
 $chapters = array_values($chapters);
 
 // Pass data to editable map
-$campaign = new \block_mission_map\output\chapters($chapters, $context);
+$campaign = new \block_mission_map\output\chapters($chapters, $context, $blockid, $courseid);
 $levelform = new \block_mission_map\local\forms\level_edit_form(null);
 $renderer = $PAGE->get_renderer('block_mission_map');
 

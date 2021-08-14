@@ -14,11 +14,15 @@ class chapters implements renderable, templatable
 
     private $chapters;
     private $context;
+    private $blockid;
+    private $courseid;
 
-    public function __construct($chapters, $context)
+    public function __construct($chapters, $context, $blockid, $courseid)
     {
         $this->chapters = $chapters;
         $this->context = $context;
+        $this->blockid = $blockid;
+        $this->courseid = $courseid;
     }
 
     public function export_for_template(renderer_base $output)
@@ -40,6 +44,8 @@ class chapters implements renderable, templatable
 
         $data->chapters = $this->chapters;
         $data->contextid = $this->context->id;
+        $data->blockid = $this->blockid;
+        $data->courseid = $this->courseid;
 
         return $data;
     }

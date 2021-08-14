@@ -20,10 +20,8 @@ class block_mission_map extends block_base
 
         $this->title = get_string('block_title', 'block_mission_map');
 
-        // @TODO: pass blockid to bring only chapters associated with each block instance
-
         // Fetches all chapters created
-        $chapters = $DB->get_records('block_mission_map_chapters');
+        $chapters = $DB->get_records('block_mission_map_chapters', ['blockid' => $this->instance->id]);
 
         // Fetches all levels associated with each chapter
         foreach ($chapters as &$chapter) {
@@ -56,7 +54,6 @@ class block_mission_map extends block_base
     {
         global $COURSE;
         $bc = parent::get_content_for_output($output);
-        // $courses = enrol_get_all_users_courses($USER->id);
 
         if (isset($bc)) {
             $context = context_system::instance();
@@ -78,6 +75,15 @@ class block_mission_map extends block_base
         return $bc;
     }
 
+    public function applicable_formats()
+    {
+        return array(
+            'site-index' => false,
+            'course-view' => true,
+            'mod' => false,
+        );
+    }
+
     public function instance_allow_multiple()
     {
         return true;
@@ -86,9 +92,31 @@ class block_mission_map extends block_base
     public function instance_delete()
     {
         global $DB;
-        $DB->delete_records('block_mission_map_chapters');
-        $DB->delete_records('block_mission_map_levels');
-        $DB->delete_records('block_mission_map_votings');
-        $DB->delete_records('block_mission_map_options');
+
+        // We must retrieve a chapter to delete its levels and voting sessions
+        $chapters = $DB->get_records('block_mission_map_chapters', ['blockid' => $this->intance->id]);
+
+        foreach ($chapters as $chapter) {
+
+            // Let's delete all options related to voting sessions
+            $votings = $DB->get_records('block_mission_map_votings', ['chapterid' => $chapter->id]);
+            foreach ($votings as $voting) {
+                $options = $DB->get_records('block_mission_map_options', ['votingid' => $voting->id]);
+
+                // Let's delete votes associated to options
+                foreach ($options as $option) {
+                    $DB->delete_records('block_mission_map_votes', ['optionid' => $option->id]);
+                }
+
+                // Then, let's delete the options
+                $DB->delete_records('block_mission_map_options', ['votingid' => $voting->id]);
+            }
+
+            // Let's delete voting sessions and levels
+            $DB->delete_records('block_mission_map_votings', ['chapterid' => $chapter->id]);
+            $DB->delete_records('block_mission_map_levels', ['chapterid' => $chapter->id]);
+        }
+        // Finally, let's delete chapters
+        $DB->delete_records('block_mission_map_chapters', ['blockid' => $this->intance->id]);
     }
 }

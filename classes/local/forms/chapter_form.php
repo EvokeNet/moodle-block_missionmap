@@ -60,9 +60,13 @@ class chapter_form extends \moodleform
         $mform = $this->_form;
 
         $id = !(empty($this->_customdata['id'])) ? $this->_customdata['id'] : null;
+        $blockid = !(empty($this->_customdata['blockid'])) ? $this->_customdata['blockid'] : null;
+        $courseid = !(empty($this->_customdata['courseid'])) ? $this->_customdata['courseid'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
 
         $mform->addElement('hidden', 'id', $id);
+        $mform->addElement('hidden', 'blockid', $blockid);
+        $mform->addElement('hidden', 'courseid', $courseid);
 
         $mform->addElement('text', 'name', get_string('campaign_add_chapter', 'block_mission_map'));
         $mform->addRule('name', get_string('required'), 'required', null, 'client');

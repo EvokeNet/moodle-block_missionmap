@@ -41,7 +41,9 @@ function block_mission_map_output_fragment_chapter_form($args)
         $formdata,
         [
             'id' => $serialiseddata->id,
-            'name' => $serialiseddata->name
+            'name' => $serialiseddata->name,
+            'blockid' => $serialiseddata->blockid,
+            'courseid' => $serialiseddata->courseid
         ]
     );
 

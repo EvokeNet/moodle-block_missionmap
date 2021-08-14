@@ -44,7 +44,10 @@ class chapter extends external_api
         // We always must pass webservice params through validate_parameters.
         $params = self::validate_parameters(
             self::create_parameters(),
-            ['contextid' => $contextid, 'jsonformdata' => $jsonformdata]
+            [
+                'contextid' => $contextid,
+                'jsonformdata' => $jsonformdata
+            ]
         );
 
         $context = context::instance_by_id($params['contextid'], MUST_EXIST);
@@ -67,6 +70,8 @@ class chapter extends external_api
 
         $data = new \stdClass();
         $data->name = $validateddata->name;
+        $data->blockid = $validateddata->blockid;
+        $data->courseid = $validateddata->courseid;
         $data->timecreated = time();
         $data->timemodified = time();
 

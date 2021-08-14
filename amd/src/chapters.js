@@ -6,7 +6,8 @@ import Notification from 'core/notification';
 import Template from 'core/templates';
 
 // The function called from the Mustache template.
-export const init = (contextid) => {
+export const init = (params) => {
+    const { contextid, blockid, courseid } = params;
     // Set up a SAVE_CANCEL modal.
     ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
@@ -19,7 +20,7 @@ export const init = (contextid) => {
             const root = modal.getRoot();
             const form = root.find('form');
             trigger.addEventListener('click', (event) =>
-                showModal(event, modal)
+                showModal(event, modal, blockid, courseid)
             );
             root.on(ModalEvents.save, (event) => submitForm(event, form));
             form.on('submit', (event) =>
@@ -45,9 +46,12 @@ const get_form = (formdata, contextid) => {
     );
 };
 
-const showModal = (event, modal) => {
+const showModal = (event, modal, blockid, courseid) => {
     event.preventDefault();
     modal.show();
+    let root = modal.getRoot();
+    root.find('form').find('input[name="blockid"]').val(blockid);
+    root.find('form').find('input[name="courseid"]').val(courseid);
 };
 
 const submitForm = (event, form) => {

@@ -25,7 +25,11 @@
 {{#js}}
     require(['block_mission_map/chapters'],
         function(module) {
-            module.init({{{contextid}}});
+            module.init({
+                contextid: {{contextid}},
+                blockid: {{blockid}},
+                courseid: {{courseid}},
+            });
         }
     );
     require(['block_mission_map/levels'],
