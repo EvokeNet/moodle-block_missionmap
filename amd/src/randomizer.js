@@ -1,4 +1,12 @@
 export const init = () => {
+    const screen_size = window.screen.width;
+
+    window.console.log(screen_size);
+
+    if (screen_size <= 600) {
+        return;
+    }
+
     const chapters = document.querySelectorAll('.chapter');
 
     const seed = xmur3('avocadotoast');
