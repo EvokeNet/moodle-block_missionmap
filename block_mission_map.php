@@ -14,7 +14,16 @@ class block_mission_map extends block_base
     {
         global $DB;
 
+        // Let's check if user is in a course section, where we don't 
+        // want to display the map
+        $sectionno = optional_param('section', 0, PARAM_INT);
+
         if ($this->content !== null) {
+            return $this->content;
+        }
+
+        if ($sectionno != 0) {
+            $this->content = null;
             return $this->content;
         }
 
