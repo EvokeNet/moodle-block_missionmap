@@ -11,7 +11,8 @@
     color: rgb(255, 255, 255);
     position: relative;
     overflow: hidden;
-    margin: 0 10em;
+    margin: 2em 0;
+    max-width: 75%;
 }
 
 .block_mission_map .map .chapter {
@@ -222,6 +223,7 @@
         flex: none;
         margin: 0 auto;
         width: 100%;
+        max-width: 100%;
     }
 
     .block_mission_map .map .chapter {
@@ -260,5 +262,16 @@
 
     .voting_session .options .option {
         margin: 1em 0 1em 0;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .block_mission_map .map {
+        display: block;
+        height: auto;
+        flex: none;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
     }
 }
