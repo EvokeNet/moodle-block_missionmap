@@ -113,10 +113,9 @@ class voting_form extends \moodleform
                 $section_arr['id'] = $section->id;
                 $section_arr['no'] = $section->section;
                 $section_arr['name'] = ($section->name == null) ? $section->section : $section->name;
-                // $section_arr['is_sidequest'] = $courseformat->get_format_options($section);
                 $course_arr['sections'][] = $section_arr;
 
-                $option_sections[$section->id] = ($section->name == null) ? $section->section : $section->name;
+                $option_sections[$section->section] = ($section->name == null) ? $section->section : $section->name;
             }
             $option_courses[$course->id] = $course->fullname;
             $courses_arr[] = $course_arr;

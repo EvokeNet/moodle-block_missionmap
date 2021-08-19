@@ -22,6 +22,7 @@ class block_mission_map extends block_base
             return $this->content;
         }
 
+        // @TODO: add voting results to a strip on the top of the course section
         if ($sectionno != 0) {
             $this->content = null;
             return $this->content;

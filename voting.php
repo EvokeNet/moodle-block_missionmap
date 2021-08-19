@@ -10,6 +10,10 @@ $context = context_system::instance();
 $chapterid = required_param('chapterid', PARAM_INT);
 $levelid = required_param('levelid', PARAM_INT);
 
+$chapter = $DB->get_record('block_mission_map_chapters', ['id' => $chapterid]);
+
+// @TODO if not chapter, throw error
+
 // Configurations to the page (display, context etc)
 $PAGE->set_context($context);
 $PAGE->set_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
@@ -17,9 +21,10 @@ $PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('view_voting', 'block_mission_map'));
 
 // Breadcrumbs navigation
-$settingsnode = $PAGE->settingsnav->add(get_string('chapter_settings', 'block_mission_map'));
-$editurl = new moodle_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
-$editnode = $settingsnode->add(get_string('view_voting', 'block_mission_map'), $editurl);
+$coursenode = $PAGE->navigation->find($chapter->courseid, navigation_node::TYPE_COURSE);
+$editurl = new moodle_url('/course/view.php', array('id' => $chapter->courseid));
+$settingsnode = $coursenode->add(get_string('chapter_view', 'block_mission_map', $chapter->name), $editurl);
+$editnode = $settingsnode->add(get_string('view_voting', 'block_mission_map'));
 $editnode->make_active();
 
 $groupsutil = new \block_mission_map\util\groups();

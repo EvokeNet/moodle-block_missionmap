@@ -11,6 +11,7 @@ $string['add_page'] = 'Configure chapters';
 $string['edit_chapters'] = 'Chapters configuration';
 $string['view_chapters'] = 'Campaign Chapters';
 $string['chapter_settings'] = 'Chapters configuration';
+$string['chapter_view'] = 'Chapter: {$a}';
 
 // LEVEL
 $string['view_level'] = 'Level settings';
