@@ -6,21 +6,24 @@
     flex-flow: wrap;
     justify-content: space-around;
     font-family: 'Bangers', monospace;
-    background-image: url([[pix:block_mission_map|map-2000px]]);
-    background-size: cover;
     color: rgb(255, 255, 255);
     position: relative;
-    overflow: hidden;
     margin: 2em 0;
     max-width: 75%;
+    padding: 0.3em;
 }
 
 .block_mission_map .map .chapter {
     position: relative;
     flex: 1 0 34%;
-    min-height: 350px;
-    outline: 5px solid white;
-    padding: 1em;
+    margin: 0.3em;
+    box-sizing: border-box;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.block_mission_map .map .chapter img {
+    width: 100%;
 }
 
 .block_mission_map .map .chapter .add_level,
@@ -32,6 +35,9 @@
 }
 
 .block_mission_map .map .chapter h3 {
+    position: absolute;
+    top: 1em;
+    left: 1em;
     font-family: 'Bangers', monospace;
     color: rgb(0, 0, 0);
     background: rgb(255, 255, 255);
@@ -42,11 +48,13 @@
 .block_mission_map .map .chapter .mission {
     font-family: 'Bungee';
     position: absolute;
+    left: 0;
+    top: 0;
     z-index: 800;
     background: rgb(255, 5, 64);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     text-align: center;
     cursor: pointer;
@@ -59,7 +67,7 @@
 .block_mission_map .map .chapter .mission .mission-text {
     color: rgb(255, 255, 255);
     font-size: 1.5rem;
-    line-height: 2.5;
+    line-height: 2.1;
     background-size: contain;
 }
 

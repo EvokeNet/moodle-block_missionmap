@@ -30,7 +30,9 @@ class chapters implements renderable, templatable
         $data = new \stdClass();
 
         $i = 0;
+        $mapno = 0;
         foreach ($this->chapters as &$chapter) {
+            $chapter->mapno = ++$mapno;
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;

@@ -21,10 +21,15 @@ class map implements renderable, templatable
 
     public function export_for_template(renderer_base $output)
     {
+        global $OUTPUT;
+
         $data = new \stdClass();
 
         $i = 0;
+        $mapno = 0;
         foreach ($this->chapters as &$chapter) {
+            ++$mapno;
+            $chapter->img = $OUTPUT->image_url("map_main_{$mapno}", 'block_mission_map');
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;

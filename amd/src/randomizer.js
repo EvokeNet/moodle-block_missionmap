@@ -1,8 +1,6 @@
 export const init = () => {
     const screen_size = window.screen.width;
 
-    window.console.log(screen_size);
-
     if (screen_size <= 600) {
         return;
     }
@@ -18,18 +16,21 @@ export const init = () => {
         let missions = chapters[i].querySelectorAll('.mission');
 
         let division = chapter_width / missions.length;
-        let offsetLeft = division / 2;
+
+        let perc_division = division / chapter_width;
+        let offsetLeft = 0.05;
 
         for (let j = 0; j < missions.length; j++) {
-            let mission_width = missions[j].offsetWidth;
             let mission_height = missions[j].offsetHeight;
-            let posx = offsetLeft - mission_width / 2;
-            var posy =
-                rand() * (chapter_height - (mission_height + 20)).toFixed();
+            let height_discount = mission_height / chapter_height;
 
-            missions[j].style.left = `${posx}px`;
-            missions[j].style.top = `${posy}px`;
-            offsetLeft += division;
+            let posx = offsetLeft * 100;
+            var posy = (rand() * (1 - height_discount) * 100).toFixed();
+
+            missions[j].style.left = `${posx}%`;
+            missions[j].style.top = `${posy}%`;
+            missions[j].style.transform = `translate(-${posx}%, -${posy}%)`;
+            offsetLeft += perc_division;
         }
     }
 };

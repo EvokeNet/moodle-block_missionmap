@@ -11,9 +11,10 @@ $levelid = required_param('levelid', PARAM_INT);
 $chapter = $DB->get_record('block_mission_map_chapters', ['id' => $chapterid]);
 $course = $DB->get_record('course', ['id' => $chapter->courseid]);
 
-$context = context_course::instance($course->id);
+// If user not logged in, require login
+require_login($course);
 
-// @TODO if not chapter, throw error
+$context = context_course::instance($course->id);
 
 // Configurations to the page (display, context etc)
 $PAGE->set_context($context);
@@ -23,8 +24,7 @@ $PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('view_voting', 'block_mission_map'));
 
 // Breadcrumbs navigation
-$coursenode = $PAGE->navigation->find($COURSE->id, navigation_node::TYPE_COURSE);
-
+$coursenode = $PAGE->navigation->find($course->id, navigation_node::TYPE_COURSE);
 if (!empty($coursenode)) {
     $chapterurl = new moodle_url('/course/view.php', array('id' => $chapter->courseid));
     $chapternode = $coursenode->add(get_string('chapter_view', 'block_mission_map', $chapter->name), $chapterurl);
@@ -32,6 +32,7 @@ if (!empty($coursenode)) {
     $votingnode->make_active();
 }
 
+// Fetches information about this user's group, which will be important for voting results computing
 $groupsutil = new \block_mission_map\util\groups();
 $usercoursegroup = $groupsutil->get_user_group(2);
 $groupmembers = (!empty($usercoursegroup)) ? $groupsutil->get_group_members($usercoursegroup->id) : [$USER];
