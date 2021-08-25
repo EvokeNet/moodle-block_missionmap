@@ -4,22 +4,34 @@ require_once('../../config.php');
 
 global $DB, $OUTPUT, $PAGE;
 
-$context = context_system::instance();
-
 $chapterid = required_param('chapterid', PARAM_INT);
 $levelid = required_param('levelid', PARAM_INT);
 
+$chapter = $DB->get_record('block_mission_map_chapters', ['id' => $chapterid]);
+$course = $DB->get_record('course', ['id' => $chapter->courseid]);
+
+// If user not logged in, require login
+require_login($course);
+
+$context = context_course::instance($course->id);
+
+require_capability('block/mission_map:managechapters', $context);
+
 // Configurations to the page (display, context etc)
 $PAGE->set_context($context);
+$PAGE->set_course($course);
 $PAGE->set_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
 $PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('edit_voting', 'block_mission_map'));
 
 // Breadcrumbs navigation
-$settingsnode = $PAGE->settingsnav->add(get_string('chapter_settings', 'block_mission_map'));
-$editurl = new moodle_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
-$editnode = $settingsnode->add(get_string('view_voting', 'block_mission_map'), $editurl);
-$editnode->make_active();
+$coursenode = $PAGE->navigation->find($course->id, navigation_node::TYPE_COURSE);
+if (!empty($coursenode)) {
+    $chapterurl = new moodle_url('/blocks/mission_map/chapters.php', array('courseid' => $chapter->courseid, 'blockid' => $chapter->blockid));
+    $chapternode = $coursenode->add(get_string('chapter_view', 'block_mission_map', $chapter->name), $chapterurl);
+    $votingnode = $chapternode->add(get_string('edit_voting', 'block_mission_map'));
+    $votingnode->make_active();
+}
 
 $voting_form = new \block_mission_map\local\forms\voting_form(['chapterid' => $chapterid, 'levelid' => $levelid]);
 
