@@ -1,9 +1,10 @@
 {{!
     @template block_mission_map/level
 }}
-<div id="mission_map" class="map">
+<div class="map level">
     {{#level}}
         <div class="chapter" data-cid="{{chapterid}}" data-plid="{{id}}">
+            <img src="{{img}}" />
             <h3>{{name}}</h3>
             {{#sublevels}}
                 <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">

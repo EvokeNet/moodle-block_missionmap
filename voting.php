@@ -54,6 +54,10 @@ $user_votes = $DB->get_records_sql($sql2, $params);
 
 echo $OUTPUT->header();
 
+$button = new \block_mission_map\output\button(new moodle_url('/course/view.php', ['id' => $course->id]));
+$renderer = $PAGE->get_renderer('block_mission_map');
+echo $renderer->render($button);
+
 // User voted and session is closed, so let's show results based on voting algorithm
 // @TODO: add checks if its a teacher or admin
 if (!empty($user_votes)) {

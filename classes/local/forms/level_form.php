@@ -65,31 +65,26 @@ class level_form extends \moodleform
         $url = !(empty($this->_customdata['url'])) ? $this->_customdata['url'] : null;
         $has_sublevel = !(empty($this->_customdata['has_sublevel'])) ? $this->_customdata['has_sublevel'] : null;
         $has_voting = !(empty($this->_customdata['has_voting'])) ? $this->_customdata['has_voting'] : null;
-        $posx = !(empty($this->_customdata['posx'])) ? $this->_customdata['posx'] : null;
-        $posy = !(empty($this->_customdata['posy'])) ? $this->_customdata['posy'] : null;
 
         $mform->addElement('hidden', 'id', $id);
         $mform->addElement('hidden', 'chapterid', $chapterid);
-        $mform->addElement('hidden', 'posx', $posx);
-        $mform->addElement('hidden', 'posy', $posy);
 
         $mform->addElement('text', 'name', get_string('campaign_add_level_name', 'block_mission_map'));
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
 
-        $mform->addElement('text', 'url', get_string('campaign_add_level_url', 'block_mission_map'));
-        $mform->addRule('url', get_string('required'), 'required', null, 'client');
-        $mform->setType('url', PARAM_RAW);
-
         $mform->addElement('selectyesno', 'has_sublevel', get_string('campaign_add_level_hassublevel', 'block_mission_map'));
         $mform->addRule('has_sublevel', get_string('required'), 'required', null, 'client');
         $mform->setType('has_sublevel', PARAM_BOOL);
 
+        $mform->addElement('text', 'url', get_string('campaign_add_level_url', 'block_mission_map'));
+        $mform->setType('url', PARAM_RAW);
+
         $mform->addElement('selectyesno', 'has_voting', get_string('campaign_add_level_hasvoting', 'block_mission_map'));
-        $mform->addRule('has_voting', get_string('required'), 'required', null, 'client');
         $mform->setType('has_voting', PARAM_BOOL);
 
         $mform->disabledIf('has_voting', 'has_sublevel', 'eq', true);
+        $mform->hideIf('url', 'has_sublevel', 'eq', false);
 
         if ($name) {
             $mform->setDefault('name', $name);
@@ -122,15 +117,6 @@ class level_form extends \moodleform
     public function validation($data, $files)
     {
         $errors = parent::validation($data, $files);
-
-        $name = isset($data['name']) ? $data['name'] : null;
-        $url = isset($data['url']) ? $data['url'] : null;
-
-        if ($this->is_submitted() && (empty($name) || empty($url))) {
-            $errors['name'] = get_string('campaign_add_level_error_name', 'block_mission_map');
-            $errors['url'] = get_string('campaign_add_level_error_url', 'block_mission_map');
-        }
-
         return $errors;
     }
 }

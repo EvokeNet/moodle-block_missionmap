@@ -164,8 +164,8 @@ const submitEditFormAjax = (event, modal, form, contextid) => {
 };
 
 const handleFormSubmissionFailure = (data, modal) => {
+    window.console.log(data);
     modal.hide();
-    Notification.alert('Warning', JSON.parse(data), 'Continue');
 };
 
 /**

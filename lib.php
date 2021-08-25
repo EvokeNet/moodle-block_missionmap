@@ -77,7 +77,9 @@ function block_mission_map_output_fragment_level_form($args)
             'id' => $serialiseddata->id,
             'chapterid' => $serialiseddata->chapterid,
             'name' => $serialiseddata->name,
-            'url' => $serialiseddata->url
+            'url' => $serialiseddata->url,
+            'has_sublevel' => $serialiseddata->has_sublevel,
+            'has_voting' => $serialiseddata->has_voting
         ]
     );
 
@@ -113,6 +115,7 @@ function block_mission_map_output_fragment_sublevel_form($args)
             'parentlevelid' => $serialiseddata->parentlevelid,
             'name' => $serialiseddata->name,
             'url' => $serialiseddata->url,
+            'has_sublevel' => $serialiseddata->has_sublevel,
             'has_voting' => $serialiseddata->has_voting
         ]
     );

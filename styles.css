@@ -1,6 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+.btn.back_to_map,
+.block_mission_map .btn {
+    background: rgb(255, 5, 64);
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    border: none;
+}
+
+.btn.back_to_map:hover {
+    color: white;
+}
+
 .block_mission_map .map {
     display: flex;
     flex-flow: wrap;
@@ -13,11 +25,19 @@
     padding: 0.3em;
 }
 
+.block_mission_map .map.level {
+    max-width: 75%;
+    justify-content: flex-start;
+}
+
+.block_mission_map .map.level .chapter {
+    max-width: 80%;
+}
+
 .block_mission_map .map .chapter {
     position: relative;
     flex: 1 0 34%;
     margin: 0.3em;
-    box-sizing: border-box;
     min-height: 100%;
     max-height: 100%;
 }
@@ -140,7 +160,7 @@
 }
 
 .voting_session button {
-    background: rgba(255, 5, 64, 1);
+    background: rgb(255, 5, 64);
     border: none;
 }
 
@@ -191,7 +211,7 @@
 
 .voting_session .options .option input.vote_btn {
     margin-left: -2.5em;
-    background: rgba(255, 5, 64, 1);
+    background: rgb(255, 5, 64);
     padding: 0.5em 2em;
     border: none;
     clear: both;

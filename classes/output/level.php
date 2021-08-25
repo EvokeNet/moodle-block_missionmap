@@ -37,6 +37,7 @@ class level implements renderable, templatable
 
         $this->level->sublevels = $this->sublevels;
 
+        $data->img = $output->image_url("map_zoom_1", 'block_mission_map');
         $data->level = $this->level;
         $data->contextid = $this->context->id;
         $data->isEditing = $this->isEditing;

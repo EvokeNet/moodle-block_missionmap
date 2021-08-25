@@ -54,6 +54,14 @@ class renderer extends plugin_renderer_base
         );
     }
 
+    public function render_button(button $button)
+    {
+        return $this->render_from_template(
+            'block_mission_map/button',
+            $button->export_for_template($this)
+        );
+    }
+
     public function render_chapters(chapters $chapter)
     {
         return $this->render_from_template(

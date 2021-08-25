@@ -6,6 +6,9 @@ $string['mission_map:myaddinstance'] = 'Add a new Mission Map block to the My Mo
 
 $string['block_title'] = 'Your missions';
 
+// GENERAL
+$string['back_map'] = 'Back to map';
+
 // CHAPTERS
 $string['add_page'] = 'Configure chapters';
 $string['edit_chapters'] = 'Chapters configuration';

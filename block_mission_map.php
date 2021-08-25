@@ -24,7 +24,10 @@ class block_mission_map extends block_base
 
         // @TODO: add voting results to a strip on the top of the course section
         if ($sectionno != 0) {
-            $this->content = null;
+            $this->content = new stdClass;
+            $button = new \block_mission_map\output\button(new moodle_url('/course/view.php', ['id' => $this->page->course->id]));
+            $renderer = $this->page->get_renderer('block_mission_map');
+            $this->content->text = $renderer->render($button);
             return $this->content;
         }
 
