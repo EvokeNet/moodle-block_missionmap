@@ -26,6 +26,10 @@ class map implements renderable, templatable
 
     public function export_for_template(renderer_base $output)
     {
+        global $COURSE;
+
+        $context = \context_course::instance($COURSE->id);
+
         $data = new \stdClass();
 
         $i = 0;
@@ -50,7 +54,11 @@ class map implements renderable, templatable
                         $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                         break;
                     case TYPE_VOTING:
-                        $level->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        if (has_capability('block/mission_map:managechapters', $context)) {
+                            $level->url = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        } else {
+                            $level->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        }
                         break;
                     case TYPE_SECTION:
                         $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}&returnto=map";

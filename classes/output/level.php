@@ -30,6 +30,10 @@ class level implements renderable, templatable
 
     public function export_for_template(renderer_base $output)
     {
+        global $COURSE;
+
+        $context = \context_course::instance($COURSE->id);
+
         $data = new \stdClass();
 
         $i = 0;
@@ -40,7 +44,11 @@ class level implements renderable, templatable
                     $sublevel->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
                     break;
                 case TYPE_VOTING:
-                    $sublevel->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
+                    if (has_capability('block/mission_map:managechapters', $context)) {
+                        $sublevel->url = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
+                    } else {
+                        $sublevel->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
+                    }
                     break;
                 case TYPE_SECTION:
                     $sublevel->url = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$sublevel->sectionid}&returnto=level&chapterid={$sublevel->chapterid}&levelid={$this->level->id}";
