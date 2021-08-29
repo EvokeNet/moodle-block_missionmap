@@ -28,6 +28,11 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/lib/formslib.php');
 
+define("TYPE_URL", 1);
+define("TYPE_SECTION", 2);
+define("TYPE_VOTING", 3);
+define("TYPE_SUBLEVEL", 4);
+
 /**
  * The mform class for creating a chapter
  *
@@ -57,14 +62,49 @@ class level_form extends \moodleform
      */
     public function definition()
     {
+        global $DB, $PAGE;
+
+        $types = [
+            TYPE_URL => get_string('level_option_url', 'block_mission_map'),
+            TYPE_SECTION => get_string('level_option_section', 'block_mission_map'),
+            TYPE_VOTING => get_string('level_option_voting', 'block_mission_map'),
+            TYPE_SUBLEVEL => get_string('level_option_sublevel', 'block_mission_map')
+        ];
+
         $mform = $this->_form;
+
+        // Fetches courses to filter sections if voting result redirects to a course section
+        $courses = $DB->get_records('course');
+
+        $option_courses = [0 => get_string('level_select_course', 'block_mission_map')];
+        $option_sections = [0 => get_string('level_select_section', 'block_mission_map')];
+
+        foreach ($courses as $course) {
+            $course_arr = array();
+            $course_arr['id'] = $course->id;
+            $course_arr['fullname'] = $course->fullname;
+            $course_arr['sections'] = array();
+
+            $sections = get_fast_modinfo($course->id)->get_section_info_all();
+            foreach ($sections as $section) {
+                $section_arr = array();
+                $section_arr['id'] = $section->id;
+                $section_arr['no'] = $section->section;
+                $section_arr['name'] = ($section->name == null) ? $section->section : $section->name;
+                $course_arr['sections'][] = $section_arr;
+
+                $option_sections[$section->section] = ($section->name == null) ? $section->section : $section->name;
+            }
+            $option_courses[$course->id] = $course->fullname;
+            $courses_arr[] = $course_arr;
+        }
+
+        $PAGE->requires->js_call_amd('block_mission_map/course_selector', 'init', array($courses_arr));
 
         $id = !(empty($this->_customdata['id'])) ? $this->_customdata['id'] : null;
         $chapterid = !(empty($this->_customdata['chapterid'])) ? $this->_customdata['chapterid'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
         $url = !(empty($this->_customdata['url'])) ? $this->_customdata['url'] : null;
-        $has_sublevel = !(empty($this->_customdata['has_sublevel'])) ? $this->_customdata['has_sublevel'] : null;
-        $has_voting = !(empty($this->_customdata['has_voting'])) ? $this->_customdata['has_voting'] : null;
 
         $mform->addElement('hidden', 'id', $id);
         $mform->addElement('hidden', 'chapterid', $chapterid);
@@ -73,18 +113,20 @@ class level_form extends \moodleform
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
 
-        $mform->addElement('selectyesno', 'has_sublevel', get_string('campaign_add_level_hassublevel', 'block_mission_map'));
-        $mform->addRule('has_sublevel', get_string('required'), 'required', null, 'client');
-        $mform->setType('has_sublevel', PARAM_BOOL);
+        $mform->addElement('select', 'type', get_string('level_type', 'block_mission_map'), $types);
+        $mform->addRule('type', get_string('required'), 'required', null, 'client');
+        $mform->setType('type', PARAM_INT);
 
         $mform->addElement('text', 'url', get_string('campaign_add_level_url', 'block_mission_map'));
         $mform->setType('url', PARAM_RAW);
 
-        $mform->addElement('selectyesno', 'has_voting', get_string('campaign_add_level_hasvoting', 'block_mission_map'));
-        $mform->setType('has_voting', PARAM_BOOL);
+        $mform->addElement('select', 'courseid', get_string('level_course', 'block_mission_map'), $option_courses, ['data-element' => 'course_select']);
+        $mform->addElement('select', 'sectionid', get_string('level_section', 'block_mission_map'), $option_sections, ['data-element' => 'course_sections']);
 
-        $mform->disabledIf('has_voting', 'has_sublevel', 'eq', true);
-        $mform->hideIf('url', 'has_sublevel', 'eq', false);
+        $mform->hideIf('url', 'type', 'neq', TYPE_URL);
+        $mform->hideIf('courseid', 'type', 'neq', TYPE_SECTION);
+        $mform->hideIf('sectionid', 'type', 'neq', TYPE_SECTION);
+        $mform->disabledIf('section', 'course', 'eq', 0);
 
         if ($name) {
             $mform->setDefault('name', $name);
@@ -92,14 +134,6 @@ class level_form extends \moodleform
 
         if ($url) {
             $mform->setDefault('url', $url);
-        }
-
-        if ($has_sublevel) {
-            $mform->setDefault('has_sublevel', $has_sublevel);
-        }
-
-        if ($has_voting) {
-            $mform->setDefault('has_voting', $has_voting);
         }
     }
 

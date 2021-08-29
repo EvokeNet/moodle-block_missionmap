@@ -8,7 +8,6 @@ use external_value;
 use external_single_structure;
 use external_function_parameters;
 use block_mission_map\local\forms\sublevel_form;
-use context_system;
 
 class sublevel extends external_api
 {
@@ -69,8 +68,10 @@ class sublevel extends external_api
         $data->name = $validateddata->name;
         $data->chapterid = $validateddata->chapterid;
         $data->parentlevelid = $validateddata->parentlevelid;
+        $data->type = $validateddata->type;
+        $data->courseid = $validateddata->courseid;
+        $data->sectionid = $validateddata->sectionid;
         $data->url = $validateddata->url;
-        $data->has_sublevel = $validateddata->has_sublevel;
         $data->timecreated = time();
         $data->timemodified = time();
 

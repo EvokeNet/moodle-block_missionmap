@@ -15,9 +15,31 @@ $string['edit_chapters'] = 'Chapters configuration';
 $string['view_chapters'] = 'Campaign Chapters';
 $string['chapter_settings'] = 'Chapters configuration';
 $string['chapter_view'] = 'Chapter: {$a}';
+$string['chapter_locked'] = 'Locked';
+$string['chapter_countdown'] = '--d --h --m --s';
+
+$string['campaign_add_chapter'] = 'Chapter name';
+$string['campaign_locked_chapter'] = 'Lock chapter based on date?';
+$string['campaign_unlock_chapter'] = 'Date to unlock chapter';
+$string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
+$string['create_chapter_success'] = 'Chapter created!';
+$string['campaign_add_level_name'] = 'Level name';
+$string['campaign_add_level_url'] = 'Level URL';
+$string['campaign_add_level_error_name'] = 'Level name can\'t be null';
+$string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
+$string['campaign_add_level_hassublevel'] = 'Has sub levels?';
+$string['campaign_add_level_hasvoting'] = 'Has voting?';
 
 // LEVEL
 $string['view_level'] = 'Level settings';
+$string['level_type'] = 'Level redirection type';
+$string['level_option_url'] = 'Redirects to URL';
+$string['level_option_section'] = 'Redirects to Course Section';
+$string['level_option_voting'] = 'Redirects to a Voting Session';
+$string['level_option_sublevel'] = 'Redirects to a Sublevel';
+$string['level_select_course'] = 'Choose the course';
+$string['level_course'] = 'Course';
+$string['level_section'] = 'Section';
 
 // VOTING
 $string['view_voting'] = 'Voting session';
@@ -72,7 +94,6 @@ $string['vote_save'] = 'Vote';
 $string['vote_continue'] = 'Proceed to chosen mission';
 $string['votes'] = 'votes';
 
-
 // FORMS
 $string['form_settings'] = 'Campaign settings';
 $string['form_course'] = 'Course to pull sections from';
@@ -84,15 +105,5 @@ $string['form_add_chapter'] = 'Add 1 chapter';
 $string['form_supermissions'] = 'Name of supermission';
 $string['form_missions'] = 'Number of missons in chapter';
 $string['mission_no'] = 'mission-{no}';
-
-$string['campaign_add_chapter'] = 'Chapter name';
-$string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
-$string['create_chapter_success'] = 'Chapter created!';
-$string['campaign_add_level_name'] = 'Level name';
-$string['campaign_add_level_url'] = 'Level URL';
-$string['campaign_add_level_error_name'] = 'Level name can\'t be null';
-$string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
-$string['campaign_add_level_hassublevel'] = 'Has sub levels?';
-$string['campaign_add_level_hasvoting'] = 'Has voting?';
 
 $string['create_level_success'] = 'Level created succesfuly!';

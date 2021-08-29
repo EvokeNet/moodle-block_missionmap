@@ -17,6 +17,9 @@ class block_mission_map extends block_base
         // Let's check if user is in a course section, where we don't 
         // want to display the map
         $sectionno = optional_param('section', 0, PARAM_INT);
+        $returnto = optional_param('returnto', null, PARAM_TEXT);
+        $chapterid = optional_param('chapterid', 0, PARAM_INT);
+        $levelid = optional_param('levelid', 0, PARAM_INT);
 
         if ($this->content !== null) {
             return $this->content;
@@ -25,7 +28,11 @@ class block_mission_map extends block_base
         // @TODO: add voting results to a strip on the top of the course section
         if ($sectionno != 0) {
             $this->content = new stdClass;
-            $button = new \block_mission_map\output\button(new moodle_url('/course/view.php', ['id' => $this->page->course->id]));
+            if ($returnto == "level") {
+                $button = new \block_mission_map\output\button(new moodle_url('/blocks/mission_map/levels.php', ['chapterid' => $chapterid, 'levelid' => $levelid]));
+            } else {
+                $button = new \block_mission_map\output\button(new moodle_url('/course/view.php', ['id' => $this->page->course->id]));
+            }
             $renderer = $this->page->get_renderer('block_mission_map');
             $this->content->text = $renderer->render($button);
             return $this->content;
@@ -113,7 +120,7 @@ class block_mission_map extends block_base
         global $DB;
 
         // We must retrieve a chapter to delete its levels and voting sessions
-        $chapters = $DB->get_records('block_mission_map_chapters', ['blockid' => $this->intance->id]);
+        $chapters = $DB->get_records('block_mission_map_chapters', ['blockid' => $this->instance->id]);
 
         foreach ($chapters as $chapter) {
 
@@ -136,6 +143,6 @@ class block_mission_map extends block_base
             $DB->delete_records('block_mission_map_levels', ['chapterid' => $chapter->id]);
         }
         // Finally, let's delete chapters
-        $DB->delete_records('block_mission_map_chapters', ['blockid' => $this->intance->id]);
+        $DB->delete_records('block_mission_map_chapters', ['blockid' => $this->instance->id]);
     }
 }

@@ -4,6 +4,11 @@ namespace block_mission_map\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+define("TYPE_URL", 1);
+define("TYPE_SECTION", 2);
+define("TYPE_VOTING", 3);
+define("TYPE_SUBLEVEL", 4);
+
 use moodle_url;
 use renderable;
 use renderer_base;
@@ -39,10 +44,18 @@ class chapters implements renderable, templatable
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;
-                if ($level->has_sublevel) {
-                    $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
-                } else if ($level->has_voting) {
-                    $level->url = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                switch ($level->type) {
+                    case TYPE_SUBLEVEL:
+                        $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        break;
+                    case TYPE_VOTING:
+                        $level->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        break;
+                    case TYPE_SECTION:
+                        $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}";
+                        break;
+                    default:
+                        break;
                 }
             }
         }

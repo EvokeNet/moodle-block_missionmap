@@ -42,6 +42,8 @@ function block_mission_map_output_fragment_chapter_form($args)
         [
             'id' => $serialiseddata->id,
             'name' => $serialiseddata->name,
+            'islocked' => $serialiseddata->islocked,
+            'unlocking_date' => $serialiseddata->unlocking_date,
             'blockid' => $serialiseddata->blockid,
             'courseid' => $serialiseddata->courseid
         ]
@@ -77,9 +79,9 @@ function block_mission_map_output_fragment_level_form($args)
             'id' => $serialiseddata->id,
             'chapterid' => $serialiseddata->chapterid,
             'name' => $serialiseddata->name,
-            'url' => $serialiseddata->url,
-            'has_sublevel' => $serialiseddata->has_sublevel,
-            'has_voting' => $serialiseddata->has_voting
+            'type' => $serialiseddata->url,
+            'courseid' => $serialiseddata->courseid,
+            'sectionid' => $serialiseddata->sectionid
         ]
     );
 
@@ -115,8 +117,9 @@ function block_mission_map_output_fragment_sublevel_form($args)
             'parentlevelid' => $serialiseddata->parentlevelid,
             'name' => $serialiseddata->name,
             'url' => $serialiseddata->url,
-            'has_sublevel' => $serialiseddata->has_sublevel,
-            'has_voting' => $serialiseddata->has_voting
+            'type' => $serialiseddata->url,
+            'courseid' => $serialiseddata->courseid,
+            'sectionid' => $serialiseddata->sectionid
         ]
     );
 

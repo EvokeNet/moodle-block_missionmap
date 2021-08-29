@@ -3,21 +3,52 @@
 }}
 <div class="map">
     {{#chapters}}
-        <div class="chapter">
-            <h3>{{name}}</h3>
-            <img src="{{img}}" />
-            {{#levels}}
-                <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
-                    <span class="mission-text">
-                        {{no}}
-                    </span>
-                </a>
-            {{/levels}}
-        </div>
+        <!-- Chapter is locked -->
+        {{#isLocked}}
+            <div id="chapter_{{id}}" class="chapter">
+                <div class="locked"></div>
+                <div class="chapter_header">
+                    <h3>{{name}}</h3>
+                    <h3 class="lock_info">{{#str}} chapter_locked, block_mission_map {{/str}}</h3>
+                    <h3 data-countdown="{{unlocking_date}}">{{#str}} chapter_countdown, block_mission_map {{/str}}</h3>
+                </div>
+                <img src="{{img}}" />
+                {{#levels}}
+                    <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <span class="mission-text">
+                            {{no}}
+                        </span>
+                    </a>
+                {{/levels}}
+            </div>
+        {{/isLocked}}
+
+        <!-- Chapter is unlocked -->
+        {{^isLocked}}
+            <div class="chapter">
+                <div class="chapter_header">
+                    <h3>{{name}}</h3>
+                </div>
+                <img src="{{img}}" />
+                {{#levels}}
+                    <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <span class="mission-text">
+                            {{no}}
+                        </span>
+                    </a>
+                {{/levels}}
+            </div>
+        {{/isLocked}}
+
     {{/chapters}}
 </div>
 {{#js}}
     require(['block_mission_map/randomizer'],
+        function(module) {
+            module.init();
+        }
+    );
+    require(['block_mission_map/countdown'],
         function(module) {
             module.init();
         }

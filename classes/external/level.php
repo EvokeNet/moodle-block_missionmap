@@ -69,9 +69,10 @@ class level extends external_api
         $data->name = $validateddata->name;
         $data->chapterid = $validateddata->chapterid;
         $data->parentlevelid = $validateddata->parentlevelid;
+        $data->type = $validateddata->type;
+        $data->courseid = $validateddata->courseid;
+        $data->sectionid = $validateddata->sectionid;
         $data->url = $validateddata->url;
-        $data->has_sublevel = $validateddata->has_sublevel;
-        $data->has_voting = $validateddata->has_voting;
         $data->timecreated = time();
         $data->timemodified = time();
 

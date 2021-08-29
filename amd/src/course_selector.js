@@ -1,6 +1,6 @@
 export const init = (courses) => {
     var course_selects = document.querySelectorAll(
-        '[data-element="voting_course_select"]'
+        '[data-element="course_select"]'
     );
 
     for (let i = 0; i < course_selects.length; i++) {
@@ -13,7 +13,7 @@ export const init = (courses) => {
 const populate_sections = (event, courses) => {
     var course_id = event.target.value;
     var dropdowns = document.querySelectorAll(
-        '[data-element="voting_course_sections"]'
+        '[data-element="course_sections"]'
     );
 
     clearOptions(dropdowns);
