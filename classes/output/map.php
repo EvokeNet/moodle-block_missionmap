@@ -65,7 +65,7 @@ class map implements renderable, templatable
                     case TYPE_SECTION:
                         $section = $DB->get_record('course_sections', ['id' => $level->sectionid]);
                         $level->isLocked = (!$section->visible) ? true : false;
-                        $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}&returnto=map";
+                        $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$section->section}&returnto=map";
                         break;
                     default:
                         break;

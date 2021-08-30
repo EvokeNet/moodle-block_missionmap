@@ -30,7 +30,7 @@ class level implements renderable, templatable
 
     public function export_for_template(renderer_base $output)
     {
-        global $COURSE;
+        global $DB, $COURSE;
 
         $context = \context_course::instance($COURSE->id);
 
@@ -39,6 +39,8 @@ class level implements renderable, templatable
         $i = 0;
         foreach ($this->sublevels as &$sublevel) {
             $sublevel->no = ++$i;
+            $sublevel->isLocked = false;
+
             switch ($sublevel->type) {
                 case TYPE_SUBLEVEL:
                     $sublevel->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
@@ -51,7 +53,9 @@ class level implements renderable, templatable
                     }
                     break;
                 case TYPE_SECTION:
-                    $sublevel->url = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$sublevel->sectionid}&returnto=level&chapterid={$sublevel->chapterid}&levelid={$this->level->id}";
+                    $section = $DB->get_record('course_sections', ['id' => $sublevel->sectionid]);
+                    $sublevel->isLocked = (!$section->visible) ? true : false;
+                    $sublevel->url = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$section->section}&returnto=level&chapterid={$sublevel->chapterid}&levelid={$this->level->id}";
                     break;
                 default:
                     break;

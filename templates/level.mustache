@@ -9,11 +9,19 @@
             </div>
             <img src="{{img}}" />
             {{#sublevels}}
-                <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
-                    <span class="mission-text">
-                        {{no}}
-                    </span>
-                </a>
+                {{#isLocked}}
+                    <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <div class="locked"></div>
+                        <span class="mission-text">&#x1F512;&#xFE0E;</span>
+                    </div>
+                {{/isLocked}}
+                {{^isLocked}}
+                    <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <span class="mission-text">
+                            {{no}}
+                        </span>
+                    </a>
+                {{/isLocked}}
             {{/sublevels}}
             {{#isEditing}}
                 <a href="#" class="btn btn-primary add_sublevel">Add Sublevel</a>
