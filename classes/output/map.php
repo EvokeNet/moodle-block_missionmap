@@ -26,7 +26,7 @@ class map implements renderable, templatable
 
     public function export_for_template(renderer_base $output)
     {
-        global $COURSE;
+        global $DB, $COURSE;
 
         $context = \context_course::instance($COURSE->id);
 
@@ -49,6 +49,8 @@ class map implements renderable, templatable
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;
+                $level->isLocked = false;
+
                 switch ($level->type) {
                     case TYPE_SUBLEVEL:
                         $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
@@ -61,6 +63,8 @@ class map implements renderable, templatable
                         }
                         break;
                     case TYPE_SECTION:
+                        $section = $DB->get_record('course_sections', ['id' => $level->sectionid]);
+                        $level->isLocked = (!$section->visible) ? true : false;
                         $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}&returnto=map";
                         break;
                     default:

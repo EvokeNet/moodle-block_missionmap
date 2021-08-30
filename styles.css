@@ -99,6 +99,11 @@
     cursor: pointer;
 }
 
+.block_mission_map .map .chapter .mission .locked {
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.25);
+}
+
 .block_mission_map .map .chapter .mission.dimmed {
     opacity: 0.4;
 }
