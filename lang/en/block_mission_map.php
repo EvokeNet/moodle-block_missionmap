@@ -46,6 +46,8 @@ $string['view_voting'] = 'Voting session';
 $string['edit_voting'] = 'Voting edit';
 $string['mission_map_voting_settings'] = 'Voting configuration';
 
+$string['voting_notready'] = 'This voting session is not yet open!';
+
 $string['voting_select_course'] = 'Select a course to fetch sections';
 $string['voting_select_section'] = 'Select a section to redirect';
 

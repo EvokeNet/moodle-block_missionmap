@@ -253,13 +253,8 @@
     font-size: 1.1em;
 }
 
-@media (min-width: 576px) {
-    .voting_session .options .option > .form-group {
-        margin-left: 0;
-    }
-}
-
-@media screen and (max-width: 600px) {
+/* Smartphones */
+@media only screen and (min-width: 320px) and (max-width: 480px) {
     #page,
     #page.container-fluid,
     #page.container-sm,
@@ -317,7 +312,8 @@
     }
 }
 
-@media screen and (max-width: 1024px) {
+/* Tablets and laptops */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
     .block_mission_map .map {
         display: block;
         height: auto;
@@ -325,5 +321,13 @@
         margin: 0 auto;
         width: 100%;
         max-width: 100%;
+    }
+}
+
+/* Hi-res laptopts and desktops */
+@media only screen and (min-width: 1281px) {
+    .block_mission_map .map {
+        width: 80%;
+        max-width: 80%;
     }
 }

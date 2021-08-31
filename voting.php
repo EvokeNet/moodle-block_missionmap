@@ -32,25 +32,37 @@ if (!empty($coursenode)) {
     $votingnode->make_active();
 }
 
-// Fetches information about this user's group, which will be important for voting results computing
+// Fetches information about this user's group,
+// which will be important for voting results computing
 $groupsutil = new \block_mission_map\util\groups();
 $usercoursegroup = $groupsutil->get_user_group(2);
 $groupmembers = (!empty($usercoursegroup)) ? $groupsutil->get_group_members($usercoursegroup->id) : [$USER];
 
 $voting_session = $DB->get_record('block_mission_map_votings', ['chapterid' => $chapterid, 'levelid' => $levelid]);
-$voting_options = $DB->get_records('block_mission_map_options', ['votingid' => $voting_session->id]);
 
-$option_ids = array();
-foreach ($voting_options as $option) {
-    $option_ids[] = $option->id;
+// Let's only fetch information about the voting options and cast votes
+// if the voting session is already configured!
+if (!empty($voting_session)) {
+    $voting_options = $DB->get_records('block_mission_map_options', ['votingid' => $voting_session->id]);
+
+    $option_ids = array();
+    foreach ($voting_options as $option) {
+        $option_ids[] = $option->id;
+    }
+
+    $groupmember_ids = array();
+    foreach ($groupmembers as $member) {
+        $groupmember_ids[] = $member->id;
+    }
+
+    list($insql1, $params1) = $DB->get_in_or_equal($option_ids);
+    list($insql2, $params2) = $DB->get_in_or_equal($groupmember_ids);
+    $sql1 = "SELECT * FROM {block_mission_map_votes} WHERE optionid $insql1 AND userid $insql2";
+    $sql2 = "SELECT * FROM {block_mission_map_votes} WHERE userid = '$USER->id' AND optionid $insql1";
+
+    $cast_votes = $DB->get_records_sql($sql1, array_merge($params1, $params2));
+    $user_votes = $DB->get_records_sql($sql2, $params1);
 }
-
-list($insql, $params) = $DB->get_in_or_equal($option_ids);
-$sql1 = "SELECT * FROM {block_mission_map_votes} WHERE optionid $insql";
-$sql2 = "SELECT * FROM {block_mission_map_votes} WHERE userid = '$USER->id' AND optionid $insql";
-
-$cast_votes = $DB->get_records_sql($sql1, $params);
-$user_votes = $DB->get_records_sql($sql2, $params);
 
 echo $OUTPUT->header();
 
@@ -58,9 +70,18 @@ $button = new \block_mission_map\output\button(new moodle_url('/course/view.php'
 $renderer = $PAGE->get_renderer('block_mission_map');
 echo $renderer->render($button);
 
+// Voting session is not yet configured!
+if (empty($voting_session)) {
+    echo html_writer::start_tag('div', ['class' => 'voting_session']);
+    echo html_writer::start_tag('div', ['class' => 'banner']);
+    echo html_writer::tag('h1', get_string('voting_notready', 'block_mission_map'));
+    echo html_writer::end_tag('div');
+    echo html_writer::end_tag('div');
+}
+
 // User voted and session is closed, so let's show results based on voting algorithm
 // @TODO: add checks if its a teacher or admin
-if (!empty($user_votes)) {
+else if (!empty($user_votes)) {
 
     $groupsize = sizeof($groupmembers);
     $votesize = sizeof($cast_votes);
