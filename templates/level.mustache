@@ -9,19 +9,38 @@
             </div>
             <img src="{{img}}" />
             {{#sublevels}}
-                {{#isLocked}}
-                    <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
-                        <div class="locked"></div>
-                        <span class="mission-text">?</span>
-                    </div>
-                {{/isLocked}}
-                {{^isLocked}}
-                    <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                {{#isEditing}}
+                    <div href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <div class="mission-tools">
+                            <a href={{url}} class="btn btn-secondary btn-sm go_level">go</a>
+                            <a class="btn btn-primary btn-sm edit_level">edit</a>
+                            <a class="btn btn-danger btn-sm delete_level">&times;</a>
+                        </div>
                         <span class="mission-text">
-                            {{no}}
+                            {{#isLocked}}
+                                <small>{{no}}🔒</small>
+                            {{/isLocked}}
+                            {{^isLocked}}
+                                {{no}}
+                            {{/isLocked}}
                         </span>
-                    </a>
-                {{/isLocked}}
+                    </div>
+                {{/isEditing}}
+                {{^isEditing}}
+                    {{#isLocked}}
+                        <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                            <div class="locked"></div>
+                            <span class="mission-text">?</span>
+                        </div>
+                    {{/isLocked}}
+                    {{^isLocked}}
+                        <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                            <span class="mission-text">
+                                {{no}}
+                            </span>
+                        </a>
+                    {{/isLocked}}
+                {{/isEditing}}
             {{/sublevels}}
             {{#isEditing}}
                 <a href="#" class="btn btn-primary add_sublevel">Add Sublevel</a>

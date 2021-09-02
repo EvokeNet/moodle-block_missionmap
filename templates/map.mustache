@@ -34,7 +34,9 @@
                     {{#isLocked}}
                         <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
                             <div class="locked"></div>
-                            <span class="mission-text">?</span>
+                            <span class="mission-text">
+                                <small>{{no}}🔒</small>
+                            </span>
                         </div>
                     {{/isLocked}}
                     {{^isLocked}}

@@ -115,7 +115,7 @@
     background-size: contain;
 }
 
-/* .block_mission_map .map .chapter .mission .mission-text:hover {
+.block_mission_map .map .chapter .mission .mission-text:hover {
     text-decoration: none;
 }
 
@@ -123,12 +123,12 @@
     z-index: 900;
     visibility: hidden;
     position: absolute;
-    top: 5px;
+    top: 10px;
     right: -130px;
     padding-left: 30px;
-} */
+}
 
-/* .block_mission_map .map .chapter .mission:hover > .mission-tools,
+.block_mission_map .map .chapter .mission:hover > .mission-tools,
 .block_mission_map
     .map
     .chapter
@@ -136,7 +136,7 @@
     .mission-tools:hover
     > .mission-tools {
     visibility: visible;
-} */
+}
 
 /* purple -> whale -> urgent blue -> bright mint */
 .colored_background {

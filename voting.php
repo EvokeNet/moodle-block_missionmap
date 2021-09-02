@@ -75,6 +75,7 @@ if (empty($voting_session)) {
     echo html_writer::start_tag('div', ['class' => 'voting_session']);
     echo html_writer::start_tag('div', ['class' => 'banner']);
     echo html_writer::tag('h1', get_string('voting_notready', 'block_mission_map'));
+
     echo html_writer::end_tag('div');
     echo html_writer::end_tag('div');
 }
