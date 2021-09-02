@@ -1,4 +1,4 @@
 <?php
 $plugin->component = 'block_mission_map';
-$plugin->version = 202108141740;
+$plugin->version = 202109020000;
 $plugin->requires = 2010112400; // YYYYMMDDHH (This is the release version for Moodle 2.0)

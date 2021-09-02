@@ -74,12 +74,17 @@ class chapter extends external_api
         $data->unlocking_date = $validateddata->unlocking_date;
         $data->blockid = $validateddata->blockid;
         $data->courseid = $validateddata->courseid;
-        $data->timecreated = time();
         $data->timemodified = time();
 
-        $chapterid = $DB->insert_record('block_mission_map_chapters', $data);
-
-        $data->id = $chapterid;
+        if (isset($validateddata->id)) {
+            $data->id = $validateddata->id;
+            $DB->update_record('block_mission_map_chapters', $data);
+            $data->updated = true; // we set this to handle on js
+        } else {
+            $data->timecreated = time();
+            $chapterid = $DB->insert_record('block_mission_map_chapters', $data);
+            $data->id = $chapterid;
+        }
 
         return [
             'status' => 'ok',

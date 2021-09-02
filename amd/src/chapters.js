@@ -16,10 +16,20 @@ export const init = (params) => {
     })
         // Set up the listeners
         .then((modal) => {
-            const trigger = document.getElementById('add_chapter');
+            const add_trigger = document.getElementById('add_chapter');
+
+            document.addEventListener('click', (event) => {
+                if (
+                    event.target &&
+                    event.target.classList.contains('edit_chapter')
+                ) {
+                    showModal(event, modal, blockid, courseid, true);
+                }
+            });
+
             const root = modal.getRoot();
             const form = root.find('form');
-            trigger.addEventListener('click', (event) =>
+            add_trigger.addEventListener('click', (event) =>
                 showModal(event, modal, blockid, courseid)
             );
             root.on(ModalEvents.save, (event) => submitForm(event, form));
@@ -46,12 +56,26 @@ const get_form = (formdata, contextid) => {
     );
 };
 
-const showModal = (event, modal, blockid, courseid) => {
+const showModal = (event, modal, blockid, courseid, isEditing = false) => {
     event.preventDefault();
     modal.show();
     let root = modal.getRoot();
     root.find('form').find('input[name="blockid"]').val(blockid);
     root.find('form').find('input[name="courseid"]').val(courseid);
+    if (isEditing) {
+        root.find('form')
+            .find('input[name="id"]')
+            .val(event.target.dataset.cid);
+        root.find('form')
+            .find('input[name="name"]')
+            .val(event.target.dataset.cname);
+        root.find('form')
+            .find('select[name="islocked"]')
+            .val(event.target.dataset.haslock);
+        root.find('form')
+            .find('input[name="unlocking_date"]')
+            .val(event.target.dataset.unlock);
+    }
 };
 
 const submitForm = (event, form) => {
@@ -98,17 +122,23 @@ const handleFormSubmissionFailure = (data) => {
 const handleFormSubmissionResponse = (data, modal) => {
     const map = document.getElementById('mission_map');
     let chapter = JSON.parse(data.data);
-    let context = {
-        id: chapter.id,
-        name: chapter.name,
-    };
 
-    Template.render('block_mission_map/chapter', context)
-        .then((html, js) => {
-            Template.appendNodeContents(map, html, js);
-            modal.hide();
-        })
-        .fail((ex) => {
-            Notification.alert('Warning', ex, 'Continue');
-        });
+    if (chapter.updated == true) {
+        // Ugly hack because TIME
+        location.reload();
+    } else {
+        let context = {
+            id: chapter.id,
+            name: chapter.name,
+        };
+
+        Template.render('block_mission_map/chapter', context)
+            .then((html, js) => {
+                Template.appendNodeContents(map, html, js);
+                modal.hide();
+            })
+            .fail((ex) => {
+                Notification.alert('Warning', ex, 'Continue');
+            });
+    }
 };

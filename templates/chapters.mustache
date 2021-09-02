@@ -3,8 +3,17 @@
 }}
 <div id="mission_map" class="map">
     {{#chapters}}
-        <div class="chapter" data-cid="{{id}}">
-            <a href="#" class="btn btn-primary edit_chapter">Edit</a>
+        <div id="chapter_{{id}}" class="chapter">
+            <a
+                href="#"
+                class="btn btn-primary edit_chapter"
+                data-cid="{{id}}"
+                data-cname="{{name}}"
+                data-haslock="{{has_lock}}"
+                data-unlock="{{unlocking_date}}"
+                >
+                    Edit
+            </a>
             <div class="chapter_header">
                 <h3>{{name}}</h3>
             </div>
