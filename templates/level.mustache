@@ -4,16 +4,19 @@
 <div class="map level">
     {{#level}}
         <div class="chapter" data-cid="{{chapterid}}" data-plid="{{id}}">
+            {{#isEditing}}
+                <a href="#" class="btn btn-primary edit_chapter">Edit</a>
+            {{/isEditing}}
             <div class="chapter_header">
                 <h3>{{name}}</h3>
             </div>
             <img src="{{img}}" />
             {{#sublevels}}
                 {{#isEditing}}
-                    <div href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                    <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
                         <div class="mission-tools">
                             <a href={{url}} class="btn btn-secondary btn-sm go_level">go</a>
-                            <a class="btn btn-primary btn-sm edit_level">edit</a>
+                            <a href={{editurl}} class="btn btn-primary btn-sm edit_level">edit</a>
                             <a class="btn btn-danger btn-sm delete_level">&times;</a>
                         </div>
                         <span class="mission-text">

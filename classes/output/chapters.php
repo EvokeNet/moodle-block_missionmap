@@ -47,12 +47,15 @@ class chapters implements renderable, templatable
                 switch ($level->type) {
                     case TYPE_SUBLEVEL:
                         $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        $level->editurl = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                         break;
                     case TYPE_VOTING:
                         $level->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
+                        $level->editurl = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                         break;
                     case TYPE_SECTION:
                         $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}";
+                        $level->editurl = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}";
                         break;
                     default:
                         break;
