@@ -38,6 +38,7 @@
     position: relative;
     flex: 1 0 34%;
     margin: 0.3em;
+    border: 5px solid rgba(0, 0, 0, 1);
 }
 
 .block_mission_map .map .chapter img {
@@ -184,6 +185,12 @@
 }
 
 .voting_session .banner p {
+    font-size: 1.2em;
+    max-width: 75%;
+    margin: 1em auto;
+}
+
+.voting_session .banner p.featured {
     font-family: 'Bangers', monospace;
     font-size: 1.5em;
     color: rgba(255, 5, 64, 1);

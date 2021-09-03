@@ -41,6 +41,15 @@ class chapters implements renderable, templatable
         foreach ($this->chapters as &$chapter) {
             ++$mapno;
             $chapter->img = $OUTPUT->image_url("map_main_{$mapno}", 'block_mission_map');
+
+            if ($chapter->has_lock) {
+                if ($chapter->unlocking_date > time()) {
+                    $chapter->isLocked = true;
+                } else {
+                    $chapter->isLocked = false;
+                }
+            }
+
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;

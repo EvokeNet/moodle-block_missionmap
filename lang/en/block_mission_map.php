@@ -59,6 +59,8 @@ $string['voting_option_section'] = 'Redirects to this course section';
 $string['voting_option_sublevel'] = 'Redirects to sublevel';
 $string['voting_option_title'] = 'Voting option {no}';
 
+$string['voting_description'] = 'Description of this voting session: purpose, method, outcomes etc.';
+
 $string['voting_type'] = 'Model of voting';
 $string['voting_type_help'] = '<b>All participants</b>: Every enrolled member of the course has a chance to cast a vote.<br/><br/><b>Group participants</b>: Votes will be computed inside every group in the course.';
 

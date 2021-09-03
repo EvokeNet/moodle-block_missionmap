@@ -3,7 +3,7 @@
 }}
 <div id="mission_map" class="map">
     {{#chapters}}
-        <div id="chapter_{{id}}" class="chapter">
+        <div id="chapter_{{id}}" class="chapter" data-cid={{id}}>
             <a
                 href="#"
                 class="btn btn-primary edit_chapter"
@@ -16,6 +16,9 @@
             </a>
             <div class="chapter_header">
                 <h3>{{name}}</h3>
+                {{#isLocked}}
+                    <h3 class="lock_info">{{#str}} chapter_locked, block_mission_map {{/str}}</h3>
+                {{/isLocked}}
             </div>
             <img src="{{img}}" />
             {{#levels}}

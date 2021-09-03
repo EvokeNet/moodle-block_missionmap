@@ -33,7 +33,24 @@ if (!empty($coursenode)) {
     $votingnode->make_active();
 }
 
-$voting_form = new \block_mission_map\local\forms\voting_form(['chapterid' => $chapterid, 'levelid' => $levelid]);
+$voting_session = $DB->get_record('block_mission_map_votings', ['chapterid' => $chapterid, 'levelid' => $levelid]);
+
+if (!empty($voting_session)) {
+    $toform = array();
+    $toform['id'] = $voting_session->id;
+    $toform['chapterid'] = $voting_session->chapterid;
+    $toform['levelid'] = $voting_session->levelid;
+    $toform['voting_type'] = $voting_session->model;
+    $toform['algorithm'] = $voting_session->mechanic;
+    $toform['deadline'] = $voting_session->voting_deadline;
+    $toform['threshold'] = $voting_session->threshold;
+    $toform['tiebreak'] = $voting_session->tiebreaker;
+    $toform['tiebreaker_deadline'] = $voting_session->tiebreaker_deadline;
+    $toform['description'] = $voting_session->description;
+    $voting_form = new \block_mission_map\local\forms\voting_form($toform);
+} else {
+    $voting_form = new \block_mission_map\local\forms\voting_form(['chapterid' => $chapterid, 'levelid' => $levelid]);
+}
 
 if ($voting_form->is_cancelled()) {
     $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
@@ -42,6 +59,7 @@ if ($voting_form->is_cancelled()) {
     $voting_session = new stdClass;
     $voting_session->chapterid = $data->chapterid;
     $voting_session->levelid = $data->levelid;
+    $voting_session->description = $data->description;
     $voting_session->model = $data->voting_type;
     $voting_session->mechanic = $data->algorithm;
     $voting_session->tiebreaker = $data->tiebreak;
@@ -49,16 +67,21 @@ if ($voting_form->is_cancelled()) {
     $voting_session->deadline = $data->deadline;
     $voting_session->minerva_userid = isset($data->minerva_userid) ? $data->minerva_userid : null;
     $voting_session->tiebreaker_deadline = $data->tiebreaker_deadline;
-    $voting_session->timecreated = time();
     $voting_session->timemodified = time();
 
-    $voting_session_id = $DB->insert_record('block_mission_map_votings', $voting_session);
+    if (!empty($voting_session->id)) {
+        $voting_session->id = $data->id;
+        $DB->update_record('block_mission_map_votings', $voting_session);
+    } else {
+        $voting_session->timecreated = time();
+        $voting_session_id = $DB->insert_record('block_mission_map_votings', $voting_session);
+    }
 
     $option_names = $data->option_name;
     $option_types = $data->option_type;
     $option_urls = isset($data->option_url) ? $data->option_url : null;
-    $option_courses = $data->option_course;
-    $option_sections = $data->option_section;
+    $option_courses = isset($data->option_course) ? $data->option_course : null;
+    $option_sections = isset($data->option_section) ? $data->option_section : null;
 
     $voting_options = array();
     for ($i = 0; $i < sizeof($option_names); $i++) {

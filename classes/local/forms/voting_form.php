@@ -46,8 +46,6 @@ class voting_form extends \moodleform
      */
     public function __construct($customdata = null)
     {
-        $this->chapterid = $customdata['chapterid'];
-        $this->levelid = $customdata['levelid'];
         parent::__construct(null, $customdata, 'chapter',  '', ['class' => 'block_mission_map_voting_form'], true);
     }
 
@@ -62,6 +60,11 @@ class voting_form extends \moodleform
         global $PAGE, $DB;
 
         $mform = $this->_form;
+
+        $id = !empty($this->_customdata['id']) ? $this->_customdata['id'] : null;
+        $chapterid = !empty($this->_customdata['chapterid']) ? $this->_customdata['chapterid'] : null;
+        $levelid = !empty($this->_customdata['levelid']) ? $this->_customdata['levelid'] : null;
+        $description = !empty($this->_customdata['description']) ? $this->_customdata['description'] : null;
 
         $types = [
             // BLOCK_MISSIONMAP_VOTINGTYPE_ALL => get_string('voting_type_all', 'block_mission_map'),
@@ -123,10 +126,13 @@ class voting_form extends \moodleform
 
         $PAGE->requires->js_call_amd('block_mission_map/voting', 'init', array($courses_arr));
 
-        $mform->addElement('hidden', 'chapterid', $this->chapterid);
+        $mform->addElement('hidden', 'id', $id);
+        $mform->setType('id', PARAM_INT);
+
+        $mform->addElement('hidden', 'chapterid', $chapterid);
         $mform->setType('chapterid', PARAM_INT);
 
-        $mform->addElement('hidden', 'levelid', $this->levelid);
+        $mform->addElement('hidden', 'levelid', $levelid);
         $mform->setType('levelid', PARAM_INT);
 
         $mform->addElement('select', 'voting_type', get_string('voting_type', 'block_mission_map'), $types);
@@ -159,6 +165,9 @@ class voting_form extends \moodleform
         $mform->addElement('date_time_selector', 'tiebreaker_deadline', get_string('voting_tiebreak_deadline', 'block_mission_map'));
         $mform->hideIf('tiebreaker_deadline', 'tiebreak', 'eq', BLOCK_MISSIONMAP_TIEBREAKER_RANDOM);
 
+        $mform->addElement('textarea', 'description', get_string('voting_description', 'block_mission_map'), 'wrap="virtual" rows="20" cols="50"');
+        $mform->setType('description', PARAM_TEXT);
+
         $repeatarray = array();
         $repeatarray[] = $mform->createElement('header', 'option_title', get_string('voting_option_title', 'block_mission_map'));
         $repeatarray[] = $mform->createElement('text', 'option_name', get_string('voting_option_name', 'block_mission_map'));
@@ -184,12 +193,9 @@ class voting_form extends \moodleform
 
         $this->add_action_buttons(true, get_string('voting_save', 'block_mission_map'));
 
-        // if ($this->_instance) {
-        //     $repeatno = $DB->count_records('block_mission_map_votes', array('choiceid' => $this->_instance));
-        //     $repeatno += 2;
-        // } else {
-        //     $repeatno = 2;
-        // }
+        if ($description) {
+            $mform->setDefault('description', $description);
+        }
     }
 
     /**
