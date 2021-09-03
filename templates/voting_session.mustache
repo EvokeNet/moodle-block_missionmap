@@ -6,16 +6,19 @@
         <div class="banner">
             {{#totalizing}}
                 <h1>{{#str}} voting_totalizing, block_mission_map {{/str}}</h1>
-                <p>{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
+                <p>{{description}}</p>
+                <p class="featured">{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
             {{/totalizing}}
 
             {{#tie}}
                 <h1>{{#str}} voting_tie, block_mission_map {{/str}}</h1>
-                <p>{{#str}} voting_tie_info, block_mission_map {{/str}}</p>
+                <p>{{description}}</p>
+                <p class="featured">{{#str}} voting_tie_info, block_mission_map {{/str}}</p>
             {{/tie}}
 
             {{#completed}}
                 <h1>{{#str}} voting_completed, block_mission_map, {{winner_name}} {{/str}}</h1>
+                <p>{{description}}</p>
                 <a href="{{url}}" class="btn btn-danger">
                     {{#str}} vote_continue, block_mission_map {{/str}}
                 </a>
@@ -23,8 +26,8 @@
 
             {{#isOpen}}
                 <h1>{{#str}} voting_choose_path, block_mission_map {{/str}}</h1>
-                <!-- <p>{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p> -->
                 <p>{{description}}</p>
+                <p class="featured">{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
             {{/isOpen}}
         </div>
         {{#completed}}
