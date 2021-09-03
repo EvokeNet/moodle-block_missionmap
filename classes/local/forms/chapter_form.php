@@ -72,13 +72,13 @@ class chapter_form extends \moodleform
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
 
-        $mform->addElement('selectyesno', 'islocked', get_string('campaign_locked_chapter', 'block_mission_map'));
-        $mform->addRule('islocked', get_string('required'), 'required', null, 'client');
-        $mform->setType('islocked', PARAM_TEXT);
+        $mform->addElement('selectyesno', 'has_lock', get_string('campaign_locked_chapter', 'block_mission_map'));
+        $mform->addRule('has_lock', get_string('required'), 'required', null, 'client');
+        $mform->setType('has_lock', PARAM_TEXT);
 
         $mform->addElement('date_time_selector', 'unlocking_date', get_string('campaign_unlock_chapter', 'block_mission_map'));
 
-        $mform->hideIf('unlocking_date', 'islocked', 'eq', false);
+        $mform->hideIf('unlocking_date', 'has_lock', 'eq', false);
 
         if ($name) {
             $mform->setDefault('name', $name);

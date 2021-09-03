@@ -70,13 +70,13 @@ class chapter extends external_api
 
         $data = new \stdClass();
         $data->name = $validateddata->name;
-        $data->islocked = $validateddata->islocked;
+        $data->has_lock = $validateddata->has_lock;
         $data->unlocking_date = $validateddata->unlocking_date;
         $data->blockid = $validateddata->blockid;
         $data->courseid = $validateddata->courseid;
         $data->timemodified = time();
 
-        if (isset($validateddata->id)) {
+        if (!empty($validateddata->id)) {
             $data->id = $validateddata->id;
             $DB->update_record('block_mission_map_chapters', $data);
             $data->updated = true; // we set this to handle on js

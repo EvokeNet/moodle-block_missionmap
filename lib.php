@@ -42,7 +42,7 @@ function block_mission_map_output_fragment_chapter_form($args)
         [
             'id' => $serialiseddata->id,
             'name' => $serialiseddata->name,
-            'islocked' => $serialiseddata->islocked,
+            'has_lock' => $serialiseddata->has_lock,
             'unlocking_date' => $serialiseddata->unlocking_date,
             'blockid' => $serialiseddata->blockid,
             'courseid' => $serialiseddata->courseid
