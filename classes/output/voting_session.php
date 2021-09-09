@@ -45,6 +45,13 @@ class voting_session implements renderable, templatable
     public function export_for_template(renderer_base $output)
     {
         $data = new \stdClass();
+
+        if ($this->completed || $this->tie) {
+            foreach ($this->options as &$option) {
+                $option->isSingleVote = ((int)$option->votes == 1) ? true : false;
+            }
+        }
+
         $data->session = $this->session;
         $data->session->isOpen = $this->isOpen;
         $data->session->user = $this->user;

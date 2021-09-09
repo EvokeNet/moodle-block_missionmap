@@ -87,6 +87,7 @@ if ($voting_form->is_cancelled()) {
     for ($i = 0; $i < sizeof($option_names); $i++) {
         $voting_options[$i]['votingid'] = $voting_session_id;
         $voting_options[$i]['name'] = $option_names[$i];
+        $voting_options[$i]['description'] = isset($option_descriptions[$i]) ? $option_descriptions[$i] : null;
         $voting_options[$i]['type'] = $option_types[$i];
         $voting_options[$i]['url'] = $option_urls[$i];
         $voting_options[$i]['courseid'] = isset($option_courses[$i]) ? $option_courses[$i] : null;

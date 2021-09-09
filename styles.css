@@ -178,6 +178,32 @@
     text-align: center;
 }
 
+.voting_session .description {
+    display: flex;
+    background: rgb(20, 15, 63);
+    font-family: 'Bangers', monospace;
+    font-size: 1.3em;
+    color: rgb(184, 249, 7);
+    border: 1px solid rgba(0, 0, 0, 1);
+    padding: 1em;
+    max-width: 75%;
+    margin: 1.5em auto 1.5em auto;
+    text-align: center;
+}
+
+.voting_session .description .intro {
+    background-color: rgb(255, 255, 255);
+    font-size: 1.8em;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0);
+    padding: 0 0.4em;
+}
+
+.voting_session .description p {
+    margin: 0 auto;
+    max-width: 70%;
+}
+
 .voting_session .banner h1 {
     font-family: 'Bangers', monospace;
     color: rgba(0, 0, 0, 1);
@@ -202,7 +228,6 @@
     justify-content: space-between;
     max-width: 75%;
     margin: 0 auto;
-    padding: 0.5em;
 }
 
 .voting_session button {
@@ -217,8 +242,13 @@
     flex-flow: column wrap;
     align-items: center;
     position: relative;
-    flex: 1 1 auto;
-    margin: 0.5em;
+    flex: 0 1 49%;
+}
+
+.voting_session .options .option .option_description {
+    font-family: 'Bangers', monospace;
+    max-width: 75%;
+    text-align: center;
 }
 
 .voting_session .options .option .dimmed {
@@ -267,12 +297,15 @@
     font-family: 'Bangers', monospace;
     color: rgba(0, 0, 0, 1);
     font-size: 2.5em;
+    line-height: 0.5;
+    margin: 0.5em 0 0 0;
 }
 
 .voting_session .options .option .casted_votes_label {
     font-family: 'Bangers', monospace;
     color: rgba(0, 0, 0, 1);
     font-size: 1.1em;
+    margin-bottom: 0.75em;
 }
 
 /* Smartphones */

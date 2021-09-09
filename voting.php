@@ -228,7 +228,7 @@ else {
             'name' => $option->name,
             'iteration' => ++$iteration
         ]);
-        echo html_writer::div($option_form->display(), 'block_mission_map');
+        echo $option_form->display();
     }
     echo html_writer::end_tag('div');
     echo html_writer::end_tag('div');

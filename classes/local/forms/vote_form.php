@@ -54,6 +54,7 @@ class vote_form extends \moodleform
         $this->userid = $customdata['userid'];
         $this->optionid = $customdata['optionid'];
         $this->name = $customdata['name'];
+        $this->description = isset($customdata['description']) ? $customdata['description'] : null;
         $this->deadline = $customdata['deadline'];
         $this->iteration = $customdata['iteration'];
         parent::__construct(null, $customdata, 'chapter',  '', ['class' => 'option'], true);
@@ -87,6 +88,12 @@ class vote_form extends \moodleform
         $mform->addElement('html', '<div class="title">');
         $mform->addElement('html', $this->name);
         $mform->addElement('html', '</div>');
+
+        if (isset($this->description)) {
+            $mform->addElement('html', '<div class="description">');
+            $mform->addElement('html', $this->description);
+            $mform->addElement('html', '</div>');
+        }
 
         $mform->addElement('html', "<div class='vote_image image_{$this->iteration}'></div>");
 

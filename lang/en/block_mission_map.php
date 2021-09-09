@@ -94,8 +94,10 @@ $string['voting_totalizing'] = 'We are waiting for your group\'s votes';
 $string['voting_tie'] = 'It was a tie!';
 $string['voting_tie_info'] = 'Here comes the tie breaker';
 $string['voting_completed'] = 'Your path is chosen!';
+$string['vote_intro'] = 'Intro';
 $string['vote_save'] = 'Vote';
 $string['vote_continue'] = 'Proceed to chosen mission';
+$string['single_vote'] = 'vote';
 $string['votes'] = 'votes';
 
 // FORMS

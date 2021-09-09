@@ -6,19 +6,16 @@
         <div class="banner">
             {{#totalizing}}
                 <h1>{{#str}} voting_totalizing, block_mission_map {{/str}}</h1>
-                <p>{{description}}</p>
                 <p class="featured">{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
             {{/totalizing}}
 
             {{#tie}}
                 <h1>{{#str}} voting_tie, block_mission_map {{/str}}</h1>
-                <p>{{description}}</p>
                 <p class="featured">{{#str}} voting_tie_info, block_mission_map {{/str}}</p>
             {{/tie}}
 
             {{#completed}}
                 <h1>{{#str}} voting_completed, block_mission_map, {{winner_name}} {{/str}}</h1>
-                <p>{{description}}</p>
                 <a href="{{url}}" class="btn btn-danger">
                     {{#str}} vote_continue, block_mission_map {{/str}}
                 </a>
@@ -26,10 +23,19 @@
 
             {{#isOpen}}
                 <h1>{{#str}} voting_choose_path, block_mission_map {{/str}}</h1>
-                <p>{{description}}</p>
                 <p class="featured">{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
             {{/isOpen}}
         </div>
+
+        {{#description}}
+            <div class="description">
+                <div class="intro">
+                    {{#str}} vote_intro, block_mission_map {{/str}}
+                </div>
+                <p>{{description}}</p>
+            </div>
+        {{/description}}
+
         {{#completed}}
             <div class="options">
                 {{#options}}
@@ -39,11 +45,19 @@
                         {{/isWinner}}
                         <div class="title">{{name}}</div>
                         <div class="vote_image image_{{index}}"></div>
+                        <div class="option_description">
+                            {{description}}
+                        </div>
                         <div class="casted_votes">
                             {{votes}}
                         </div>
                         <div class="casted_votes_label">
-                            {{#str}} votes, block_mission_map {{/str}}
+                            {{#isSingleVote}}
+                                {{#str}} single_vote, block_mission_map {{/str}}
+                            {{/isSingleVote}}
+                            {{^isSingleVote}}
+                                {{#str}} votes, block_mission_map {{/str}}
+                            {{/isSingleVote}}
                         </div>
                     </div>
                 {{/options}}
@@ -63,7 +77,12 @@
                         {{votes}}
                     </div>
                     <div class="casted_votes_label">
-                        {{#str}} votes, block_mission_map {{/str}}
+                        {{#isSingleVote}}
+                            {{#str}} single_vote, block_mission_map {{/str}}
+                        {{/isSingleVote}}
+                        {{^isSingleVote}}
+                            {{#str}} votes, block_mission_map {{/str}}
+                        {{/isSingleVote}}
                     </div>
                 </div>
             {{/options}}
