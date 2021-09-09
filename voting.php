@@ -8,6 +8,10 @@ global $DB, $OUTPUT, $PAGE;
 $chapterid = required_param('chapterid', PARAM_INT);
 $levelid = required_param('levelid', PARAM_INT);
 
+$returnto = optional_param('returnto', null, PARAM_TEXT);
+$returnchapterid = optional_param('returnchapterid', 0, PARAM_INT);
+$returnlevelid = optional_param('returnlevelid', 0, PARAM_INT);
+
 $chapter = $DB->get_record('block_mission_map_chapters', ['id' => $chapterid]);
 $course = $DB->get_record('course', ['id' => $chapter->courseid]);
 
@@ -66,7 +70,12 @@ if (!empty($voting_session)) {
 
 echo $OUTPUT->header();
 
-$button = new \block_mission_map\output\button(new moodle_url('/course/view.php', ['id' => $course->id]));
+// Adds correct button URL (to level or chapter)
+if ($returnto == "level") {
+    $button = new \block_mission_map\output\button(new moodle_url('/blocks/mission_map/levels.php', ['chapterid' => $returnchapterid, 'levelid' => $returnlevelid]));
+} else {
+    $button = new \block_mission_map\output\button(new moodle_url('/course/view.php', ['id' => $course->id]));
+}
 $renderer = $PAGE->get_renderer('block_mission_map');
 echo $renderer->render($button);
 

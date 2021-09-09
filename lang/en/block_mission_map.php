@@ -52,6 +52,7 @@ $string['voting_select_course'] = 'Select a course to fetch sections';
 $string['voting_select_section'] = 'Select a section to redirect';
 
 $string['voting_option_name'] = 'Option name';
+$string['voting_option_description'] = 'Option description';
 $string['voting_option_type'] = 'Option type';
 $string['voting_option_url'] = 'Redirects to URL';
 $string['voting_option_course'] = 'Course to fetch sections';

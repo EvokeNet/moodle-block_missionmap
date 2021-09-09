@@ -171,6 +171,7 @@ class voting_form extends \moodleform
         $repeatarray = array();
         $repeatarray[] = $mform->createElement('header', 'option_title', get_string('voting_option_title', 'block_mission_map'));
         $repeatarray[] = $mform->createElement('text', 'option_name', get_string('voting_option_name', 'block_mission_map'));
+        $repeatarray[] = $mform->createElement('textarea', 'option_description', get_string('voting_option_description', 'block_mission_map'));
         $repeatarray[] = $mform->createElement('select', 'option_type', get_string('voting_option_type', 'block_mission_map'), $option_types);
         $repeatarray[] = $mform->createElement('text', 'option_url', get_string('voting_option_url', 'block_mission_map'));
         $repeatarray[] = $mform->createElement('select', 'option_course', get_string('voting_option_course', 'block_mission_map'), $option_courses, ['data-element' => 'voting_course_select']);
@@ -179,6 +180,7 @@ class voting_form extends \moodleform
         $repeateloptions = array();
         $repeateloptions['option_name']['type'] = PARAM_TEXT;
         $repeateloptions['option_name']['rule'] = 'required';
+        $repeateloptions['option_description']['type'] = PARAM_TEXT;
         $repeateloptions['option_url']['type'] = PARAM_RAW;
         $repeateloptions['option_url']['hideif'] = array('option_type', 'neq', BLOCK_MISSIONMAP_OPTION_URL);
         $repeateloptions['option_course']['hideif'] = array('option_type', 'neq', BLOCK_MISSIONMAP_OPTION_SECTION);

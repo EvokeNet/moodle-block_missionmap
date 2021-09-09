@@ -78,6 +78,7 @@ if ($voting_form->is_cancelled()) {
     }
 
     $option_names = $data->option_name;
+    $option_descriptions = $data->option_description;
     $option_types = $data->option_type;
     $option_urls = isset($data->option_url) ? $data->option_url : null;
     $option_courses = isset($data->option_course) ? $data->option_course : null;

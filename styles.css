@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
 .btn.back_to_map,
 .block_mission_map .btn {
@@ -180,8 +181,9 @@
 
 .voting_session .description {
     display: flex;
+    align-items: flex-start;
     background: rgb(20, 15, 63);
-    font-family: 'Bangers', monospace;
+    font-family: 'Permanent Marker', sans-serif;
     font-size: 1.3em;
     color: rgb(184, 249, 7);
     border: 1px solid rgba(0, 0, 0, 1);
@@ -192,6 +194,7 @@
 }
 
 .voting_session .description .intro {
+    font-family: 'Bangers', monospace;
     background-color: rgb(255, 255, 255);
     font-size: 1.8em;
     color: rgb(0, 0, 0);
@@ -246,7 +249,8 @@
 }
 
 .voting_session .options .option .option_description {
-    font-family: 'Bangers', monospace;
+    font-family: 'Permanent Marker', sans-serif;
+    font-size: 1.25em;
     max-width: 75%;
     text-align: center;
 }

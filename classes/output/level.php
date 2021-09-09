@@ -48,17 +48,17 @@ class level implements renderable, templatable
                     break;
                 case TYPE_VOTING:
                     if (has_capability('block/mission_map:managechapters', $context)) {
-                        $sublevel->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
-                        $sublevel->editurl = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
+                        $sublevel->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}&returnto=level&returnchapterid={$sublevel->chapterid}&returnlevelid={$this->level->id}";
+                        $sublevel->editurl = new moodle_url('/blocks/mission_map/edit_voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}&returnto=level&returnchapterid={$sublevel->chapterid}&returnlevelid={$this->level->id}";
                     } else {
-                        $sublevel->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}";
+                        $sublevel->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$sublevel->chapterid}&levelid={$sublevel->id}&returnto=level&returnchapterid={$sublevel->chapterid}&returnlevelid={$this->level->id}";
                     }
                     break;
                 case TYPE_SECTION:
                     $section = $DB->get_record('course_sections', ['id' => $sublevel->sectionid]);
                     $sublevel->isLocked = (!$section->visible) ? true : false;
-                    $sublevel->url = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$section->section}&returnto=level&chapterid={$sublevel->chapterid}&levelid={$this->level->id}";
-                    $sublevel->editurl = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$section->section}&returnto=level&chapterid={$sublevel->chapterid}&levelid={$this->level->id}";
+                    $sublevel->url = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$section->section}&returnto=level&returnchapterid={$sublevel->chapterid}&returnlevelid={$this->level->id}";
+                    $sublevel->editurl = new moodle_url('/course/view.php') . "?id={$sublevel->courseid}&section={$section->section}&returnto=level&returnchapterid={$sublevel->chapterid}&returnlevelid={$this->level->id}";
                     break;
                 default:
                     break;
