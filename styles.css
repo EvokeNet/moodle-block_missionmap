@@ -313,7 +313,7 @@
 }
 
 /* Smartphones */
-@media only screen and (min-width: 320px) and (max-width: 480px) {
+@media only screen and (min-width: 320px) and (max-width: 600px) {
     #page,
     #page.container-fluid,
     #page.container-sm,
@@ -332,12 +332,43 @@
         max-width: 100%;
     }
 
+    .block_mission_map .map.level {
+        max-width: 100%;
+    }
+
+    .block_mission_map .map.level .chapter {
+        max-width: 100%;
+    }
+
     .block_mission_map .map .chapter {
         padding: 1em 0;
+        min-height: 400px;
+    }
+
+    .block_mission_map .map .chapter:nth-child(2n) {
+        background-image: url([[pix:block_mission_map|map_main_1]]);
+    }
+
+    .block_mission_map .map .chapter:nth-child(2n + 1) {
+        background-image: url([[pix:block_mission_map|map_main_2]]);
+    }
+
+    .block_mission_map .map .chapter .chapter_header {
+        left: 0;
+        z-index: 990;
+        display: flex;
+        flex-direction: column;
+        flex-flow: column wrap;
+        width: auto;
+    }
+
+    .block_mission_map .map .chapter img {
+        display: none;
     }
 
     .block_mission_map .map .chapter h3 {
         margin-left: 0.5em;
+        width: auto;
     }
 
     .block_mission_map .map .chapter .mission {
@@ -357,6 +388,21 @@
         margin: 0 auto;
     }
 
+    .voting_session .description {
+        flex-flow: column wrap;
+        align-items: initial;
+        max-width: 100%;
+        margin: 1.5em auto 0 auto;
+    }
+
+    .voting_session .description p {
+        max-width: 100%;
+    }
+
+    .voting_session .description .intro {
+        margin-bottom: 0.5em;
+    }
+
     .voting_session .options {
         display: block;
         height: auto;
@@ -369,10 +415,18 @@
     .voting_session .options .option {
         margin: 1em 0 1em 0;
     }
+
+    .voting_session .options .option .vote_image {
+        margin-top: 1em;
+    }
+
+    .voting_session .options .option input.vote_btn {
+        margin-left: 2.2em;
+    }
 }
 
 /* Tablets and laptops */
-@media only screen and (min-width: 768px) and (max-width: 992px) {
+@media only screen and (min-width: 601px) and (max-width: 992px) {
     .block_mission_map .map {
         display: block;
         height: auto;
