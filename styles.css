@@ -313,7 +313,7 @@
 }
 
 /* Smartphones */
-@media only screen and (min-width: 320px) and (max-width: 600px) {
+@media only screen and (min-width: 320px) and (max-width: 732px) {
     #page,
     #page.container-fluid,
     #page.container-sm,
@@ -426,7 +426,7 @@
 }
 
 /* Tablets and laptops */
-@media only screen and (min-width: 601px) and (max-width: 992px) {
+@media only screen and (min-width: 733px) and (max-width: 992px) {
     .block_mission_map .map {
         display: block;
         height: auto;
