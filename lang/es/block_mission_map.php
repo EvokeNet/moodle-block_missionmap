@@ -4,24 +4,25 @@ $string['mission_map'] = 'Mapa de Misiones';
 $string['mission_map:addinstance'] = 'Añadir un nuevo bloque del Mapa de Misiones';
 $string['mission_map:myaddinstance'] = 'Añadir un nuevo bloque del Mapa de Misiones a la página de Mi Moodle';
 
-$string['block_title'] = ''Your missions'; ''Tus misiones';
+$string['block_title'] = 'Tus misiones';
 
 // GENERAL
 $string['back_map'] = 'Volver al mapa';
 
 // CHAPTERS 
-$string['add_page'] = 'Editar capítulos'; 
+$string['add_page'] = 'Editar capítulos';
 $string['edit_chapters'] = 'Edición de capítulos';
 $string['view_chapters'] = 'Capítulos de la Campaña';
 $string['chapter_settings'] = 'Configuración de los capítulos';
 $string['chapter_view'] = 'Capítulo: {$a}';
-$string['chapter_locked'] = 'Locked'; 'Bloqueado';
+$string['chapter_locked'] = 'Locked';
+'Bloqueado';
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['campaign_add_chapter'] = 'Nombre del capítulo';
 $string['campaign_locked_chapter'] = 'Bloquear capítulo en función de la fecha?';
 $string['campaign_unlock_chapter'] = 'Fecha para desbloquear el capítulo';
-$string['campaign_add_chapter_error'] = 'El nombre del capítulo no puede dejarse en blanco'; 
+$string['campaign_add_chapter_error'] = 'El nombre del capítulo no puede dejarse en blanco';
 $string['create_chapter_success'] = '¡Capítulo creado!';
 $string['campaign_add_level_name'] = 'Nombre del nivel';
 $string['campaign_add_level_url'] = 'URL del nivel';
@@ -35,14 +36,14 @@ $string['view_level'] = 'Configuración de nivel';
 $string['level_type'] = 'Tipo de redirección de nivel'; // not sure if is a proper translation
 $string['level_option_url'] = 'Redirige a la URL'; // just in case, @Jorge Cifuentes, review these please, not sure about the “redirige” or just “dirige” o “direcciona”…
 $string['level_option_section'] =  'Redirige a la sección curso';
-$string['level_option_voting'] = 'Redirige a la sesión de votación'; 
+$string['level_option_voting'] = 'Redirige a la sesión de votación';
 $string['level_option_sublevel'] = 'Redirects to a Sublevel';
 $string['level_select_course'] =  'Choose the course';
 $string['level_course'] = 'Course';
 $string['level_section'] = 'Section';
 
 // VOTING //VOTACIÓN
-$string['view_voting'] = 'Sesión de votación'; 
+$string['view_voting'] = 'Sesión de votación';
 $string['edit_voting'] = 'Editar votación';
 $string['mission_map_voting_settings'] =  'Configurar la votacion';
 
