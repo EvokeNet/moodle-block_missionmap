@@ -64,7 +64,7 @@ $string['voting_option_title'] = 'Opción de votación {no}';
 $string['voting_description'] = 'Descripción de esta sesión de votación: propósito, método, resultados, etc.';
 
 $string['voting_type'] = 'Modelo de votación';
-$string['voting_type_help'] =  '<b>Todos los participantes</b>: Todo miembro alistados en la campaña tiene la opción de participar en la votación.<br/><br/><b>Participantes del grupos</b>: Los votos serán contados dentro de cada equipo en esta campaña.'; // consistency between group-team respect the language in the rest of the platform…
+$string['voting_type_help'] =  '<b>Todos los participantes</b>: Todo miembro alistados en la campaña tiene la opción de participar en la votación.<br/><br/><b>Participantes del grupos</b>: Los votos serán contados dentro de cada equipo en esta campaña.';
 
 $string['voting_type_all'] = 'Todos los participantes';
 $string['voting_type_groups'] = 'Participantes del equipo'; 
