@@ -23,7 +23,9 @@
 
             {{#isOpen}}
                 <h1>{{#str}} voting_choose_path, block_mission_map {{/str}}</h1>
-                <p class="featured">{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
+                {{#voting_deadline}}
+                    <p class="featured">{{#userdate}} {{voting_deadline}}, %A, %d %B %Y, %I:%M %p {{/userdate}}</p>
+                {{/voting_deadline}}
             {{/isOpen}}
         </div>
 

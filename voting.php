@@ -232,6 +232,7 @@ else {
             'levelid' => $levelid,
             'votingid' => $voting_session->id,
             'deadline' => $voting_session->voting_deadline,
+            'description' => $voting_session->description,
             'userid' => $USER->id,
             'optionid' => $option->id,
             'name' => $option->name,

@@ -89,13 +89,13 @@ class vote_form extends \moodleform
         $mform->addElement('html', $this->name);
         $mform->addElement('html', '</div>');
 
+        $mform->addElement('html', "<div class='vote_image image_{$this->iteration}'></div>");
+
         if (isset($this->description)) {
-            $mform->addElement('html', '<div class="description">');
+            $mform->addElement('html', '<div class="option_description">');
             $mform->addElement('html', $this->description);
             $mform->addElement('html', '</div>');
         }
-
-        $mform->addElement('html', "<div class='vote_image image_{$this->iteration}'></div>");
 
         $mform->addElement('submit', 'votesubmit', get_string('vote_save', 'block_mission_map'), ['class' => 'vote_btn']);
     }

@@ -52,6 +52,10 @@ class voting_session implements renderable, templatable
             }
         }
 
+        if ($this->session->voting_deadline < time()) {
+            $this->session->voting_deadline = false;
+        }
+
         $data->session = $this->session;
         $data->session->isOpen = $this->isOpen;
         $data->session->user = $this->user;

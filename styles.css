@@ -290,6 +290,7 @@
 }
 
 .voting_session .options .option input.vote_btn {
+    margin-top: 1.2em;
     margin-left: -2.5em;
     background: rgb(255, 5, 64);
     padding: 0.5em 2em;
