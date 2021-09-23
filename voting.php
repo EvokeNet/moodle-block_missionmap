@@ -108,12 +108,17 @@ else if (!empty($user_votes)) {
 
     // Based on the chosen algorithm, winner is defined in different ways
     switch ($voting_session->mechanic) {
-        case BLOCK_MISSIONMAP_VOTINGAL_MAJORITY:
+        case BLOCK_MISSIONMAP_VOTINGAL_MAJORITY || BLOCK_MISSIONMAP_VOTINGAL_THRESHOLD:
             // Simple majority means 50% + 1 defines a winner
+            // Voting threshold means N% must cast a vote, simple majority wins
+
+            // % of group to be considered for majority
+            $threshold = isset($voting_session->threshold) ? $voting_session->threshold / 100 : 1;
+            $majority = ceil($threshold * $groupsize);
 
             // Lets display "waiting" information if there are still pending votes to be cast and
             // the deadline for voting didn't end yet.
-            if ($votesize < $groupsize && $voting_session->voting_deadline < time()) {
+            if ($votesize < $majority && $voting_session->voting_deadline < time()) {
                 $voting_header = new \block_mission_map\output\voting_session(
                     $isOpen = false,
                     $USER,
@@ -198,9 +203,6 @@ else if (!empty($user_votes)) {
                 echo html_writer::div($renderer->render($voting_header), 'block_mission_map');
             }
 
-            break;
-        case BLOCK_MISSIONMAP_VOTINGAL_THRESHOLD:
-            // Voting threshold means N% must cast a vote, simple majority wins
             break;
         default:
             // No algorithm defined? Something went VERY wrong
