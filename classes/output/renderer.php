@@ -78,6 +78,14 @@ class renderer extends plugin_renderer_base
         );
     }
 
+    public function render_voting(voting $voting)
+    {
+        return $this->render_from_template(
+            'block_mission_map/voting',
+            $voting->export_for_template($this)
+        );
+    }
+
     public function render_voting_session(voting_session $voting_session)
     {
         return $this->render_from_template(

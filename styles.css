@@ -283,15 +283,18 @@
 
 .voting_session .options .option div.vote_image.image_1 {
     background-image: url([[pix:block_mission_map|votinga]]);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .voting_session .options .option div.vote_image.image_2 {
     background-image: url([[pix:block_mission_map|votingb]]);
 }
 
-.voting_session .options .option input.vote_btn {
-    margin-top: 1.2em;
-    margin-left: -2.5em;
+.voting_session .options .option .vote_btn {
+    margin: 2em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1);
     background: rgb(255, 5, 64);
     padding: 0.5em 2em;
     border: none;

@@ -1,0 +1,35 @@
+{{!
+    @template block_mission_map/voting_session
+}}
+{{#session}}
+    <div class="voting_session">
+        <div class="banner">
+            <h1>{{#str}} voting_choose_path, block_mission_map {{/str}}</h1>
+        </div>
+
+        {{#description}}
+            <div class="description">
+                <div class="intro">
+                    {{#str}} vote_intro, block_mission_map {{/str}}
+                </div>
+                <p>{{description}}</p>
+            </div>
+        {{/description}}
+
+        <div class="options">
+            {{#options}}
+                <div class="option">
+                    <div class="title">{{name}}</div>
+                    <div class="vote_image image_{{iteration}}"></div>
+                    <div class="option_description">
+                        {{description}}
+                    </div>
+                    <a href="{{url}}" class="vote_btn">
+                        Select
+                    </a>
+                </div>
+            {{/options}}
+        </div>
+
+    </div>
+{{/session}}
