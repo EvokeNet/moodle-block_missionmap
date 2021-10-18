@@ -20,12 +20,12 @@
             {{#options}}
                 <div class="option">
                     <div class="title">{{name}}</div>
-                    <div class="vote_image image_{{iteration}}"></div>
+                    <div class="vote_image image_{{index}}"></div>
                     <div class="option_description">
                         {{description}}
                     </div>
                     <a href="{{url}}" class="vote_btn">
-                        Select
+                        {{#str}} vote_save, block_mission_map {{/str}}
                     </a>
                 </div>
             {{/options}}

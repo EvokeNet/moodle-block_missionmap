@@ -39,6 +39,19 @@ if (!empty($coursenode)) {
 $voting = $DB->get_record('block_mission_map_votings', ['chapterid' => $chapterid, 'levelid' => $levelid]);
 $voting->options = array_values($DB->get_records('block_mission_map_options', ['votingid' => $voting->id]));
 
+// Let's prepare the voting_options array with needed information
+$iterator = 0;
+foreach ($voting->options as &$option) {
+    // Let's prepare the URL for redirection
+    // If it's a course section, let's build the URL
+    if ($option->type == BLOCK_MISSIONMAP_OPTION_SECTION) {
+        $option->url = new moodle_url('/course/view.php') . "?id={$option->courseid}&section={$option->sectionid}";
+    }
+
+    // Purely cosmetic for interchangeable images
+    $option->index = ++$iterator;
+}
+
 echo $OUTPUT->header();
 
 // Adds correct button URL (to level or chapter)

@@ -19,10 +19,6 @@ class voting implements renderable, templatable
     {
         $data = new \stdClass();
 
-        for ($i = 0; $i < sizeof($this->session->options); $i++) {
-            $this->session->options[$i]->iteration = $i + 1;
-        }
-
         $data->session = $this->session;
 
         return $data;
