@@ -33,7 +33,7 @@ $string['campaign_add_level_hasvoting'] = 'Tiene votación?';
 
 // LEVEL //NIVEL
 $string['view_level'] = 'Configuración de nivel';
-$string['level_type'] = 'Tipo de redirección de nivel'; 
+$string['level_type'] = 'Tipo de redirección de nivel';
 $string['level_option_url'] = 'Redirige a la URL';
 $string['level_option_section'] =  'Redirige a la sección curso';
 $string['level_option_voting'] = 'Redirige a la sesión de votación';
@@ -67,10 +67,10 @@ $string['voting_type'] = 'Modelo de votación';
 $string['voting_type_help'] =  '<b>Todos los participantes</b>: Todo miembro alistados en la campaña tiene la opción de participar en la votación.<br/><br/><b>Participantes del grupos</b>: Los votos serán contados dentro de cada equipo en esta campaña.';
 
 $string['voting_type_all'] = 'Todos los participantes';
-$string['voting_type_groups'] = 'Participantes del equipo'; 
+$string['voting_type_groups'] = 'Participantes del equipo';
 
 $string['voting_algorithm'] = 'Mecánica de la votación';
-$string['voting_algorithm_help'] = '<b>Mayoría simple</b>: Todos los miembros del equipo deben votar. La opción ganadora se decide por mayoría simple. (50% + 1).<br/><br/> <b>Votación limidata por tiempo</b>: No todos los miembros del equipo necesitan votar. Los votos válidos serán contados si se han emitido antes del límite de tiempo. La opción con la mayoría de votos gana.<br/><br/><b>Umbral de votación</b>: El % de miembros del equipo seleccionado deberán votar. La opción con mayoría simple (50% of N% + 1) gana.<br/><br/><b>Selección aleatoria</b>: La opción ganadora será elegida inmediatamente de manera aleatoria (50% chance of selection).'; 
+$string['voting_algorithm_help'] = '<b>Mayoría simple</b>: Todos los miembros del equipo deben votar. La opción ganadora se decide por mayoría simple. (50% + 1).<br/><br/> <b>Votación limidata por tiempo</b>: No todos los miembros del equipo necesitan votar. Los votos válidos serán contados si se han emitido antes del límite de tiempo. La opción con la mayoría de votos gana.<br/><br/><b>Umbral de votación</b>: El % de miembros del equipo seleccionado deberán votar. La opción con mayoría simple (50% of N% + 1) gana.<br/><br/><b>Selección aleatoria</b>: La opción ganadora será elegida inmediatamente de manera aleatoria (50% chance of selection).';
 $string['voting_al_simplemajority'] = 'Mayoría simple';
 $string['voting_al_timebound'] = 'Votación limidata por tiempo';
 $string['voting_al_threshold'] = 'Umbral de votación';
@@ -82,21 +82,21 @@ $string['voting_tiebreak'] = 'Estrategia de desempate';
 $string['voting_tiebreak_help'] = '<b>Segunda ronda</b>: Cada miembro del equipo deberá votar por segunda vez antes de un límite de tiempo establecido. La opción ganadora se decide por mayoría simple (50% + 1) o, si no hay votos emitidos, seleccionada de manera aleatoria (50% chance of selection).<br/><br/><b>Votación Minerva</b>: Un “emisor de voto Minerva" seleccionado debería emitir un voto de que decida el desempate antes de un límite de tiempo establecido. Si no hay voto emitido, la opción es elegida de manera aleatoria (50% chance of selection).<br/><br/><b>Selección aleatoria</b>: La opción ganadora será seleccionada inmediatamente de manera aleatoria (50% chance of selection).';
 
 $string['voting_tiebreak_secondround'] = 'Segunda ronda';
-$string['voting_tiebreak_minerva'] = 'Votación Minerva'; 
+$string['voting_tiebreak_minerva'] = 'Votación Minerva';
 $string['voting_tiebreak_random'] = 'Selección aleatoria';
 
-$string['voting_minerva'] = 'Emisor de voto Minerva elegido'; 
+$string['voting_minerva'] = 'Emisor de voto Minerva elegido';
 $string['voting_tiebreak_deadline'] = 'Límite de tiempo para el desempate';
 
 $string['voting_save'] = 'Guardar la sesión de votación';
 
 $string['voting_choose_path'] = 'Elige tu camino';
 
-$string['voting_totalizing'] = 'Esperando los votos del equipo'; 
+$string['voting_totalizing'] = 'Esperando los votos del equipo';
 $string['voting_tie'] = 'Es un empate!';
 $string['voting_tie_info'] = 'Aquí biene el desempate';
 $string['voting_completed'] = 'Tu camino ha sido elegido!';
-$string['vote_save'] = 'Vota';
+$string['vote_save'] = 'Elige';
 $string['vote_continue'] = 'Continua a la mission elegida';
 $string['votes'] = 'votos';
 
@@ -109,7 +109,7 @@ $string['form_sections_blank'] = 'Misiones del capítulo';
 $string['form_course_blank'] = 'Seleccionar campaña';
 $string['form_add_chapter'] = 'Añadir 1 capítulo';
 $string['form_supermissions'] = 'Nombre de la supermisión o sesión';
-$string['form_missions'] = 'Número de misiones en el capítulo'; 
+$string['form_missions'] = 'Número de misiones en el capítulo';
 $string['mission_no'] = 'misión-{no}';
 
 $string['create_level_success'] = 'Nivel creado de con éxito!';
