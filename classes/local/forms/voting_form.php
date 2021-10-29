@@ -189,7 +189,7 @@ class voting_form extends \moodleform
 
         $mform->setType('option', PARAM_CLEANHTML);
 
-        $repeatno = 2;
+        $repeatno = 1;
 
         $this->repeat_elements($repeatarray, $repeatno, $repeateloptions, 'option_repeats', 'option_add_fields', 1, null, false);
 
