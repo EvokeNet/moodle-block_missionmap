@@ -33,6 +33,7 @@
 
 .block_mission_map .map.level .chapter {
     max-width: 80%;
+    min-height: 500px;
 }
 
 .block_mission_map .map .chapter {
@@ -40,6 +41,7 @@
     flex: 1 0 34%;
     margin: 0.3em;
     border: 5px solid rgba(0, 0, 0, 1);
+    min-height: 500px;
 }
 
 .block_mission_map .map .chapter img {
