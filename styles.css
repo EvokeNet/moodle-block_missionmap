@@ -32,7 +32,7 @@
 }
 
 .block_mission_map .map.level .chapter {
-    max-width: 80%;
+    max-width: 100%;
 }
 
 .block_mission_map .map .chapter {
@@ -77,7 +77,7 @@
     position: absolute;
     top: 1em;
     left: 1em;
-    width: 100%;
+    width: auto;
     z-index: 990;
 }
 
@@ -444,7 +444,7 @@
 /* Hi-res laptopts and desktops */
 @media only screen and (min-width: 1281px) {
     .block_mission_map .map {
-        width: 80%;
-        max-width: 80%;
+        width: 100%;
+        max-width: 100%;
     }
 }
