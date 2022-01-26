@@ -27,6 +27,7 @@ namespace block_mission_map\output;
 defined('MOODLE_INTERNAL') || die;
 
 use plugin_renderer_base;
+use renderable;
 
 /**
  * myprofile block renderer
@@ -91,6 +92,13 @@ class renderer extends plugin_renderer_base
         return $this->render_from_template(
             'block_mission_map/voting_session',
             $voting_session->export_for_template($this)
+        );
+    }
+
+    public function render_blockintohq(renderable $page) {
+        return $this->render_from_template(
+            'block_mission_map/blockintohq',
+            $page->export_for_template($this)
         );
     }
 }

@@ -1,0 +1,14 @@
+{{!
+    @template block_mission_map/blockintohq
+}}
+<h2>{{#str}}pluginname, block_mission_map{{/str}}</h2>
+
+<div>
+    {{{blockcontent}}}
+</div>
+
+{{#js}}
+    require(['block_mission_map/colorizer'], function(Colorizer) {
+        Colorizer.init('.block_mission_map');
+    });
+{{/js}}

@@ -112,7 +112,7 @@ class block_mission_map extends block_base
 
     public function instance_allow_multiple()
     {
-        return true;
+        return false;
     }
 
     public function instance_delete()
