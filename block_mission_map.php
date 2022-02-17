@@ -58,14 +58,14 @@ class block_mission_map extends block_base
         }
 
         // If chapters, render mission map
-        else {
-            $map = new \block_mission_map\output\map($chapters);
-            $renderer = $this->page->get_renderer('block_mission_map');
-            $this->content = new stdClass;
-            $this->content->text = $renderer->render($map);
-            $this->content->footer = '';
-        }
-        $this->page->requires->js_call_amd('block_mission_map/colorizer', 'init', ['.block_mission_map']);
+        // else {
+        //     $map = new \block_mission_map\output\map($chapters);
+        //     $renderer = $this->page->get_renderer('block_mission_map');
+        //     $this->content = new stdClass;
+        //     $this->content->text = $renderer->render($map);
+        //     $this->content->footer = '';
+        // }
+        // $this->page->requires->js_call_amd('block_mission_map/colorizer', 'init', ['.block_mission_map']);
 
         return $this->content;
     }

@@ -16,6 +16,7 @@ $string['view_chapters'] = 'Campaign Chapters';
 $string['chapter_settings'] = 'Chapters configuration';
 $string['chapter_view'] = 'Chapter: {$a}';
 $string['chapter_locked'] = 'Locked';
+$string['chapter_helper'] = 'Click on the dots to access the mission';
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['campaign_add_chapter'] = 'Chapter name';
