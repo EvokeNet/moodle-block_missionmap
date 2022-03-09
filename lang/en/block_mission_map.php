@@ -8,6 +8,7 @@ $string['block_title'] = 'Your missions';
 
 // GENERAL
 $string['back_map'] = 'Back to map';
+$string['edit_map'] = 'Edit map';
 
 // CHAPTERS
 $string['add_page'] = 'Configure chapters';
@@ -25,6 +26,7 @@ $string['campaign_unlock_chapter'] = 'Date to unlock chapter';
 $string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
 $string['create_chapter_success'] = 'Chapter created!';
 $string['campaign_add_level_name'] = 'Level name';
+$string['campaign_add_level_description'] = 'Level description';
 $string['campaign_add_level_url'] = 'Level URL';
 $string['campaign_add_level_error_name'] = 'Level name can\'t be null';
 $string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
@@ -61,7 +63,7 @@ $string['voting_option_section'] = 'Redirects to this course section';
 $string['voting_option_sublevel'] = 'Redirects to sublevel';
 $string['voting_option_title'] = 'Voting option {no}';
 
-$string['voting_description'] = 'Description of this voting session: purpose, method, outcomes etc.';
+$string['voting_description'] = 'Title of voting';
 
 $string['voting_type'] = 'Model of voting';
 $string['voting_type_help'] = '<b>All participants</b>: Every enrolled member of the course has a chance to cast a vote.<br/><br/><b>Group participants</b>: Votes will be computed inside every group in the course.';

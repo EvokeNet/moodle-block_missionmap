@@ -1,6 +1,7 @@
 <?php
 
 require_once('../../config.php');
+require_once($CFG->libdir . '/filelib.php');
 
 global $DB, $OUTPUT, $PAGE;
 
@@ -36,6 +37,8 @@ if (!empty($coursenode)) {
 $voting_session = $DB->get_record('block_mission_map_votings', ['chapterid' => $chapterid, 'levelid' => $levelid]);
 
 if (!empty($voting_session)) {
+    $voting_options = $DB->get_records('block_mission_map_options', ['votingid' => $voting_session->id]);
+    
     $toform = array();
     $toform['id'] = $voting_session->id;
     $toform['chapterid'] = $voting_session->chapterid;
@@ -47,6 +50,19 @@ if (!empty($voting_session)) {
     $toform['tiebreak'] = $voting_session->tiebreaker;
     $toform['tiebreaker_deadline'] = $voting_session->tiebreaker_deadline;
     $toform['description'] = $voting_session->description;
+
+    $i = 0;
+    foreach ($voting_options as $option) {
+        $toform['options'][$i]['id'] = $option->id;
+        $toform['options'][$i]['name'] = $option->name;
+        $toform['options'][$i]['description'] = $option->description;
+        $toform['options'][$i]['type'] = $option->type;
+        $toform['options'][$i]['url'] = $option->url;
+        $toform['options'][$i]['course'] = $option->courseid;
+        $toform['options'][$i]['section'] = $option->sectionid;
+        $i++;
+    }
+
     $voting_form = new \block_mission_map\local\forms\voting_form($toform);
 } else {
     $voting_form = new \block_mission_map\local\forms\voting_form(['chapterid' => $chapterid, 'levelid' => $levelid]);
@@ -57,6 +73,7 @@ if ($voting_form->is_cancelled()) {
     redirect($courseurl);
 } else if ($data = $voting_form->get_data()) {
     $voting_session = new stdClass;
+    $voting_session->id = isset($data->id) ? $data->id : null;
     $voting_session->chapterid = $data->chapterid;
     $voting_session->levelid = $data->levelid;
     $voting_session->description = $data->description;
@@ -70,35 +87,44 @@ if ($voting_form->is_cancelled()) {
     $voting_session->timemodified = time();
 
     if (!empty($voting_session->id)) {
-        $voting_session->id = $data->id;
         $DB->update_record('block_mission_map_votings', $voting_session);
+        $voting_session_id = $voting_session->id;
     } else {
         $voting_session->timecreated = time();
         $voting_session_id = $DB->insert_record('block_mission_map_votings', $voting_session);
     }
 
+    $option_ids = isset($data->option_id) ? $data->option_id : null;
     $option_names = $data->option_name;
     $option_descriptions = $data->option_description;
     $option_types = $data->option_type;
     $option_urls = isset($data->option_url) ? $data->option_url : null;
     $option_courses = isset($data->option_course) ? $data->option_course : null;
     $option_sections = isset($data->option_section) ? $data->option_section : null;
+    
+    // var_dump($option_ids);
+    // die();
 
     $voting_options = array();
-    for ($i = 0; $i < sizeof($option_names); $i++) {
+    for ($i = 0; $i < sizeof($option_ids); $i++) {
+        $voting_options[$i]['id'] = $option_ids[$i];
         $voting_options[$i]['votingid'] = $voting_session_id;
         $voting_options[$i]['name'] = $option_names[$i];
-        $voting_options[$i]['description'] = isset($option_descriptions[$i]) ? $option_descriptions[$i] : null;
+        $voting_options[$i]['description'] = isset($option_descriptions[$i]) ? $option_descriptions[$i]['text'] : null;
         $voting_options[$i]['type'] = $option_types[$i];
         $voting_options[$i]['url'] = $option_urls[$i];
         $voting_options[$i]['courseid'] = isset($option_courses[$i]) ? $option_courses[$i] : null;
         $voting_options[$i]['sectionid'] = isset($option_sections[$i]) ? $option_sections[$i] : null;
-        $voting_options[$i]['timecreated'] = time();
         $voting_options[$i]['timemodified'] = time();
     }
 
     for ($i = 0; $i < sizeof($voting_options); $i++) {
-        $DB->insert_record('block_mission_map_options', $voting_options[$i]);
+        if (!empty($voting_options[$i]['id'])) {
+            $DB->update_record('block_mission_map_options', $voting_options[$i]);
+        } else {
+            $voting_options[$i]['timecreated'] = time();
+            $DB->insert_record('block_mission_map_options', $voting_options[$i]);
+        }
     }
     $returnurl = new moodle_url('voting.php', array('chapterid' => $data->chapterid, 'levelid' => $data->levelid));
     redirect($returnurl);

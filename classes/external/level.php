@@ -67,6 +67,7 @@ class level extends external_api
 
         $data = new \stdClass();
         $data->name = $validateddata->name;
+        $data->description = $validateddata->description;
         $data->chapterid = $validateddata->chapterid;
         $data->parentlevelid = $validateddata->parentlevelid;
         $data->type = $validateddata->type;
@@ -118,6 +119,7 @@ class level extends external_api
             'level' => new external_single_structure([
                 'id' => new external_value(PARAM_INT, 'id of level'),
                 'name' => new external_value(PARAM_RAW, 'name of level'),
+                'description' => new external_value(PARAM_RAW, 'description of level'),
                 'url' => new external_value(PARAM_RAW, 'URL of level'),
                 'chapterid' => new external_value(PARAM_INT, 'chapterid of level'),
                 'parentlevelid' => new external_value(PARAM_INT, 'parentlevelid of level'),

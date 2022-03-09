@@ -1,6 +1,13 @@
 {{!
     @template block_mission_map/map
 }}
+{{#can_edit}}
+    <div class="map-controls">
+        <a href="{{edit_url}}" class="btn btn-default">
+            {{#str}}edit_map, block_mission_map{{/str}}
+        </a>
+    </div>
+{{/can_edit}}
 <div class="map">
     {{#chapters}}
         <!-- Chapter is locked -->
@@ -14,9 +21,9 @@
                 </div>
                 <img src="{{img}}" />
                 {{#levels}}
-                    <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                    <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                         <span class="mission-text">
-                            {{no}}
+                            {{name}}
                         </span>
                     </a>
                 {{/levels}}
@@ -28,22 +35,21 @@
             <div class="chapter">
                 <div class="chapter_header">
                     <h3>{{name}}</h3>
-                    <h3>{{#str}} chapter_helper, block_mission_map {{/str}}</h3>
                 </div>
                 <img src="{{img}}" />
                 {{#levels}}
                     {{#isLocked}}
-                        <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <div class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                             <div class="locked"></div>
                             <span class="mission-text">
-                                <small>{{no}}🔒</small>
+                                <small>{{name}}🔒</small>
                             </span>
                         </div>
                     {{/isLocked}}
                     {{^isLocked}}
-                        <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                             <span class="mission-text">
-                                {{no}}
+                                {{name}}
                             </span>
                         </a>
                     {{/isLocked}}

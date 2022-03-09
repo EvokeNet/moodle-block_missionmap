@@ -64,7 +64,7 @@ class chapters implements renderable, templatable
                         break;
                     case TYPE_SECTION:
                         $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}";
-                        $level->editurl = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$level->sectionid}";
+                        $level->editurl = new moodle_url('/course/edit_voting.php') . "?id={$level->courseid}&section={$level->sectionid}";
                         break;
                     default:
                         break;

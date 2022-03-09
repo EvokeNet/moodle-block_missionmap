@@ -10,6 +10,11 @@
     border: none;
 }
 
+.map-controls {
+    float: right;
+    margin-right: 10px;
+}
+
 .btn.back_to_map:hover {
     color: white;
 }

@@ -57,14 +57,16 @@ class voting_form extends \moodleform
      */
     public function definition()
     {
-        global $PAGE, $DB;
+        global $PAGE, $DB, $COURSE;
 
         $mform = $this->_form;
+        $context = \context_course::instance($COURSE->id);
 
         $id = !empty($this->_customdata['id']) ? $this->_customdata['id'] : null;
         $chapterid = !empty($this->_customdata['chapterid']) ? $this->_customdata['chapterid'] : null;
         $levelid = !empty($this->_customdata['levelid']) ? $this->_customdata['levelid'] : null;
         $description = !empty($this->_customdata['description']) ? $this->_customdata['description'] : null;
+        $options = !empty($this->_customdata['options']) ? $this->_customdata['options'] : null;
 
         $types = [
             // BLOCK_MISSIONMAP_VOTINGTYPE_ALL => get_string('voting_type_all', 'block_mission_map'),
@@ -162,22 +164,26 @@ class voting_form extends \moodleform
         // $mform->hideIf('minerva', 'tiebreak', 'neq', BLOCK_MISSIONMAP_TIEBREAKER_MINERVA);
         // $mform->setType('minerva', PARAM_INT);
 
+        $textfieldoptions = array('trusttext'=>true, 'subdirs'=>true, 'maxfiles'=> 1, 'maxbytes' => 5000000, 'context' => $context);
+
         $mform->addElement('date_time_selector', 'tiebreaker_deadline', get_string('voting_tiebreak_deadline', 'block_mission_map'));
         $mform->hideIf('tiebreaker_deadline', 'tiebreak', 'eq', BLOCK_MISSIONMAP_TIEBREAKER_RANDOM);
 
-        $mform->addElement('textarea', 'description', get_string('voting_description', 'block_mission_map'), 'wrap="virtual" rows="20" cols="50"');
+        $mform->addElement('text', 'description', get_string('voting_description', 'block_mission_map'), ['size' => 50]);
         $mform->setType('description', PARAM_TEXT);
 
         $repeatarray = array();
         $repeatarray[] = $mform->createElement('header', 'option_title', get_string('voting_option_title', 'block_mission_map'));
-        $repeatarray[] = $mform->createElement('text', 'option_name', get_string('voting_option_name', 'block_mission_map'));
-        $repeatarray[] = $mform->createElement('textarea', 'option_description', get_string('voting_option_description', 'block_mission_map'));
+        $repeatarray[] = $mform->createElement('hidden', 'option_id', 0);
+        $repeatarray[] = $mform->createElement('text', 'option_name', get_string('voting_option_name', 'block_mission_map'), ['size' => 50]);
+        $repeatarray[] = $mform->createElement('editor', 'option_description', get_string('voting_option_description', 'block_mission_map'), null, $textfieldoptions);
         $repeatarray[] = $mform->createElement('select', 'option_type', get_string('voting_option_type', 'block_mission_map'), $option_types);
         $repeatarray[] = $mform->createElement('text', 'option_url', get_string('voting_option_url', 'block_mission_map'));
         $repeatarray[] = $mform->createElement('select', 'option_course', get_string('voting_option_course', 'block_mission_map'), $option_courses, ['data-element' => 'voting_course_select']);
         $repeatarray[] = $mform->createElement('select', 'option_section', get_string('voting_option_section', 'block_mission_map'), $option_sections, ['data-element' => 'voting_course_sections']);
 
         $repeateloptions = array();
+        $repeateloptions['option_id']['type'] = PARAM_INT;
         $repeateloptions['option_name']['type'] = PARAM_TEXT;
         $repeateloptions['option_name']['rule'] = 'required';
         $repeateloptions['option_description']['type'] = PARAM_TEXT;
@@ -189,7 +195,7 @@ class voting_form extends \moodleform
 
         $mform->setType('option', PARAM_CLEANHTML);
 
-        $repeatno = 1;
+        $repeatno = count($options) > 0 ? count($options) : 1;
 
         $this->repeat_elements($repeatarray, $repeatno, $repeateloptions, 'option_repeats', 'option_add_fields', 1, null, false);
 
@@ -197,6 +203,20 @@ class voting_form extends \moodleform
 
         if ($description) {
             $mform->setDefault('description', $description);
+        }
+
+        if ($options) {
+            $i=0;
+            foreach ($options as $option) {
+                $mform->setDefault('option_id['.$i.']', $option['id']);
+                $mform->setDefault('option_name['.$i.']', $option['name']);
+                $mform->setDefault('option_description['.$i.']', array('text'=> $option['description']));
+                $mform->setDefault('option_type['.$i.']', $option['type']);
+                $mform->setDefault('option_url['.$i.']', $option['url']);
+                $mform->setDefault('option_course['.$i.']', $option['course']);
+                $mform->setDefault('option_section['.$i.']', $option['section']);
+                $i++;
+            }
         }
     }
 

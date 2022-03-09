@@ -104,6 +104,7 @@ class level_form extends \moodleform
         $id = !(empty($this->_customdata['id'])) ? $this->_customdata['id'] : null;
         $chapterid = !(empty($this->_customdata['chapterid'])) ? $this->_customdata['chapterid'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
+        $description = !(empty($this->_customdata['description'])) ? $this->_customdata['description'] : null;
         $url = !(empty($this->_customdata['url'])) ? $this->_customdata['url'] : null;
 
         $mform->addElement('hidden', 'id', $id);
@@ -112,6 +113,10 @@ class level_form extends \moodleform
         $mform->addElement('text', 'name', get_string('campaign_add_level_name', 'block_mission_map'));
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
+
+        $mform->addElement('text', 'description', get_string('campaign_add_level_description', 'block_mission_map'));
+        $mform->addRule('description', get_string('required'), 'required', null, 'client');
+        $mform->setType('description', PARAM_TEXT);
 
         $mform->addElement('select', 'type', get_string('level_type', 'block_mission_map'), $types);
         $mform->addRule('type', get_string('required'), 'required', null, 'client');
@@ -129,6 +134,10 @@ class level_form extends \moodleform
         $mform->disabledIf('section', 'course', 'eq', 0);
 
         if ($name) {
+            $mform->setDefault('name', $name);
+        }
+
+        if ($description) {
             $mform->setDefault('name', $name);
         }
 
