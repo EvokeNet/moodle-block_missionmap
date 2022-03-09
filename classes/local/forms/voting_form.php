@@ -186,7 +186,7 @@ class voting_form extends \moodleform
         $repeateloptions['option_id']['type'] = PARAM_INT;
         $repeateloptions['option_name']['type'] = PARAM_TEXT;
         $repeateloptions['option_name']['rule'] = 'required';
-        $repeateloptions['option_description']['type'] = PARAM_TEXT;
+        $repeateloptions['option_description']['type'] = PARAM_RAW;
         $repeateloptions['option_url']['type'] = PARAM_RAW;
         $repeateloptions['option_url']['hideif'] = array('option_type', 'neq', BLOCK_MISSIONMAP_OPTION_URL);
         $repeateloptions['option_course']['hideif'] = array('option_type', 'neq', BLOCK_MISSIONMAP_OPTION_SECTION);
