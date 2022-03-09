@@ -25,7 +25,7 @@ $editnode = $settingsnode->add(get_string('chapter_settings', 'block_mission_map
 $editnode->make_active();
 
 // Retrieves all chapters from this course
-$chapters = $DB->get_records('block_mission_map_chapters');
+$chapters = $DB->get_records('block_mission_map_chapters', ['courseid' => $courseid, 'blockid' => $blockid]);
 
 // Fetch all levels associated with each chapter
 foreach ($chapters as &$chapter) {
