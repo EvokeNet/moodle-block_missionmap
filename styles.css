@@ -255,9 +255,14 @@
 
 .voting_session .options .option .option_description {
     font-family: 'Permanent Marker', sans-serif;
+    font-weight: normal;
     font-size: 1.25em;
-    max-width: 75%;
-    text-align: center;
+    width: 100%;
+    max-width: 80%;
+}
+
+.voting_session .options .option .option_description ul li {
+    list-style: disc;
 }
 
 .voting_session .options .option .dimmed {
