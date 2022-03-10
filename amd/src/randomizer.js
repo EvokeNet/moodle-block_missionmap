@@ -1,10 +1,22 @@
 export const init = () => {
     const screen_size = window.screen.width;
+    const map_image = document.querySelector('img');
 
     if (screen_size <= 600) {
         return;
     }
 
+    if (map_image.complete) {
+        randomize();
+    } else {
+        map_image.addEventListener('load', randomize());
+        map_image.addEventListener('error', () => {
+            window.console.log('Error while randomizing missions on the map');
+        });
+    }
+};
+
+const randomize = () => {
     const chapters = document.querySelectorAll('.chapter');
 
     const seed = xmur3('avocadotoast');
