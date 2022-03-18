@@ -43,9 +43,9 @@ class chapter_form extends \moodleform
      * @param array $formdata
      * @param array $customodata
      */
-    public function __construct($formdata, $customodata = null)
+    public function __construct($formdata, $customdata = null)
     {
-        parent::__construct(null, $customodata, 'chapter',  '', ['class' => 'block_mission_map_chapter_form'], true, $formdata);
+        parent::__construct(null, $customdata, 'chapter',  '', ['class' => 'block_mission_map_chapter_form'], true, $formdata);
         $this->set_display_vertical();
     }
 
@@ -63,6 +63,9 @@ class chapter_form extends \moodleform
         $blockid = !(empty($this->_customdata['blockid'])) ? $this->_customdata['blockid'] : null;
         $courseid = !(empty($this->_customdata['courseid'])) ? $this->_customdata['courseid'] : null;
         $name = !(empty($this->_customdata['name'])) ? $this->_customdata['name'] : null;
+        $map_image = !(empty($this->_customdata['map_image'])) ? $this->_customdata['map_image'] : null;
+        $has_lock = !(empty($this->_customdata['has_lock'])) ? $this->_customdata['has_lock'] : null;
+        $unlocking_date = !(empty($this->_customdata['unlocking_date'])) ? $this->_customdata['unlocking_date'] : null;
 
         $mform->addElement('hidden', 'id', $id);
         $mform->addElement('hidden', 'blockid', $blockid);
@@ -85,6 +88,19 @@ class chapter_form extends \moodleform
         if ($name) {
             $mform->setDefault('name', $name);
         }
+
+        if ($map_image) {
+            $mform->setDefault('map_image', $map_image);
+        }
+
+        if ($has_lock) {
+            $mform->getElement('has_lock')->setSelected($has_lock);
+        }
+
+        if ($unlocking_date) {
+            $mform->setDefault('unlocking_date', $unlocking_date);
+        }
+
     }
 
     /**

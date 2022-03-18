@@ -8,34 +8,40 @@ import Template from 'core/templates';
 // The function called from the Mustache template.
 export const init = (params) => {
     const { contextid, blockid, courseid } = params;
+
+    document.addEventListener('click', (event) => {
+        if (event.target && event.target.classList.contains('edit_chapter')) {
+            create_modal(event, contextid, blockid, courseid);
+        }
+    });
+};
+
+const create_modal = (event, contextid, blockid, courseid) => {
+    const formdata = {
+        chapterid: event.target.dataset.cid,
+        blockid: blockid,
+        courseid: courseid,
+        name: event.target.dataset.cname,
+        has_lock: event.target.dataset.haslock,
+        unlocking_date: event.target.dataset.unlock,
+    };
+
     // Set up a SAVE_CANCEL modal.
     ModalFactory.create({
         type: ModalFactory.types.SAVE_CANCEL,
         title: 'Add Chapter',
-        body: get_form(null, contextid),
+        body: get_form(formdata, contextid),
     })
         // Set up the listeners
         .then((modal) => {
-            const add_trigger = document.getElementById('add_chapter');
-
-            document.addEventListener('click', (event) => {
-                if (
-                    event.target &&
-                    event.target.classList.contains('edit_chapter')
-                ) {
-                    showModal(event, modal, blockid, courseid, true);
-                }
-            });
-
             const root = modal.getRoot();
             const form = root.find('form');
-            add_trigger.addEventListener('click', (event) =>
-                showModal(event, modal, blockid, courseid)
-            );
+
             root.on(ModalEvents.save, (event) => submitForm(event, form));
             form.on('submit', (event) =>
                 submitFormAjax(event, modal, form, contextid)
             );
+            modal.show();
         })
         // Close modal
         .then((modal) => {
@@ -56,28 +62,6 @@ const get_form = (formdata, contextid) => {
     );
 };
 
-const showModal = (event, modal, blockid, courseid, isEditing = false) => {
-    event.preventDefault();
-    modal.show();
-    let root = modal.getRoot();
-    root.find('form').find('input[name="blockid"]').val(blockid);
-    root.find('form').find('input[name="courseid"]').val(courseid);
-    if (isEditing) {
-        root.find('form')
-            .find('input[name="id"]')
-            .val(event.target.dataset.cid);
-        root.find('form')
-            .find('input[name="name"]')
-            .val(event.target.dataset.cname);
-        root.find('form')
-            .find('select[name="islocked"]')
-            .val(event.target.dataset.haslock);
-        root.find('form')
-            .find('input[name="unlocking_date"]')
-            .val(event.target.dataset.unlock);
-    }
-};
-
 const submitForm = (event, form) => {
     event.preventDefault();
     form.submit();
@@ -86,12 +70,12 @@ const submitForm = (event, form) => {
 const submitFormAjax = (event, modal, form, contextid) => {
     event.preventDefault();
 
-    // var changeEvent = document.createEvent('HTMLEvents');
-    // changeEvent.initEvent('change', true, true);
+    var changeEvent = document.createEvent('HTMLEvents');
+    changeEvent.initEvent('change', true, true);
 
-    // form.find(':input').each((element) => {
-    //     element.dispatchEvent(changeEvent);
-    // });
+    form.find(':input').each((element) => {
+        element.dispatchEvent(changeEvent);
+    });
 
     let formData = form.serialize();
     Ajax.call([

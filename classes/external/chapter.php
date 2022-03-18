@@ -70,6 +70,7 @@ class chapter extends external_api
 
         $data = new \stdClass();
         $data->name = $validateddata->name;
+        $data->map_image = $validateddata->map_image;
         $data->has_lock = $validateddata->has_lock;
         $data->unlocking_date = $validateddata->unlocking_date;
         $data->blockid = $validateddata->blockid;
