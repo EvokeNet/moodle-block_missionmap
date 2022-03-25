@@ -17,7 +17,7 @@ $string['view_chapters'] = 'Capítulos de la Campaña';
 $string['chapter_settings'] = 'Configuración de los capítulos';
 $string['chapter_view'] = 'Capítulo: {$a}';
 $string['chapter_locked'] = 'Bloqueado';
-$string['chapter_helper'] = 'Click on the dots to access the mission'; //
+$string['chapter_helper'] = 'Haz click en los puntos para acceder a las misiones';
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['campaign_add_chapter'] = 'Nombre del capítulo';
