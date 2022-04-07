@@ -80,9 +80,11 @@ function block_mission_map_output_fragment_level_form($args)
             'chapterid' => $serialiseddata->chapterid,
             'name' => $serialiseddata->name,
             'description' => $serialiseddata->description,
+            'sections' => $serialiseddata->sections,
             'type' => $serialiseddata->url,
             'courseid' => $serialiseddata->courseid,
-            'sectionid' => $serialiseddata->sectionid
+            'sectionid' => $serialiseddata->sectionid,
+            'url' => $serialiseddata->url
         ]
     );
 

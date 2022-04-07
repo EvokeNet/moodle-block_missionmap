@@ -22,7 +22,7 @@
             </div>
             <img src="{{img}}" />
             {{#levels}}
-                <div class="mission" data-lid="{{id}}" data-toggle="tooltip" data-placement="top" title="{{description}}">
+                <div class="mission {{color}}" data-lid="{{id}}" data-toggle="tooltip" data-placement="top" title="{{description}}">
                     <div class="mission-tools">
                         <a href="{{url}}" class="btn btn-secondary btn-sm go_level">go</a>
                         <a href="{{editurl}}" class="btn btn-secondary btn-sm edit_level">edit</a>
@@ -33,7 +33,13 @@
                     </span>
                 </div>
             {{/levels}}
-            <a href="#" class="btn btn-primary add_level">Add Level</a>
+            <a
+                href="#"
+                class="btn btn-primary add_level"
+                data-cid={{id}}
+            >
+                Add Level
+            </a>
         </div>
     {{/chapters}}
 </div>
@@ -48,11 +54,22 @@
             });
         }
     );
+    {{=<% %>=}}
     require(['block_mission_map/levels'],
         function(module) {
-            module.init_add({{{contextid}}});
+            module.init({
+                contextid: <%contextid%>,
+                blockid: <%blockid%>,
+                courseid: <%courseid%>,
+                sections: {
+                    <%#sections%>
+                        <%id%>:"<%name%>",
+                    <%/sections%>
+                }
+            });
         }
     );
+    <%={{ }}=%>
     require(['block_mission_map/randomizer'],
         function(module) {
             module.init();

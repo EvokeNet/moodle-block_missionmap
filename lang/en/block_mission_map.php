@@ -6,6 +6,12 @@ $string['mission_map:myaddinstance'] = 'Add a new Mission Map block to the My Mo
 
 $string['block_title'] = 'Your missions';
 
+// SETTINGS
+$string['map_format'] = 'Missions map display format';
+$string['map_format_header'] = 'Map format settings';
+$string['map_format_grid'] = 'Grid';
+$string['map_format_row'] = 'Row';
+
 // GENERAL
 $string['back_map'] = 'Back to map';
 $string['edit_map'] = 'Edit map';
@@ -27,6 +33,7 @@ $string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
 $string['create_chapter_success'] = 'Chapter created!';
 $string['campaign_add_level_name'] = 'Level name';
 $string['campaign_add_level_description'] = 'Level description';
+$string['campaign_add_level_color'] = 'Level color';
 $string['campaign_add_level_url'] = 'Level URL';
 $string['campaign_add_level_error_name'] = 'Level name can\'t be null';
 $string['campaign_add_level_error_url'] = 'Level URL can\'t be null';
@@ -41,8 +48,23 @@ $string['level_option_section'] = 'Redirects to Course Section';
 $string['level_option_voting'] = 'Redirects to a Voting Session';
 $string['level_option_sublevel'] = 'Redirects to a Sublevel';
 $string['level_select_course'] = 'Choose the course';
+$string['level_select_section'] = 'Choose a section';
 $string['level_course'] = 'Course';
-$string['level_section'] = 'Section';
+$string['level_section'] = 'Course section for completion info';
+
+// LEVEL COLORS
+$string['level_color_blue'] = 'Blue';
+$string['level_color_green'] = 'Green';
+$string['level_color_orange'] = 'Orange';
+$string['level_color_red'] = 'Red';
+$string['level_color_purple'] = 'Purple';
+$string['level_color_yellow'] = 'Yellow';
+$string['level_color_pink'] = 'Pink';
+$string['level_color_brown'] = 'Brown';
+$string['level_color_grey'] = 'Grey';
+$string['level_color_black'] = 'Black';
+$string['level_color_white'] = 'White';
+$string['level_color_gray'] = 'Gray';
 
 // VOTING
 $string['view_voting'] = 'Voting session';

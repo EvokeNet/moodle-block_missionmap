@@ -72,10 +72,29 @@ class chapters implements renderable, templatable
             }
         }
 
+        // $option_sections = [0 => get_string('level_select_section', 'block_mission_map')];
+        $option_sections = [];
+        $sections = get_fast_modinfo($this->courseid)->get_section_info_all();
+        foreach ($sections as $section) {
+            // $option_sections[$section->id] = !empty($section->name) ? $section->name : $section->section;
+            $option_sections[] = [
+                'id' => $section->id,
+                'name' => !empty($section->name) ? $section->name : $section->section,
+            ];
+        }
+
+        // $str_sections = strval(implode(',', $option_sections));
+        // $str_sections = '';
+        // foreach($option_sections as $key=>$item) {
+        //     $str_sections .= $key.':'.$item.',';
+        // }
+        // rtrim($str_sections, ',');
+
         $data->chapters = $this->chapters;
         $data->contextid = $this->context->id;
         $data->blockid = $this->blockid;
         $data->courseid = $this->courseid;
+        $data->sections = $option_sections;
 
         return $data;
     }

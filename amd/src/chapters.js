@@ -11,6 +11,7 @@ export const init = (params) => {
 
     document.addEventListener('click', (event) => {
         if (event.target && event.target.classList.contains('edit_chapter')) {
+            event.preventDefault();
             create_modal(event, contextid, blockid, courseid);
         }
     });
@@ -69,13 +70,6 @@ const submitForm = (event, form) => {
 
 const submitFormAjax = (event, modal, form, contextid) => {
     event.preventDefault();
-
-    var changeEvent = document.createEvent('HTMLEvents');
-    changeEvent.initEvent('change', true, true);
-
-    form.find(':input').each((element) => {
-        element.dispatchEvent(changeEvent);
-    });
 
     let formData = form.serialize();
     Ajax.call([
