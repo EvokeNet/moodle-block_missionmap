@@ -8,6 +8,7 @@ $string['block_title'] = 'Tus misiones';
 
 // GENERAL
 $string['back_map'] = 'Volver al mapa';
+$string['edit_map'] = 'Editar mapa';
 
 // CHAPTERS 
 $string['add_page'] = 'Editar capítulos';
@@ -15,8 +16,8 @@ $string['edit_chapters'] = 'Edición de capítulos';
 $string['view_chapters'] = 'Capítulos de la Campaña';
 $string['chapter_settings'] = 'Configuración de los capítulos';
 $string['chapter_view'] = 'Capítulo: {$a}';
-$string['chapter_locked'] = 'Locked';
-'Bloqueado';
+$string['chapter_locked'] = 'Bloqueado';
+$string['chapter_helper'] = 'Haz click en los puntos para acceder a las misiones';
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['campaign_add_chapter'] = 'Nombre del capítulo';
@@ -25,6 +26,7 @@ $string['campaign_unlock_chapter'] = 'Fecha para desbloquear el capítulo';
 $string['campaign_add_chapter_error'] = 'El nombre del capítulo no puede dejarse en blanco';
 $string['create_chapter_success'] = '¡Capítulo creado!';
 $string['campaign_add_level_name'] = 'Nombre del nivel';
+$string['campaign_add_level_description'] = 'Descripción del nivel';
 $string['campaign_add_level_url'] = 'URL del nivel';
 $string['campaign_add_level_error_name'] = 'En nombre del nivel no puede dejarse en blanco';
 $string['campaign_add_level_error_url'] = 'La URL del nivel no puede dejarse en blanco';
@@ -53,13 +55,13 @@ $string['voting_select_course'] = 'Seleccionar un curso para buscar secciones';
 $string['voting_select_section'] = 'Seleccionar una sección a la que redirigir';
 
 $string['voting_option_name'] =  'Nombre de la opción';
+$string['voting_option_description'] = 'Descripción de la opción';
 $string['voting_option_type'] = 'Tipo de opción';
 $string['voting_option_url'] = 'Redirige a la URL';
 $string['voting_option_course'] = 'Campaña en el que buscar secciones';
 $string['voting_option_section'] = 'Redirige a esta sección del campaña';
 $string['voting_option_sublevel'] =  'Redirige al subnivel';
 $string['voting_option_title'] = 'Opción de votación {no}';
-
 
 $string['voting_description'] = 'Descripción de esta sesión de votación: propósito, método, resultados, etc.';
 
@@ -71,6 +73,7 @@ $string['voting_type_groups'] = 'Participantes del equipo';
 
 $string['voting_algorithm'] = 'Mecánica de la votación';
 $string['voting_algorithm_help'] = '<b>Mayoría simple</b>: Todos los miembros del equipo deben votar. La opción ganadora se decide por mayoría simple. (50% + 1).<br/><br/> <b>Votación limidata por tiempo</b>: No todos los miembros del equipo necesitan votar. Los votos válidos serán contados si se han emitido antes del límite de tiempo. La opción con la mayoría de votos gana.<br/><br/><b>Umbral de votación</b>: El % de miembros del equipo seleccionado deberán votar. La opción con mayoría simple (50% of N% + 1) gana.<br/><br/><b>Selección aleatoria</b>: La opción ganadora será elegida inmediatamente de manera aleatoria (50% chance of selection).';
+
 $string['voting_al_simplemajority'] = 'Mayoría simple';
 $string['voting_al_timebound'] = 'Votación limidata por tiempo';
 $string['voting_al_threshold'] = 'Umbral de votación';
@@ -91,13 +94,14 @@ $string['voting_tiebreak_deadline'] = 'Límite de tiempo para el desempate';
 $string['voting_save'] = 'Guardar la sesión de votación';
 
 $string['voting_choose_path'] = 'Elige tu camino';
-
 $string['voting_totalizing'] = 'Esperando los votos del equipo';
 $string['voting_tie'] = 'Es un empate!';
 $string['voting_tie_info'] = 'Aquí biene el desempate';
 $string['voting_completed'] = 'Tu camino ha sido elegido!';
+$string['vote_intro'] = 'Intro';
 $string['vote_save'] = 'Elige';
 $string['vote_continue'] = 'Continua a la mission elegida';
+$string['single_vote'] = 'voto';
 $string['votes'] = 'votos';
 
 // FORMS
