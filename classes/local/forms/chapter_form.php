@@ -75,7 +75,7 @@ class chapter_form extends \moodleform
         $mform->addRule('name', get_string('required'), 'required', null, 'client');
         $mform->setType('name', PARAM_TEXT);
 
-        $mform->addElement('filepicker', 'map_image', get_string('file'), null, array('maxbytes' => 5, 'accepted_types' => ['jpg', 'png', 'gif', 'bmp', 'jpeg']));
+        $mform->addElement('filepicker', 'map_image', get_string('file'), null, array('maxbytes' => 5000, 'accepted_types' => ['jpg', 'png', 'gif', 'bmp', 'jpeg']));
 
         $mform->addElement('selectyesno', 'has_lock', get_string('campaign_locked_chapter', 'block_mission_map'));
         $mform->addRule('has_lock', get_string('required'), 'required', null, 'client');
@@ -117,13 +117,6 @@ class chapter_form extends \moodleform
     public function validation($data, $files)
     {
         $errors = parent::validation($data, $files);
-
-        $name = isset($data['name']) ? $data['name'] : null;
-
-        if ($this->is_submitted() && (empty($name))) {
-            $errors['name'] = get_string('campaign_add_chapter_error', 'block_mission_map');
-        }
-
         return $errors;
     }
 }

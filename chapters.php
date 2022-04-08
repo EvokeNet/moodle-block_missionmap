@@ -27,8 +27,6 @@ $editnode->make_active();
 // Retrieves all chapters from this course
 $instance = $DB->get_record('block_instances', array('id' => $blockid), '*', MUST_EXIST);
 $block_map = block_instance('mission_map', $instance);
-// var_dump($block_map->config);
-// die();
 $chapters = $DB->get_records('block_mission_map_chapters', ['courseid' => $courseid, 'blockid' => $blockid]);
 
 // Fetch all levels associated with each chapter

@@ -10,7 +10,10 @@ export const init = (params) => {
     const { contextid, blockid, courseid } = params;
 
     document.addEventListener('click', (event) => {
-        if (event.target && event.target.classList.contains('edit_chapter')) {
+        if (
+            (event.target && event.target.classList.contains('edit_chapter')) ||
+            event.target.id == 'add_chapter'
+        ) {
             event.preventDefault();
             create_modal(event, contextid, blockid, courseid);
         }
