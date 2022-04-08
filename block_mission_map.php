@@ -70,6 +70,31 @@ class block_mission_map extends block_base
         return $this->content;
     }
 
+    public function get_content_for_output($output)
+    {
+        global $COURSE;
+        $bc = parent::get_content_for_output($output);
+
+        if (isset($bc)) {
+            $context = context_system::instance();
+            if (
+                $this->page->user_can_edit_blocks() && has_capability('block/mission_map:managechapters', $context)
+            ) {
+                $str = new lang_string('add_page', 'block_mission_map');
+                $controls = new action_menu_link_secondary(
+                    new moodle_url('/blocks/mission_map/chapters.php', array('courseid' => $COURSE->id, 'blockid' => $bc->blockinstanceid)),
+                    new pix_icon('a/view_list_active', $str, 'moodle', array('class' => 'iconsmall', 'title' => '')),
+                    $str,
+                    array('class' => 'editing_manage')
+                );
+
+                array_unshift($bc->controls, $controls);
+            }
+        }
+
+        return $bc;
+    }
+
     function instance_allow_config() {
         return true;
     }
