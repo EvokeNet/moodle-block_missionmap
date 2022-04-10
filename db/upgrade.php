@@ -73,5 +73,17 @@ function xmldb_block_mission_map_upgrade($oldversion)
         upgrade_plugin_savepoint(true, 202204011200, 'block', 'mission_map');
     }
 
+    if ($oldversion < 202204101200) {
+        $dbman = $DB->get_manager();
+
+        $table = new xmldb_table('block_mission_map_levels');
+        if ($dbman->table_exists($table)) {
+            $cmid = new xmldb_field('cmid', XMLDB_TYPE_TEXT, null, null, null, null, null, 'sectionid');
+
+            $dbman->add_field($table, $cmid);
+        }
+        upgrade_plugin_savepoint(true, 202204101200, 'block', 'mission_map');
+    }
+
     return true;
 }

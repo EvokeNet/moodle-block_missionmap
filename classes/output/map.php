@@ -4,10 +4,13 @@ namespace block_mission_map\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use completion_info;
 use moodle_url;
 use renderable;
 use renderer_base;
 use templatable;
+
+require_once("{$CFG->libdir}/completionlib.php");
 
 define("TYPE_URL", 1);
 define("TYPE_SECTION", 2);
@@ -26,7 +29,7 @@ class map implements renderable, templatable
 
     public function export_for_template(renderer_base $output)
     {
-        global $DB, $COURSE;
+        global $DB, $COURSE, $USER;
 
         $data = new \stdClass();
         $context = \context_course::instance($COURSE->id);
@@ -53,7 +56,17 @@ class map implements renderable, templatable
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;
-                $level->isLocked = false;
+
+                if (!empty($level->cmid)) {
+                    $cm = get_coursemodule_from_id('', $level->cmid);
+
+                    $completion_info = new \completion_info($COURSE);
+                    $completion = $completion_info->get_data($cm, false, $USER->id);
+    
+                    // $level->completion['view'] = $completion->viewed;
+                    // $level->completion['submit'] = $completion->customcompletion["completionrequiresubmit"];
+                    $level->isCompleted = !empty($completion->completionstate) ? true : false;
+                }
 
                 switch ($level->type) {
                     case TYPE_SUBLEVEL:

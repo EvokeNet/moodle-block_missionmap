@@ -38,21 +38,20 @@
                 </div>
                 <img src="{{img}}" />
                 {{#levels}}
-                    {{#isLocked}}
-                        <div class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
-                            <div class="locked"></div>
-                            <span class="mission-text">
-                                <small>{{name}}🔒</small>
-                            </span>
-                        </div>
-                    {{/isLocked}}
-                    {{^isLocked}}
-                        <a href="{{url}}" class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+                    {{#isCompleted}}
+                        <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                             <span class="mission-text">
                                 {{name}}
                             </span>
                         </a>
-                    {{/isLocked}}
+                    {{/isCompleted}}
+                    {{^isCompleted}}
+                        <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+                            <span class="mission-text">
+                                {{name}}
+                            </span>
+                        </a>
+                    {{/isCompleted}}
                 {{/levels}}
             </div>
         {{/isLocked}}
