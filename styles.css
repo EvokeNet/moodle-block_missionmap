@@ -116,53 +116,53 @@
 
 /* OUTLINED MISSIONS */
 .block_mission_map .map .chapter .mission.outlined.red {
-    outline: 3px solid rgb(255, 5, 64);
+    border: 3px solid rgb(255, 5, 64);
     background: rgba(255, 5, 64, 0.5);
 }
 .block_mission_map .map .chapter .mission.outlined.blue {
-    outline: 3px solid rgb(0, 0, 255);
+    border: 3px solid rgb(0, 0, 255);
     background: rgba(0, 0, 255, 0.5);
 }
 .block_mission_map .map .chapter .mission.outlined.green {
-    outline: 3px solid rgb(143, 188, 143);
-    background: rgba(143, 188, 143, 0.5);
+    border: 3px solid rgb(132, 238, 132);
+    background: rgba(132, 238, 132, 0.5);
 }
 .block_mission_map .map .chapter .mission.outlined.yellow {
-    outline: 3px solid rgb(255, 255, 0);
+    border: 3px solid rgb(255, 255, 0);
     background: rgba(255, 255, 0, 0.5);
 }
 .block_mission_map .map .chapter .mission.outlined.white {
-    outline: 3px solid rgb(255, 255, 255);
+    border: 3px solid rgb(255, 255, 255);
     background: rgba(255, 255, 255, 0.5);
 }
 .block_mission_map .map .chapter .mission.outlined.black {
-    outline: 3px solid rgb(0, 0, 0);
+    border: 3px solid rgb(0, 0, 0);
     background: rgba(0, 0, 0, 0.5);
 }
 
 /* FULL CIRCLE MISSIONS */
 .block_mission_map .map .chapter .mission.full.red {
-    outline: 3px solid rgb(255, 5, 64);
+    border: 3px solid rgb(255, 5, 64);
     background: rgb(255, 5, 64);
 }
 .block_mission_map .map .chapter .mission.full.blue {
-    outline: 3px solid rgb(0, 0, 255);
+    border: 3px solid rgb(0, 0, 255);
     background: rgb(0, 0, 255);
 }
 .block_mission_map .map .chapter .mission.full.green {
-    outline: 3px solid rgb(143, 188, 143);
-    background: rgba(143, 188, 143, 0.5);
+    border: 3px solid rgb(132, 238, 132);
+    background: rgb(132, 238, 132);
 }
 .block_mission_map .map .chapter .mission.full.white {
-    outline: 3px solid rgb(255, 255, 255);
+    border: 3px solid rgb(255, 255, 255);
     background: rgb(255, 255, 255);
 }
 .block_mission_map .map .chapter .mission.full.black {
-    outline: 3px solid rgb(0, 0, 0);
+    border: 3px solid rgb(0, 0, 0);
     background: rgb(0, 0, 0);
 }
 .block_mission_map .map .chapter .mission.full.yellow {
-    outline: 3px solid rgb(255, 255, 0);
+    border: 3px solid rgb(255, 255, 0);
     background: rgb(255, 255, 0);
 }
 .block_mission_map .map .chapter .mission.full.yellow .mission-text {
@@ -181,7 +181,7 @@
 .block_mission_map .map .chapter .mission .mission-text {
     color: rgb(255, 255, 255);
     font-size: 1.3rem;
-    line-height: 2;
+    line-height: 1.8;
     background-size: contain;
 }
 
