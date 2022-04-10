@@ -66,6 +66,11 @@ $string['level_color_black'] = 'Black';
 $string['level_color_white'] = 'White';
 $string['level_color_gray'] = 'Gray';
 
+// LEVEL LEGEND
+$string['legend_information'] = 'Information & support materials';
+$string['legend_optional'] = 'Optional activities';
+$string['legend_required'] = 'Required activities';
+
 // VOTING
 $string['view_voting'] = 'Voting session';
 $string['edit_voting'] = 'Voting edit';

@@ -58,6 +58,11 @@
 
     {{/chapters}}
 </div>
+<ul class="legend">
+    <li><span class="support"></span> {{#str}} legend_information, block_mission_map {{/str}}</li>
+    <li><span class="optional"></span> {{#str}} legend_optional, block_mission_map {{/str}}</li>
+    <li><span class="required"></span> {{#str}} legend_required, block_mission_map {{/str}}</li>
+</ul>
 {{#js}}
     require(['block_mission_map/randomizer'],
         function(module) {
