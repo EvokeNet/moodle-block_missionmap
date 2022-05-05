@@ -116,7 +116,6 @@ class chapter_form extends \moodleform
      */
     public function validation($data, $files)
     {
-        $errors = parent::validation($data, $files);
-        return $errors;
+        return parent::validation($data, $files);
     }
 }
