@@ -101,7 +101,7 @@
 }
 
 .block_mission_map .map .chapter .mission {
-    font-family: 'Bungee';
+    font-family: 'Bungee', Helvetica, Arial, Verdana, Tahoma, sans-serif;
     position: absolute;
     left: 0;
     top: 0;
