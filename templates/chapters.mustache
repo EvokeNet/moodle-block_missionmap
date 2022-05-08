@@ -45,34 +45,26 @@
 </div>
 <a href="#" class="btn btn-primary" id="add_chapter">Add Chapter</a>
 {{#js}}
-    require(['block_mission_map/chapters'],
-        function(module) {
-            module.init({
+    require(['block_mission_map/chapters', 'block_mission_map/levels', 'block_mission_map/randomizer'],
+        function(Chapters, Levels, Randomizer) {
+            Chapters.init({
                 contextid: {{contextid}},
                 blockid: {{blockid}},
                 courseid: {{courseid}},
             });
-        }
-    );
-    {{=<% %>=}}
-    require(['block_mission_map/levels'],
-        function(module) {
-            module.init({
-                contextid: <%contextid%>,
-                blockid: <%blockid%>,
-                courseid: <%courseid%>,
+
+            Levels.init({
+                contextid: {{contextid}},
+                blockid: {{blockid}},
+                courseid: {{courseid}},
                 sections: {
-                    <%#sections%>
-                        <%id%>:"<%name%>",
-                    <%/sections%>
+                    {{#sections}}
+                        {{id}}: "{{name}}",
+                    {{/sections}}
                 }
             });
-        }
-    );
-    <%={{ }}=%>
-    require(['block_mission_map/randomizer'],
-        function(module) {
-            module.init();
+
+            Randomizer.init();
         }
     );
 {{/js}}

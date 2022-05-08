@@ -26,6 +26,7 @@ $string['chapter_locked'] = 'Locked';
 $string['chapter_helper'] = 'Click on the dots to access the mission';
 $string['chapter_countdown'] = '--d --h --m --s';
 
+$string['add_chapter'] = 'Add Chapter';
 $string['campaign_add_chapter'] = 'Chapter name';
 $string['campaign_locked_chapter'] = 'Lock chapter based on date?';
 $string['campaign_unlock_chapter'] = 'Date to unlock chapter';
