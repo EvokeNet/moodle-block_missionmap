@@ -165,7 +165,8 @@
     border: 3px solid rgb(255, 255, 0);
     background: rgb(255, 255, 0);
 }
-.block_mission_map .map .chapter .mission.full.yellow .mission-text {
+.block_mission_map .map .chapter .mission.full.yellow .mission-text,
+.block_mission_map .map .chapter .mission.full.white .mission-text {
     color: rgb(0, 0, 0);
 }
 
