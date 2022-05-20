@@ -72,7 +72,7 @@ class level extends external_api
         $data->chapterid = $validateddata->chapterid;
         $data->type = $validateddata->type;
         $data->courseid = $validateddata->courseid;
-        $data->sectionid = $validateddata->sectionid;
+        $data->sectionid = json_encode($validateddata->sectionid);
         $data->url = $validateddata->url;
         $data->timecreated = time();
         $data->timemodified = time();

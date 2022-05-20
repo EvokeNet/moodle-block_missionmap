@@ -40,9 +40,16 @@
     max-width: 100%;
 }
 
-.block_mission_map .map .chapter {
+.block_mission_map .map .chapter.row {
     position: relative;
     flex: 1 0 21%;
+    margin: 0.3em;
+    border: 5px solid rgba(0, 0, 0, 1);
+}
+
+.block_mission_map .map .chapter.grid {
+    position: relative;
+    flex: 1 0 34%;
     margin: 0.3em;
     border: 5px solid rgba(0, 0, 0, 1);
 }

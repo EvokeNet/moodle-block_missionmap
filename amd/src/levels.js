@@ -26,8 +26,8 @@ define([
         document.addEventListener('click', (event) => {
             if (
                 (event.target &&
-                    event.target.classList.contains('edit_chapter')) ||
-                event.target.id == 'add_chapter'
+                    event.target.classList.contains('add_level')) ||
+                event.target.id == 'add_level'
             ) {
                 event.preventDefault();
 
@@ -125,7 +125,7 @@ define([
 
         return Fragment.loadFragment(
             'block_mission_map',
-            'chapter_form',
+            'level_form',
             this.contextid,
             params
         );

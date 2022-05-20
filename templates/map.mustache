@@ -12,7 +12,7 @@
     {{#chapters}}
         <!-- Chapter is locked -->
         {{#isLocked}}
-            <div id="chapter_{{id}}" class="chapter">
+            <div id="chapter_{{id}}" class="chapter grid">
                 <div class="locked"></div>
                 <div class="chapter_header">
                     <h3>{{name}}</h3>
@@ -32,7 +32,7 @@
 
         <!-- Chapter is unlocked -->
         {{^isLocked}}
-            <div class="chapter">
+            <div class="chapter grid">
                 <div class="chapter_header">
                     <h3>{{name}}</h3>
                 </div>

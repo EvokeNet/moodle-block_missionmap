@@ -112,7 +112,7 @@ class level_form extends \moodleform
         $mform->addRule('color', get_string('required'), 'required', null, 'client');
         $mform->setType('color', PARAM_TEXT);
 
-        $mform->addElement('select', 'sectionid', get_string('level_section', 'block_mission_map'), $option_sections, 'maxlength="100"');
+        $mform->addElement('select', 'sectionid', get_string('level_section', 'block_mission_map'), $option_sections);
         $mform->addRule('sectionid', get_string('required'), 'required', null, 'client');
         $mform->getElement('sectionid')->setMultiple(true);
 
