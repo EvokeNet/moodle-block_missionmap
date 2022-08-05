@@ -41,10 +41,6 @@ class blockintohq implements renderable, templatable {
 
         $instance = $DB->get_record('block_instances', ['id' => $this->blockinstanceid]);
         $block_instance = block_instance('mission_map', $instance);
-        print_object($instance);
-        print_object($block_instance->config);
-        die();
-
 
         // @TODO: add voting results to a strip on the top of the course section
         if ($this->sectionno != 0) {
