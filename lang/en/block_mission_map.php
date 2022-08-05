@@ -11,6 +11,7 @@ $string['map_format'] = 'Missions map display format';
 $string['map_format_header'] = 'Map format settings';
 $string['map_format_grid'] = 'Grid';
 $string['map_format_row'] = 'Row';
+$string['map_format_label'] = 'Display label on map';
 
 // GENERAL
 $string['back_map'] = 'Back to map';

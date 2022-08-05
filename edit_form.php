@@ -13,5 +13,8 @@ class block_mission_map_edit_form extends block_edit_form {
 
         $mform->addElement('select', 'map_format', get_string('map_format', 'block_mission_map'), $formats);
         $mform->setType('map_format', PARAM_INT);
+
+        $mform->addElement('selectyesno', 'map_format_label', get_string('map_format_label', 'block_mission_map'));
+        $mform->setType('map_format', PARAM_BOOL);
     }
 }
