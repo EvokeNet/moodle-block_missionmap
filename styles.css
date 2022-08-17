@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap'); */
 
 .btn.back_to_map,
 .block_mission_map .btn {
@@ -24,7 +24,7 @@
     flex-flow: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     color: rgb(255, 255, 255);
     position: relative;
     margin: 2em 0;
@@ -94,7 +94,7 @@
 }
 
 .block_mission_map .map .chapter .chapter_header h3 {
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     color: rgb(0, 0, 0);
     background: rgb(255, 255, 255);
     display: inline-block;
@@ -108,7 +108,7 @@
 }
 
 .block_mission_map .map .chapter .mission {
-    font-family: 'Bungee', Helvetica, Arial, Verdana, Tahoma, sans-serif;
+    /* font-family: 'Bungee', Helvetica, Arial, Verdana, Tahoma, sans-serif; */
     position: absolute;
     left: 0;
     top: 0;
@@ -188,8 +188,9 @@
 
 .block_mission_map .map .chapter .mission .mission-text {
     color: rgb(255, 255, 255);
-    font-size: 1.3rem;
-    line-height: 1.8;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 2;
     background-size: contain;
 }
 
@@ -250,7 +251,7 @@
     display: flex;
     align-items: flex-start;
     background: rgb(20, 15, 63);
-    font-family: 'Permanent Marker', sans-serif;
+    /* font-family: 'Permanent Marker', sans-serif; */
     font-size: 1.3em;
     color: rgb(184, 249, 7);
     border: 1px solid rgba(0, 0, 0, 1);
@@ -261,7 +262,7 @@
 }
 
 .voting_session .description .intro {
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     background-color: rgb(255, 255, 255);
     font-size: 1.8em;
     color: rgb(0, 0, 0);
@@ -275,7 +276,7 @@
 }
 
 .voting_session .banner h1 {
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     color: rgba(0, 0, 0, 1);
     font-size: 3.5em;
 }
@@ -287,7 +288,7 @@
 }
 
 .voting_session .banner p.featured {
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     font-size: 1.5em;
     color: rgba(255, 5, 64, 1);
 }
@@ -316,7 +317,7 @@
 }
 
 .voting_session .options .option .option_description {
-    font-family: 'Permanent Marker', sans-serif;
+    /* font-family: 'Permanent Marker', sans-serif; */
     font-weight: normal;
     font-size: 1.25em;
     width: 100%;
@@ -337,7 +338,7 @@
 
 .voting_session .options .option .title {
     position: absolute;
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     color: rgba(0, 0, 0, 1);
     background-color: rgba(255, 255, 255, 1);
     border: 1px solid rgb(0, 0, 0);
@@ -374,7 +375,7 @@
 }
 
 .voting_session .options .option .casted_votes {
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     color: rgba(0, 0, 0, 1);
     font-size: 2.5em;
     line-height: 0.5;
@@ -382,7 +383,7 @@
 }
 
 .voting_session .options .option .casted_votes_label {
-    font-family: 'Bangers', monospace;
+    /* font-family: 'Bangers', monospace; */
     color: rgba(0, 0, 0, 1);
     font-size: 1.1em;
     margin-bottom: 0.75em;
