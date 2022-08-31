@@ -19,7 +19,6 @@ $context = context_course::instance($course->id);
 $PAGE->set_context($context);
 $PAGE->set_course($course);
 $PAGE->set_url('/blocks/mission_map/level.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
-$PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('view_level', 'block_mission_map'));
 
 

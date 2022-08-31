@@ -21,7 +21,6 @@ require_capability('block/mission_map:managechapters', $context);
 $PAGE->set_context($context);
 $PAGE->set_course($course);
 $PAGE->set_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
-$PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('edit_voting', 'block_mission_map'));
 
 // Breadcrumbs navigation

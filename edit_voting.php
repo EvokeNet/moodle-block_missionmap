@@ -22,7 +22,6 @@ require_capability('block/mission_map:managechapters', $context);
 $PAGE->set_context($context);
 $PAGE->set_course($course);
 $PAGE->set_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
-$PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('edit_voting', 'block_mission_map'));
 
 // Breadcrumbs navigation
@@ -38,7 +37,7 @@ $voting_session = $DB->get_record('block_mission_map_votings', ['chapterid' => $
 
 if (!empty($voting_session)) {
     $voting_options = $DB->get_records('block_mission_map_options', ['votingid' => $voting_session->id]);
-    
+
     $toform = array();
     $toform['id'] = $voting_session->id;
     $toform['chapterid'] = $voting_session->chapterid;
@@ -101,7 +100,7 @@ if ($voting_form->is_cancelled()) {
     $option_urls = isset($data->option_url) ? $data->option_url : null;
     $option_courses = isset($data->option_course) ? $data->option_course : null;
     $option_sections = isset($data->option_section) ? $data->option_section : null;
-    
+
     // var_dump($option_ids);
     // die();
 

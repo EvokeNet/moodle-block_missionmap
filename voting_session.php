@@ -24,7 +24,6 @@ $context = context_course::instance($course->id);
 $PAGE->set_context($context);
 $PAGE->set_course($course);
 $PAGE->set_url('/blocks/mission_map/edit_voting.php', array('chapterid' => $chapterid, 'levelid' => $levelid));
-$PAGE->set_pagelayout('course');
 $PAGE->set_heading(get_string('view_voting', 'block_mission_map'));
 
 // Breadcrumbs navigation
