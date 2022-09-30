@@ -82,7 +82,11 @@ class blockintohq implements renderable, templatable {
         $blockcontent = '';
 
         if (!empty($chapters)) {
-            $map = new \block_mission_map\output\map($chapters);
+            if ($block_instance->config->map_format) {
+                $map = new \block_mission_map\output\weeks($chapters);
+            } else {
+                $map = new \block_mission_map\output\map($chapters);
+            }
 
             $blockcontent = $output->render($map);
         }

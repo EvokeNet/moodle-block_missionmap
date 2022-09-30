@@ -1,0 +1,51 @@
+{{! @template block_mission_map/map }} {{#can_edit}}
+<div class="map-controls">
+    <a href="{{edit_url}}" class="btn btn-default">
+            {{#str}}edit_map, block_mission_map{{/str}}
+        </a>
+</div>
+{{/can_edit}}
+<div class="map weeks">
+    {{#chapters}}
+    <!-- Chapter is locked -->
+    {{#isLocked}}
+    <div id="chapter_{{id}}" class="chapter row">
+        <div class="locked"></div>
+        <div class="chapter_header">
+            <h3>{{name}}</h3>
+            <h3 class="lock_info">{{#str}} chapter_locked, block_mission_map {{/str}}</h3>
+            <h3 data-countdown="{{unlocking_date}}">{{#str}} chapter_countdown, block_mission_map {{/str}}</h3>
+        </div>
+        <img src="{{img}}" /> {{#levels}}
+        <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+            <span class="mission-text">
+                            {{name}}
+                        </span>
+        </a>
+        {{/levels}}
+    </div>
+    {{/isLocked}}
+
+    <!-- Chapter is unlocked -->
+    {{^isLocked}}
+    <div class="chapter row">
+        <div class="chapter_header">
+            <h3>{{name}}</h3>
+        </div>
+        <img src="{{img}}" /> {{#levels}} {{#isCompleted}}
+        <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+            <span class="mission-text">
+                                {{name}}
+                            </span>
+        </a>
+        {{/isCompleted}} {{^isCompleted}}
+        <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+            <span class="mission-text">
+                                {{name}}
+                            </span>
+        </a>
+        {{/isCompleted}} {{/levels}}
+    </div>
+    {{/isLocked}} {{/chapters}}
+</div>
+{{#js}} require(['block_mission_map/randomizer'], function(module) { module.init(); } ); require(['block_mission_map/countdown'], function(module) { module.init(); } ); {{/js}}
