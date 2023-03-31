@@ -87,14 +87,13 @@
 
 .block_mission_map .map .chapter .chapter_header {
     position: absolute;
-    top: 1em;
-    left: 1em;
+    top: 0.3em;
+    left: 0.3em;
     width: auto;
     z-index: 990;
 }
 
 .block_mission_map .map .chapter .chapter_header h3 {
-    /* font-family: 'Bangers', monospace; */
     color: rgb(0, 0, 0);
     background: rgb(255, 255, 255);
     display: inline-block;
@@ -474,6 +473,7 @@
     }
 
     .block_mission_map .map .chapter h3 {
+        font-size: 1.2em;
         margin-left: 0.5em;
         width: auto;
     }
@@ -532,6 +532,16 @@
     }
 }
 
+/* Very low res computer screens or zoomed in */
+@media only screen and (min-width: 900px) and (max-width: 1024px) {
+    .block_mission_map .map .chapter h3 {
+        font-size: 1.2em;
+        margin-left: 0.2em;
+        margin-top: 0.2em;
+        width: auto;
+    }
+}
+
 /* Tablets and laptops */
 @media only screen and (min-width: 733px) and (max-width: 992px) {
     .block_mission_map .map {
@@ -542,6 +552,12 @@
         width: 100%;
         max-width: 100%;
     }
+
+    .block_mission_map .map .chapter h3 {
+        font-size: 1.2em;
+        margin-left: 0.5em;
+        width: auto;
+    }
 }
 
 /* Hi-res laptopts and desktops */
@@ -550,4 +566,10 @@
         width: 100%;
         max-width: 100%;
     }
+
+    /* .block_mission_map .map .chapter h3 {
+        font-size: 1.5em;
+        margin-left: 0.5em;
+        width: auto;
+    } */
 }
