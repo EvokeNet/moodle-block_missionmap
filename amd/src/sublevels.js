@@ -23,23 +23,9 @@ export const init_add = (contextid) => {
                     showModal(event, modal);
                 }
             });
-            // document.addEventListener('mousedown', (event) => {
-            //     if (
-            //         event.target &&
-            //         event.target.classList.contains('mission')
-            //     ) {
-            //         dragstart(event, event.target, contextid);
-            //     }
-            // });
+
             const root = modal.getRoot();
             const form = root.find('form');
-
-            // Adds dragging event listeners to all missions already added to the DOM
-            // for (let i = 0; i < missions.length; i++) {
-            //     missions[i].addEventListener('mousedown', (event) =>
-            //         dragstart(event, missions[i], contextid)
-            //     );
-            // }
 
             root.on(ModalEvents.save, (event) => submitForm(event, form));
             form.on('submit', (event) =>
@@ -51,47 +37,6 @@ export const init_add = (contextid) => {
             modal.close();
         });
 };
-
-// The function called from the Mustache template to render the EDIT_LEVEL modal
-// export const init_edit = (contextid) => {
-//     document.addEventListener('click', (event) => {
-//         if (event.target && event.target.classList.contains('edit_level')) {
-//             create_modal(event, contextid);
-//         }
-//     });
-// };
-
-// Assembles EDIT_LEVEL modal with prefilled data
-// const create_modal = (event, contextid) => {
-//     // Pass data to the modal
-//     const formdata = {
-//         chapterid: event.target.parentNode.parentNode.dataset.cid,
-//         levelid: event.target.dataset.lid,
-//     };
-
-//     // Set up a SAVE_CANCEL modal.
-//     ModalFactory.create({
-//         type: ModalFactory.types.SAVE_CANCEL,
-//         title: 'Edit Level',
-//         body: get_form(formdata, contextid),
-//     })
-//         // Set up the modal events
-//         .then((modal) => {
-//             const root = modal.getRoot();
-//             const form = root.find('form');
-
-//             root.on(ModalEvents.save, (event) => submitForm(event, form));
-//             form.on('submit', (event) =>
-//                 submitEditFormAjax(event, modal, form, contextid)
-//             );
-
-//             modal.show();
-//         })
-//         // Close modal
-//         .then((modal) => {
-//             modal.close();
-//         });
-// };
 
 const showModal = (event, modal) => {
     event.preventDefault();
@@ -143,39 +88,11 @@ const submitAddFormAjax = (event, modal, form, contextid) => {
     ]);
 };
 
-// const submitEditFormAjax = (event, modal, form, contextid) => {
-//     event.preventDefault();
-
-//     let formData = form.serialize();
-//     Ajax.call([
-//         {
-//             methodname: 'block_mission_map_edit_level',
-//             args: {
-//                 contextid: contextid,
-//                 jsonformdata: JSON.stringify(formData),
-//             },
-//             done: (data) => handleEditFormSubmissionResponse(data, modal),
-//             fail: (data) => handleFormSubmissionFailure(data, modal),
-//         },
-//     ]);
-// };
-
 const handleFormSubmissionFailure = (data, modal) => {
     modal.hide();
     Notification.alert('Warning', JSON.parse(data), 'Continue');
 };
 
-/**
- *   level {
- *       id: 0,
- *       chapterid: 0,
- *       parentlevelid: 0,
- *       name: 'LevelName',
- *       url: 'https://levelurl',
- *       timecreated: 0000000000,
- *       timemodified: 0000000000
- *   }
- **/
 const handleAddFormSubmissionResponse = (data, modal) => {
     let level = JSON.parse(data.data);
     let context = {
@@ -196,69 +113,3 @@ const handleAddFormSubmissionResponse = (data, modal) => {
             Notification.alert('Warning', ex, 'Continue');
         });
 };
-
-// const handleEditFormSubmissionResponse = (data, modal) => {
-//     let level_data = JSON.parse(data.data);
-//     const level = document.querySelector(`[data-lid="${level_data.levelid}"]`);
-//     level.href = level_data.url;
-//     modal.hide();
-// };
-
-/* eslint-disable */
-// const dragstart = (event, element) => {
-//     event.preventDefault();
-
-//     element.classList.add('dimmed');
-//     element.style.cursor = 'move';
-
-//     let cOffX = event.clientX - element.offsetLeft;
-//     let cOffY = event.clientY - element.offsetTop;
-
-//     element.onmousemove = (event) => {
-//         element.style.top = (event.clientY - cOffY).toString() + 'px';
-//         element.style.left = (event.clientX - cOffX).toString() + 'px';
-//     };
-
-//     document.onmouseup = () => {
-//         element.onmousemove = null;
-//         element.style.cursor = 'pointer';
-//         element.classList.remove('dimmed');
-
-// const level_edit_form = $('.block_mission_map_level_edit_form');
-// document.getElementById('levelid').value = element.dataset.lid;
-// document.getElementById('chapterid').value =
-//     element.parentNode.dataset.cid;
-// document.getElementById('posx').value = element.style.top;
-// document.getElementById('posy').value = element.style.left;
-// submitLevelEditFormAjax(level_edit_form, contextid);
-//     };
-
-//     element.ondragstart = () => {
-//         return false;
-//     };
-// };
-
-// const submitLevelEditFormAjax = (form, contextid) => {
-//     let formData = form.serialize();
-//     Ajax.call([
-//         {
-//             methodname: 'block_mission_map_edit_level',
-//             args: {
-//                 contextid: contextid,
-//                 jsonformdata: JSON.stringify(formData),
-//             },
-//             done: (data) => handleLevelEditFormSubmissionResponse(data),
-//             fail: (data) => handleLevelEditFormSubmissionFailure(data),
-//         },
-//     ]);
-// };
-
-// const handleLevelEditFormSubmissionFailure = (data) => {
-//     Notification.alert('Warning', JSON.stringify(data), 'Continue');
-//     return false;
-// };
-
-// const handleLevelEditFormSubmissionResponse = (data) => {
-//     Notification.alert('Success', data, 'Continue');
-// };
-/* eslint-enable */
