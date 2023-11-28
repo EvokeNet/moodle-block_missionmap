@@ -10,7 +10,7 @@ $string['block_title'] = 'Tus misiones';
 $string['back_map'] = 'Volver al mapa';
 $string['edit_map'] = 'Editar mapa';
 
-// CHAPTERS 
+// CHAPTERS
 $string['add_page'] = 'Editar capítulos';
 $string['edit_chapters'] = 'Edición de capítulos';
 $string['view_chapters'] = 'Capítulos de la Campaña';
@@ -82,7 +82,7 @@ $string['voting_deadline'] = 'Límite de tiempo';
 $string['voting_threshold'] = 'Umbral (%)';
 
 $string['voting_tiebreak'] = 'Estrategia de desempate';
-$string['voting_tiebreak_help'] = '<b>Segunda ronda</b>: Cada miembro del equipo deberá votar por segunda vez antes de un límite de tiempo establecido. La opción ganadora se decide por mayoría simple (50% + 1) o, si no hay votos emitidos, seleccionada de manera aleatoria (50% chance of selection).<br/><br/><b>Votación Minerva</b>: Un “emisor de voto Minerva" seleccionado debería emitir un voto de que decida el desempate antes de un límite de tiempo establecido. Si no hay voto emitido, la opción es elegida de manera aleatoria (50% chance of selection).<br/><br/><b>Selección aleatoria</b>: La opción ganadora será seleccionada inmediatamente de manera aleatoria (50% chance of selection).';
+$string['voting_tiebreak_help'] = '<b>Segunda ronda</b>: Cada miembro del equipo deberá votar por segunda vez antes de un límite de tiempo establecido. La opción ganadora se decide por mayoría simple (50% + 1) o, si no hay votos emitidos, seleccionada de manera aleatoria (50% chance of selection).<br/><br/><b>Votación Minerva</b>: Un "emisor de voto Minerva" seleccionado debería emitir un voto de que decida el desempate antes de un límite de tiempo establecido. Si no hay voto emitido, la opción es elegida de manera aleatoria (50% chance of selection).<br/><br/><b>Selección aleatoria</b>: La opción ganadora será seleccionada inmediatamente de manera aleatoria (50% chance of selection).';
 
 $string['voting_tiebreak_secondround'] = 'Segunda ronda';
 $string['voting_tiebreak_minerva'] = 'Votación Minerva';
