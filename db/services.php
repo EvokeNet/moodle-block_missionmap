@@ -28,15 +28,23 @@ $functions = [
     'block_mission_map_create_chapter' => [
         'classname' => 'block_mission_map\external\chapter',
         'methodname' => 'create',
-        'classpath' => 'mission_map/classes/external/chapter.php',
+        'classpath' => 'blocks/mission_map/classes/external/chapter.php',
         'description' => 'Creates a new Chapter for a Campaign',
         'type' => 'write',
+        'ajax' => true
+    ],
+    'block_mission_map_get_course_activities' => [
+        'classname' => 'block_mission_map\external\mission',
+        'methodname' => 'get_course_activities',
+        'classpath' => 'blocks/mission_map/classes/external/mission.php',
+        'description' => 'Gets course activities grouped by section',
+        'type' => 'read',
         'ajax' => true
     ],
     'block_mission_map_create_level' => [
         'classname' => 'block_mission_map\external\level',
         'methodname' => 'create',
-        'classpath' => 'mission_map/classes/external/level.php',
+        'classpath' => 'blocks/mission_map/classes/external/level.php',
         'description' => 'Creates a new Level for a Chapter',
         'type' => 'write',
         'ajax' => true

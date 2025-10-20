@@ -1,0 +1,49 @@
+<form id="addMissionForm">
+    <div class="form-group">
+        <label for="missionName">{{#str}}mission_name, block_mission_map{{/str}}</label>
+        <input type="text" class="form-control" id="missionName" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="missionDescription">{{#str}}mission_description, block_mission_map{{/str}}</label>
+        <textarea class="form-control" id="missionDescription" name="description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="missionType">{{#str}}mission_type, block_mission_map{{/str}}</label>
+        <select class="form-control" id="missionType" name="type" required>
+            <option value="">{{#str}}select_type, block_mission_map{{/str}}</option>
+            <option value="1">{{#str}}mission_type_url, block_mission_map{{/str}}</option>
+            <option value="2">{{#str}}mission_type_activity, block_mission_map{{/str}}</option>
+            <option value="3">{{#str}}mission_type_voting, block_mission_map{{/str}}</option>
+        </select>
+    </div>
+    <div class="form-group" id="urlGroup">
+        <label for="missionUrl">{{#str}}mission_url, block_mission_map{{/str}}</label>
+        <input type="url" class="form-control" id="missionUrl" name="url" placeholder="https://example.com">
+    </div>
+    <div class="form-group" id="activityGroup" style="display: none;">
+        <label for="missionActivity">{{#str}}mission_activity, block_mission_map{{/str}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="missionActivitySearch" placeholder="{{#str}}search_activities, block_mission_map{{/str}}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="clearSearchBtn">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <select class="form-control" id="missionActivitySelect" name="cmid" size="8" style="max-height: 200px;">
+            <option value="">{{#str}}select_activity, block_mission_map{{/str}}</option>
+        </select>
+        <input type="hidden" id="selectedActivityUrl" name="activity_url">
+        <small class="form-text text-muted">{{#str}}activity_select_help, block_mission_map{{/str}}</small>
+    </div>
+    <div class="form-group">
+        <label for="missionColor">{{#str}}mission_color, block_mission_map{{/str}}</label>
+        <select class="form-control" id="missionColor" name="color">
+            <option value="blue">{{#str}}color_blue, block_mission_map{{/str}}</option>
+            <option value="green">{{#str}}color_green, block_mission_map{{/str}}</option>
+            <option value="red">{{#str}}color_red, block_mission_map{{/str}}</option>
+            <option value="yellow">{{#str}}color_yellow, block_mission_map{{/str}}</option>
+            <option value="purple">{{#str}}color_purple, block_mission_map{{/str}}</option>
+        </select>
+    </div>
+</form>

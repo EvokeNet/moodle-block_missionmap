@@ -13,7 +13,7 @@ use templatable;
 require_once("{$CFG->libdir}/completionlib.php");
 
 define("TYPE_URL", 1);
-define("TYPE_SECTION", 2);
+define("TYPE_ACTIVITY", 2);
 define("TYPE_VOTING", 3);
 define("TYPE_SUBLEVEL", 4);
 
@@ -37,6 +37,10 @@ class map implements renderable, templatable
         if (has_capability('block/mission_map:managechapters', $context)) {
             $data->can_edit = true;
             $data->edit_url = new moodle_url('/blocks/mission_map/chapters.php') . "?courseid={$COURSE->id}&blockid={$this->chapters[0]->blockid}";
+        }
+        
+        if (has_capability('block/mission_map:managechapters', $context)) {
+            $data->can_add_mission = true;
         }
 
         $i = 0;
@@ -69,18 +73,25 @@ class map implements renderable, templatable
                 }
 
                 switch ($level->type) {
+                    case TYPE_URL:
+                        // Use the URL directly from the database
+                        $level->url = $level->url;
+                        break;
+                    case TYPE_ACTIVITY:
+                        // Use the URL from the database (which contains the activity URL)
+                        $level->url = $level->url;
+                        break;
                     case TYPE_SUBLEVEL:
                         $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                         break;
                     case TYPE_VOTING:
                         $level->url = new moodle_url('/blocks/mission_map/voting.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";
                         break;
-                    case TYPE_SECTION:
-                        $section = $DB->get_record('course_sections', ['id' => $level->sectionid]);
-                        $level->isLocked = (!$section->visible) ? true : false;
-                        $level->url = new moodle_url('/course/view.php') . "?id={$level->courseid}&section={$section->section}&returnto=map";
-                        break;
                     default:
+                        // Fallback: if no URL is set, don't make it clickable
+                        if (empty($level->url)) {
+                            $level->url = '#';
+                        }
                         break;
                 }
             }

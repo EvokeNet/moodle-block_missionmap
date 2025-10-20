@@ -20,6 +20,9 @@ $string['chapter_locked'] = 'Bloqueado';
 $string['chapter_helper'] = 'Haz click en los puntos para acceder a las misiones';
 $string['chapter_countdown'] = '--d --h --m --s';
 
+$string['add_chapter'] = 'Agregar Capítulo';
+$string['no_chapters_yet'] = 'Aún no se han creado capítulos. Contacta a tu instructor para configurar el mapa de misiones.';
+
 $string['campaign_add_chapter'] = 'Nombre del capítulo';
 $string['campaign_locked_chapter'] = 'Bloquear capítulo en función de la fecha?';
 $string['campaign_unlock_chapter'] = 'Fecha para desbloquear el capítulo';

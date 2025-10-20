@@ -1,105 +1,128 @@
 <?php
-
 namespace block_mission_map\external;
 
-use core\context;
-use core_external\external_api;
-use core_external\external_value;
-use core_external\external_single_structure;
-use core_external\external_function_parameters;
-use block_mission_map\local\forms\level_form;
-use context_system;
+defined('MOODLE_INTERNAL') || die();
 
-class level extends external_api
-{
-    /**
-     * Create chapter parameters
-     *
-     * @return external_function_parameters
-     */
-    public static function create_parameters()
-    {
-        return new external_function_parameters([
-            'contextid' => new external_value(PARAM_INT, 'The context id for the course module'),
-            'jsonformdata' => new external_value(PARAM_RAW, 'The data from the chapter form, encoded as a json array')
-        ]);
-    }
+require_once($CFG->libdir . '/externallib.php');
+
+/**
+ * External API for block_mission_map level/mission operations.
+ */
+class level extends \external_api {
 
     /**
-     * Create chapter method
+     * Create a new mission/level.
      *
-     * @param int $contextid
-     * @param string $jsonformdata
-     *
+     * @param int $blockid Block instance ID
+     * @param int $courseid Course ID
+     * @param int $chapterid Chapter ID
+     * @param string $name Mission name
+     * @param string $description Mission description
+     * @param int $type Mission type
+     * @param string $color Mission color
+     * @param string $url Mission URL (optional)
+     * @param int $cmid Course module ID (optional)
      * @return array
-     *
-     * @throws \coding_exception
-     * @throws \dml_exception
-     * @throws \invalid_parameter_exception
-     * @throws \moodle_exception
      */
-    public static function create($contextid, $jsonformdata)
-    {
-        global $DB;
+    public static function create($blockid, $courseid, $chapterid, $name, $description, $type, $color, $url = null, $cmid = null) {
+        global $DB, $USER;
 
-        // We always must pass webservice params through validate_parameters.
-        $params = self::validate_parameters(
-            self::create_parameters(),
-            ['contextid' => $contextid, 'jsonformdata' => $jsonformdata]
-        );
+        // Validate parameters
+        $params = self::validate_parameters(self::create_parameters(), [
+            'blockid' => $blockid,
+            'courseid' => $courseid,
+            'chapterid' => $chapterid,
+            'name' => $name,
+            'description' => $description,
+            'type' => $type,
+            'color' => $color,
+            'url' => $url,
+            'cmid' => $cmid
+        ]);
 
-        $context = context::instance_by_id($params['contextid'], MUST_EXIST);
+        // Check permissions
+        $context = \context_course::instance($params['courseid']);
+        require_capability('block/mission_map:managechapters', $context);
 
-        // We always must call validate_context in a webservice.
-        self::validate_context($context);
+        // Validate block belongs to course
+        $block = $DB->get_record('block_instances', [
+            'id' => $params['blockid'],
+            'blockname' => 'mission_map'
+        ], '*', MUST_EXIST);
 
-        $serialiseddata = json_decode($params['jsonformdata']);
-
-        $data = [];
-        parse_str($serialiseddata, $data);
-
-        $mform = new level_form($data);
-        $validateddata = $mform->get_data();
-
-        if (!$validateddata) {
-            throw new \moodle_exception('invalidformdata');
+        $blockcontext = \context::instance_by_id($block->parentcontextid);
+        if ($blockcontext->instanceid != $params['courseid']) {
+            throw new \invalid_parameter_exception('Block does not belong to this course');
         }
 
-        $data = new \stdClass();
-        $data->name = $validateddata->name;
-        $data->description = $validateddata->description;
-        $data->color = $validateddata->color;
-        $data->chapterid = $validateddata->chapterid;
-        $data->type = $validateddata->type;
-        $data->courseid = $validateddata->courseid;
-        $data->sectionid = json_encode($validateddata->sectionid);
-        $data->url = $validateddata->url;
-        $data->timecreated = time();
-        $data->timemodified = time();
+        // Validate chapter exists and belongs to this block
+        $chapter = $DB->get_record('block_mission_map_chapters', [
+            'id' => $params['chapterid'],
+            'blockid' => $params['blockid']
+        ], '*', MUST_EXIST);
 
-        $levelid = $DB->insert_record('block_mission_map_levels', $data);
-        $data->id = $levelid;
+        // Prepare level data
+        $leveldata = [
+            'chapterid' => $params['chapterid'],
+            'parentlevelid' => null, // Top-level mission
+            'name' => $params['name'],
+            'description' => $params['description'],
+            'color' => $params['color'],
+            'type' => $params['type'],
+            'url' => $params['url'],
+            'courseid' => $params['courseid'],
+            'sectionid' => null, // Not using sections anymore
+            'cmid' => $params['cmid'],
+            'coordinates' => null, // Will be set by frontend
+            'timecreated' => time(),
+            'timemodified' => time()
+        ];
+
+        $levelid = $DB->insert_record('block_mission_map_levels', $leveldata);
+
+        if (!$levelid) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create mission'
+            ];
+        }
 
         return [
-            'status' => 'ok',
-            'message' => get_string('create_level_success', 'block_mission_map'),
-            'data' => json_encode($data)
+            'success' => true,
+            'levelid' => $levelid,
+            'message' => 'Mission created successfully'
         ];
     }
 
     /**
-     * Create level return fields
+     * Parameters for create.
+     *
+     * @return external_function_parameters
+     */
+    public static function create_parameters() {
+        return new \external_function_parameters([
+            'blockid' => new \external_value(PARAM_INT, 'Block instance ID'),
+            'courseid' => new \external_value(PARAM_INT, 'Course ID'),
+            'chapterid' => new \external_value(PARAM_INT, 'Chapter ID'),
+            'name' => new \external_value(PARAM_TEXT, 'Mission name'),
+            'description' => new \external_value(PARAM_TEXT, 'Mission description'),
+            'type' => new \external_value(PARAM_INT, 'Mission type'),
+            'color' => new \external_value(PARAM_TEXT, 'Mission color'),
+            'url' => new \external_value(PARAM_TEXT, 'Mission URL', VALUE_DEFAULT, null),
+            'cmid' => new \external_value(PARAM_INT, 'Course module ID', VALUE_DEFAULT, null)
+        ]);
+    }
+
+    /**
+     * Return values for create.
      *
      * @return external_single_structure
      */
-    public static function create_returns()
-    {
-        return new external_single_structure(
-            array(
-                'status' => new external_value(PARAM_TEXT, 'Operation status'),
-                'message' => new external_value(PARAM_RAW, 'Return message'),
-                'data' => new external_value(PARAM_RAW, 'Return data')
-            )
-        );
+    public static function create_returns() {
+        return new \external_single_structure([
+            'success' => new \external_value(PARAM_BOOL, 'Whether the operation was successful'),
+            'levelid' => new \external_value(PARAM_INT, 'Created level ID', VALUE_OPTIONAL),
+            'message' => new \external_value(PARAM_TEXT, 'Response message')
+        ]);
     }
 }

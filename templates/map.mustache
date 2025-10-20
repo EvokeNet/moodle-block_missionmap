@@ -1,10 +1,4 @@
-{{! @template block_mission_map/map }} {{#can_edit}}
-<div class="map-controls">
-    <a href="{{edit_url}}" class="btn btn-default">
-            {{#str}}edit_map, block_mission_map{{/str}}
-        </a>
-</div>
-{{/can_edit}}
+{{! @template block_mission_map/map }}
 <div class="map">
     {{#chapters}}
     <!-- Chapter is locked -->
@@ -17,7 +11,7 @@
             <h3 data-countdown="{{unlocking_date}}">{{#str}} chapter_countdown, block_mission_map {{/str}}</h3>
         </div>
         <img src="{{img}}" /> {{#levels}}
-        <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+        <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
             <span class="mission-text">
                             {{name}}
                         </span>
@@ -33,18 +27,23 @@
             <h3>{{name}}</h3>
         </div>
         <img src="{{img}}" /> {{#levels}} {{#isCompleted}}
-        <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+        <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
             <span class="mission-text">
                                 {{name}}
                             </span>
         </a>
         {{/isCompleted}} {{^isCompleted}}
-        <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+        <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
             <span class="mission-text">
                                 {{name}}
                             </span>
         </a>
         {{/isCompleted}} {{/levels}}
+        {{#can_add_mission}}
+        <button type="button" class="btn btn-sm btn-success add-mission-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+            <i class="fa fa-plus"></i> Add Mission
+        </button>
+        {{/can_add_mission}}
     </div>
     {{/isLocked}} {{/chapters}}
 </div>

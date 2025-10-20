@@ -8,12 +8,136 @@ export const init = () => {
 
     if (map_image.complete) {
         randomize();
+        initTooltips();
     } else {
-        map_image.addEventListener('load', randomize());
+        map_image.addEventListener('load', () => {
+            randomize();
+            initTooltips();
+        });
         map_image.addEventListener('error', () => {
             window.console.log('Error while randomizing missions on the map');
         });
     }
+};
+
+const initTooltips = () => {
+    // Initialize tooltips for mission descriptions
+    const missionElements = document.querySelectorAll('.mission[data-toggle="tooltip"]');
+    
+    missionElements.forEach(element => {
+        // Check if tooltip is already initialized
+        if (!element.hasAttribute('data-tooltip-initialized')) {
+            // Mark as initialized
+            element.setAttribute('data-tooltip-initialized', 'true');
+            
+            // Try different tooltip approaches
+            if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+                // Bootstrap 5
+                try {
+                    const tooltip = new bootstrap.Tooltip(element, {
+                        placement: 'top',
+                        trigger: 'hover',
+                        delay: { show: 300, hide: 100 },
+                        html: true,
+                        sanitize: false
+                    });
+                    console.log('Bootstrap 5 tooltip initialized');
+                } catch (e) {
+                    console.log('Bootstrap 5 tooltip failed:', e);
+                    initCustomTooltip(element);
+                }
+            } else if (typeof $ !== 'undefined' && $.fn.tooltip) {
+                // Bootstrap 4 or jQuery tooltip
+                try {
+                    $(element).tooltip({
+                        placement: 'top',
+                        trigger: 'hover',
+                        delay: { show: 300, hide: 100 },
+                        html: true
+                    });
+                    console.log('jQuery tooltip initialized');
+                } catch (e) {
+                    console.log('jQuery tooltip failed:', e);
+                    initCustomTooltip(element);
+                }
+            } else {
+                // Use custom tooltip implementation
+                initCustomTooltip(element);
+            }
+        }
+    });
+    
+    console.log('Tooltip initialization completed for', missionElements.length, 'elements');
+};
+
+const initCustomTooltip = (element) => {
+    const title = element.getAttribute('title');
+    if (!title) return;
+    
+    // Remove the title attribute to prevent native tooltip
+    element.removeAttribute('title');
+    
+    // Create tooltip element
+    const tooltip = document.createElement('div');
+    tooltip.className = 'mission-tooltip';
+    tooltip.innerHTML = title;
+    tooltip.style.cssText = `
+        position: absolute;
+        background: #333;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 1000;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        max-width: 200px;
+        word-wrap: break-word;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    `;
+    
+    document.body.appendChild(tooltip);
+    
+    let showTimeout, hideTimeout;
+    
+    element.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+        showTimeout = setTimeout(() => {
+            const rect = element.getBoundingClientRect();
+            
+            // Make tooltip visible first to get dimensions
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'hidden'; // Hidden but taking up space
+            
+            // Position tooltip directly above the mission dot
+            const centerX = rect.left + (rect.width / 2);
+            const tooltipX = centerX - (tooltip.offsetWidth / 2);
+            const tooltipY = rect.top - tooltip.offsetHeight - 2; // Very close gap - just 2px
+            
+            tooltip.style.left = tooltipX + 'px';
+            tooltip.style.top = tooltipY + 'px';
+            
+            // Now make it visible
+            tooltip.style.visibility = 'visible';
+            
+            console.log('Tooltip positioned at:', tooltip.style.left, tooltip.style.top);
+            console.log('Mission dot at:', rect.left, rect.top);
+            console.log('Mission center X:', centerX);
+            console.log('Tooltip width:', tooltip.offsetWidth);
+            console.log('Tooltip height:', tooltip.offsetHeight);
+            console.log('Gap between tooltip and mission:', rect.top - tooltipY - tooltip.offsetHeight);
+        }, 300);
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        clearTimeout(showTimeout);
+        hideTimeout = setTimeout(() => {
+            tooltip.style.opacity = '0';
+        }, 100);
+    });
+    
+    console.log('Custom tooltip initialized for:', title);
 };
 
 const randomize = () => {

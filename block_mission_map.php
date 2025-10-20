@@ -51,19 +51,59 @@ class block_mission_map extends block_base
         }
         $chapters = array_values($chapters);
 
-        // If no chapters, render blank
+        // Always show "Add Chapter" button if user can manage chapters
+        $context = context_course::instance($this->page->course->id);
+        $canManage = has_capability('block/mission_map:managechapters', $context);
+        
         if (empty($chapters)) {
             $this->content = new stdClass;
-            $this->content->text = null;
-        }
-
-        // If chapters, render mission map
-        else {
+            
+            if ($canManage) {
+                // Create modal trigger button for empty state
+                $this->content->text = '
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary btn-lg" data-target="#addChapterModal">
+                            <i class="fa fa-plus"></i> ' . get_string('add_chapter', 'block_mission_map') . '
+                        </button>
+                    </div>
+                ';
+            } else {
+                $this->content->text = '<div class="text-center text-muted">' . 
+                    get_string('no_chapters_yet', 'block_mission_map') . 
+                    '</div>';
+            }
+        } else {
+            // If chapters exist, render mission map
             $map = new \block_mission_map\output\map($chapters);
             $renderer = $this->page->get_renderer('block_mission_map');
             $this->content = new stdClass;
-            $this->content->text = '';
+            
+            // Add "Add Chapter" button at the top if user can manage
+            $addButtonHtml = '';
+            if ($canManage) {
+                $addButtonHtml = '
+                    <div class="text-right mb-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-target="#addChapterModal">
+                            <i class="fa fa-plus"></i> ' . get_string('add_chapter', 'block_mission_map') . '
+                        </button>
+                    </div>
+                ';
+            }
+            
+            $this->content->text = $addButtonHtml . $renderer->render($map);
             $this->content->footer = '';
+        }
+        
+        // Always add JavaScript for modal functionality if user can manage
+        if ($canManage) {
+            $this->page->requires->js_call_amd('block_mission_map/chapter_modal', 'init', [
+                'blockid' => $this->instance->id,
+                'courseid' => $this->page->course->id
+            ]);
+            $this->page->requires->js_call_amd('block_mission_map/mission_modal', 'init', [
+                'blockid' => $this->instance->id,
+                'courseid' => $this->page->course->id
+            ]);
         }
         $this->page->requires->js_call_amd('block_mission_map/colorizer', 'init', ['.block_mission_map']);
 
@@ -75,22 +115,7 @@ class block_mission_map extends block_base
         global $COURSE;
         $bc = parent::get_content_for_output($output);
 
-        if (isset($bc)) {
-            $context = context_system::instance();
-            if (
-                $this->page->user_can_edit_blocks() && has_capability('block/mission_map:managechapters', $context)
-            ) {
-                $str = new lang_string('add_page', 'block_mission_map');
-                $controls = new action_menu_link_secondary(
-                    new moodle_url('/blocks/mission_map/chapters.php', array('courseid' => $COURSE->id, 'blockid' => $bc->blockinstanceid)),
-                    new pix_icon('a/view_list_active', $str, 'moodle', array('class' => 'iconsmall', 'title' => '')),
-                    $str,
-                    array('class' => 'editing_manage')
-                );
-
-                array_unshift($bc->controls, $controls);
-            }
-        }
+        // Controls removed - button is now added directly to content
 
         return $bc;
     }

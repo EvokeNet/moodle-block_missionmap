@@ -28,7 +28,28 @@ $string['chapter_helper'] = 'Click on the dots to access the mission';
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['add_chapter'] = 'Add Chapter';
+$string['no_chapters_yet'] = 'No chapters created yet. Contact your instructor to set up the mission map.';
 $string['campaign_add_chapter'] = 'Chapter name';
+
+// Mission strings
+$string['add_mission'] = 'Add Mission';
+$string['mission_name'] = 'Mission name';
+$string['mission_description'] = 'Mission description';
+$string['mission_type'] = 'Mission type';
+$string['mission_type_url'] = 'External URL';
+$string['mission_type_activity'] = 'Course Activity';
+$string['mission_type_voting'] = 'Voting Session';
+$string['mission_url'] = 'Mission URL';
+$string['mission_activity'] = 'Course Activity';
+$string['search_activities'] = 'Search activities...';
+$string['select_type'] = 'Select mission type...';
+$string['activity_select_help'] = 'Use the search box above to filter activities, then select from the dropdown.';
+$string['mission_color'] = 'Mission color';
+$string['color_blue'] = 'Blue';
+$string['color_green'] = 'Green';
+$string['color_red'] = 'Red';
+$string['color_yellow'] = 'Yellow';
+$string['color_purple'] = 'Purple';
 $string['campaign_locked_chapter'] = 'Lock chapter based on date?';
 $string['campaign_unlock_chapter'] = 'Date to unlock chapter';
 $string['campaign_add_chapter_error'] = 'Chapter name can\'t be null';
