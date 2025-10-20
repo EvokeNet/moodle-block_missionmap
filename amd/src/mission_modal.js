@@ -1,8 +1,8 @@
-define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/modal_events', 'core/templates'], function($, ajax, notification, ModalFactory, ModalEvents, Templates) {
+define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/modal_events', 'core/templates'],
+    function($, ajax, notification, ModalFactory, ModalEvents, Templates) {
 
     return {
         init: function(blockid, courseid) {
-            console.log('Mission modal init called with blockid:', blockid, 'courseid:', courseid);
 
             // Create modal using Moodle's ModalFactory with template
             ModalFactory.create({
@@ -13,11 +13,9 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     courseid: courseid
                 })
             }).then(function(modal) {
-                console.log('Mission modal created successfully');
 
                 // Show/hide URL/Activity fields based on mission type
                 modal.getRoot().on('change', '#missionType', function() {
-                    console.log('Mission type changed');
                     var type = $(this).val();
                     if (type == '1') { // URL
                         $('#urlGroup').show();
@@ -33,8 +31,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 });
 
                 // Handle activity search and filtering
-                var allActivities = [];
-                
                 modal.getRoot().on('input', '#missionActivitySearch', function() {
                     var searchTerm = $(this).val().toLowerCase();
                     filterActivities(searchTerm);
@@ -51,27 +47,26 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     var selectedOption = $(this).find('option:selected');
                     var cmid = selectedOption.val();
                     var url = selectedOption.data('url');
-                    
+
                     if (cmid) {
                         $('#selectedActivityUrl').val(url);
-                        console.log('Activity selected:', selectedOption.text(), 'CMID:', cmid, 'URL:', url);
                     } else {
                         $('#selectedActivityUrl').val('');
                     }
                 });
 
-                // Load course activities into dropdown
+                /**
+                 * Load course activities into dropdown
+                 */
                 function loadCourseActivities() {
                     ajax.call([{
                         methodname: 'block_mission_map_get_course_activities',
                         args: { courseid: courseid }
                     }])[0].then(function(response) {
-                        console.log('Activities loaded:', response);
                         if (response.success && response.activities) {
                             populateActivityDropdown(response.activities);
                         }
                     }).catch(function(error) {
-                        console.log('Error loading activities:', error);
                         notification.addNotification({
                             message: 'Error loading activities: ' + error.message,
                             type: 'error'
@@ -79,18 +74,20 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     });
                 }
 
-                // Populate the activity dropdown with grouped sections
+                /**
+                 * Populate the activity dropdown with grouped sections
+                 * @param {Array} activities
+                 */
                 function populateActivityDropdown(activities) {
-                    allActivities = activities;
                     var dropdown = $('#missionActivitySelect');
                     dropdown.empty();
                     dropdown.append('<option value="">{{#str}}select_activity, block_mission_map{{/str}}</option>');
-                    
+
                     activities.forEach(function(section) {
                         if (section.activities.length > 0) {
                             // Add section header (disabled option)
                             dropdown.append('<optgroup label="' + section.section_name + '">');
-                            
+
                             section.activities.forEach(function(activity) {
                                 var option = $('<option></option>')
                                     .attr('value', activity.id)
@@ -98,21 +95,24 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                                     .text(activity.name + ' (' + activity.type + ')');
                                 dropdown.append(option);
                             });
-                            
+
                             dropdown.append('</optgroup>');
                         }
                     });
                 }
 
-                // Filter activities based on search term
+                /**
+                 * Filter activities based on search term
+                 * @param {string} searchTerm
+                 */
                 function filterActivities(searchTerm) {
                     var dropdown = $('#missionActivitySelect');
                     var options = dropdown.find('option');
-                    
+
                     options.each(function() {
                         var option = $(this);
                         var text = option.text().toLowerCase();
-                        
+
                         if (option.val() === '') {
                             // Always show the placeholder option
                             option.show();
@@ -122,12 +122,12 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                             option.hide();
                         }
                     });
-                    
+
                     // Hide/show optgroups based on visible children
                     dropdown.find('optgroup').each(function() {
                         var optgroup = $(this);
                         var visibleOptions = optgroup.find('option:visible').not('[value=""]');
-                        
+
                         if (visibleOptions.length === 0) {
                             optgroup.hide();
                         } else {
@@ -138,9 +138,8 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
 
                 // Handle save event using Moodle's standard save event
                 modal.getRoot().on(ModalEvents.save, function(e) {
-                    console.log('Save mission event triggered');
                     e.preventDefault();
-                    
+
                     var missionName = $('#missionName').val().trim();
                     var missionType = $('#missionType').val();
                     var missionUrl = $('#missionUrl').val();
@@ -174,6 +173,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     }
 
                     var editingChapterId = modal.getRoot().data('editing-chapter-id');
+                    var editingMissionId = modal.getRoot().data('editing-mission-id');
 
                     // Prepare data
                     var data = {
@@ -188,20 +188,22 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         cmid: missionType == '2' ? selectedActivityId : null
                     };
 
-                    console.log('Sending mission data:', data);
+                    // Add mission ID if editing
+                    if (editingMissionId) {
+                        data.levelid = editingMissionId;
+                    }
 
                     // Show loading state
                     modal.getRoot().find('[data-action="save"]').prop('disabled', true).text('Saving...');
 
-                    // Make AJAX call to create mission
+                    // Make AJAX call to create or update mission
                     ajax.call([{
                         methodname: 'block_mission_map_create_level',
                         args: data
                     }])[0].then(function(response) {
-                        console.log('AJAX response:', response);
                         if (response.success) {
                             notification.addNotification({
-                                message: 'Mission created successfully!',
+                                message: editingMissionId ? 'Mission updated successfully!' : 'Mission created successfully!',
                                 type: 'success'
                             });
 
@@ -211,15 +213,15 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                                 window.location.reload();
                             }, 1000);
                         } else {
+                            var errorMsg = editingMissionId ? 'Error updating mission' : 'Error creating mission';
                             notification.addNotification({
-                                message: response.message || 'Error creating mission',
+                                message: response.message || errorMsg,
                                 type: 'error'
                             });
                         }
                     }).catch(function(error) {
-                        console.log('AJAX error:', error);
                         notification.addNotification({
-                            message: 'Error creating mission: ' + error.message,
+                            message: 'Error saving mission: ' + error.message,
                             type: 'error'
                         });
                     }).always(function() {
@@ -230,7 +232,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
 
                 // Reset form when modal is closed
                 modal.getRoot().on(ModalEvents.hidden, function() {
-                    console.log('Mission modal closed');
                     $('#addMissionForm')[0].reset();
                     $('#urlGroup').show();
                     $('#activityGroup').hide();
@@ -243,21 +244,91 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     e.preventDefault();
                     var chapterId = $(this).data('chapter-id');
                     var chapterName = $(this).data('chapter-name');
-                    
-                    console.log('Add mission clicked for chapter:', chapterId, chapterName);
-                    
+
                     // Store chapter ID for mission creation
                     modal.getRoot().data('editing-chapter-id', chapterId);
-                    
+                    modal.getRoot().data('editing-mission-id', null); // Clear any existing mission ID
+
                     // Update modal title with chapter name
                     modal.getRoot().find('.modal-title').text('Add Mission to: ' + chapterName);
-                    
+
+                    // Reset form
+                    $('#addMissionForm')[0].reset();
+                    $('#urlGroup').show();
+                    $('#activityGroup').hide();
+
                     modal.show();
                 });
 
-                console.log('Mission modal setup complete');
+                // Handle mission clicks to show/hide action buttons
+                $(document).on('click', '.mission', function(e) {
+                    e.preventDefault();
+                    
+                    // Hide all other action buttons
+                    $('.mission-actions').hide();
+                    
+                    // Show action buttons for this mission
+                    $(this).siblings('.mission-actions').show();
+                });
+
+                // Handle view button clicks
+                $(document).on('click', '.mission-view-btn', function(e) {
+                    e.preventDefault();
+                    var url = $(this).data('url');
+                    window.open(url, '_blank');
+                });
+
+                // Handle edit mission buttons
+                $(document).on('click', '.mission-edit-btn', function(e) {
+                    e.preventDefault();
+                    var missionId = $(this).data('mission-id');
+                    var missionName = $(this).data('mission-name');
+                    var missionDescription = $(this).data('mission-description');
+                    var missionType = $(this).data('mission-type');
+                    var missionUrl = $(this).data('mission-url');
+                    var missionColor = $(this).data('mission-color');
+                    var chapterId = $(this).data('chapter-id');
+
+                    // Store mission ID for update
+                    modal.getRoot().data('editing-mission-id', missionId);
+                    modal.getRoot().data('editing-chapter-id', chapterId);
+
+                    // Update modal title
+                    modal.getRoot().find('.modal-title').text('Edit Mission: ' + missionName);
+
+                    // Populate form with existing data
+                    $('#missionName').val(missionName);
+                    $('#missionDescription').val(missionDescription);
+                    $('#missionColor').val(missionColor);
+                    $('#missionType').val(missionType);
+
+                    // Show/hide appropriate fields based on type
+                    if (missionType == '1') { // URL
+                        $('#urlGroup').show();
+                        $('#activityGroup').hide();
+                        $('#missionUrl').val(missionUrl);
+                    } else if (missionType == '2') { // Activity
+                        $('#urlGroup').hide();
+                        $('#activityGroup').show();
+                        loadCourseActivities();
+                        // Set the activity URL in the hidden field
+                        $('#selectedActivityUrl').val(missionUrl);
+                    } else { // Voting
+                        $('#urlGroup').hide();
+                        $('#activityGroup').hide();
+                    }
+
+                    modal.show();
+                });
+
+                // Hide action buttons when clicking elsewhere
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest('.mission-container').length) {
+                        $('.mission-actions').hide();
+                    }
+                });
+
             }).catch(function(error) {
-                console.error('Error creating mission modal:', error);
                 notification.addNotification({
                     message: 'Error creating mission modal: ' + error.message,
                     type: 'error'

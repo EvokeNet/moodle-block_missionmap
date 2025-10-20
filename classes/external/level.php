@@ -11,7 +11,7 @@ require_once($CFG->libdir . '/externallib.php');
 class level extends \external_api {
 
     /**
-     * Create a new mission/level.
+     * Create or update a mission/level.
      *
      * @param int $blockid Block instance ID
      * @param int $courseid Course ID
@@ -22,9 +22,10 @@ class level extends \external_api {
      * @param string $color Mission color
      * @param string $url Mission URL (optional)
      * @param int $cmid Course module ID (optional)
+     * @param int $levelid Level ID for update (optional)
      * @return array
      */
-    public static function create($blockid, $courseid, $chapterid, $name, $description, $type, $color, $url = null, $cmid = null) {
+    public static function create($blockid, $courseid, $chapterid, $name, $description, $type, $color, $url = null, $cmid = null, $levelid = null) {
         global $DB, $USER;
 
         // Validate parameters
@@ -37,7 +38,8 @@ class level extends \external_api {
             'type' => $type,
             'color' => $color,
             'url' => $url,
-            'cmid' => $cmid
+            'cmid' => $cmid,
+            'levelid' => $levelid
         ]);
 
         // Check permissions
@@ -74,24 +76,46 @@ class level extends \external_api {
             'sectionid' => null, // Not using sections anymore
             'cmid' => $params['cmid'],
             'coordinates' => null, // Will be set by frontend
-            'timecreated' => time(),
             'timemodified' => time()
         ];
 
-        $levelid = $DB->insert_record('block_mission_map_levels', $leveldata);
-
-        if (!$levelid) {
+        $isUpdate = !empty($params['levelid']);
+        
+        if ($isUpdate) {
+            // Update existing level
+            $leveldata['id'] = $params['levelid'];
+            $success = $DB->update_record('block_mission_map_levels', $leveldata);
+            
+            if (!$success) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to update mission'
+                ];
+            }
+            
             return [
-                'success' => false,
-                'message' => 'Failed to create mission'
+                'success' => true,
+                'levelid' => $params['levelid'],
+                'message' => 'Mission updated successfully'
+            ];
+        } else {
+            // Create new level
+            $leveldata['timecreated'] = time();
+            $levelid = $DB->insert_record('block_mission_map_levels', $leveldata);
+
+            if (!$levelid) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to create mission'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'levelid' => $levelid,
+                'message' => 'Mission created successfully'
             ];
         }
-
-        return [
-            'success' => true,
-            'levelid' => $levelid,
-            'message' => 'Mission created successfully'
-        ];
     }
 
     /**
@@ -109,7 +133,8 @@ class level extends \external_api {
             'type' => new \external_value(PARAM_INT, 'Mission type'),
             'color' => new \external_value(PARAM_TEXT, 'Mission color'),
             'url' => new \external_value(PARAM_TEXT, 'Mission URL', VALUE_DEFAULT, null),
-            'cmid' => new \external_value(PARAM_INT, 'Course module ID', VALUE_DEFAULT, null)
+            'cmid' => new \external_value(PARAM_INT, 'Course module ID', VALUE_DEFAULT, null),
+            'levelid' => new \external_value(PARAM_INT, 'Level ID for update', VALUE_DEFAULT, null)
         ]);
     }
 

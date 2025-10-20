@@ -28,11 +28,13 @@ $string['chapter_helper'] = 'Click on the dots to access the mission';
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['add_chapter'] = 'Add Chapter';
+$string['edit_chapter'] = 'Edit Chapter';
 $string['no_chapters_yet'] = 'No chapters created yet. Contact your instructor to set up the mission map.';
 $string['campaign_add_chapter'] = 'Chapter name';
 
 // Mission strings
 $string['add_mission'] = 'Add Mission';
+$string['edit_mission'] = 'Edit Mission';
 $string['mission_name'] = 'Mission name';
 $string['mission_description'] = 'Mission description';
 $string['mission_type'] = 'Mission type';

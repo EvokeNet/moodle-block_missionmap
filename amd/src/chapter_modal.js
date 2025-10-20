@@ -1,8 +1,8 @@
-define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/modal_events', 'core/templates'], function($, ajax, notification, ModalFactory, ModalEvents, Templates) {
+define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/modal_events', 'core/templates'],
+    function($, ajax, notification, ModalFactory, ModalEvents, Templates) {
 
     return {
         init: function(blockid, courseid) {
-            console.log('Chapter modal init called with blockid:', blockid, 'courseid:', courseid);
 
             // Create modal using Moodle's ModalFactory with template
             ModalFactory.create({
@@ -13,11 +13,9 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     courseid: courseid
                 })
             }).then(function(modal) {
-                console.log('Modal created successfully');
 
                 // Show/hide unlock date field based on checkbox
                 modal.getRoot().on('change', '#hasLock', function() {
-                    console.log('HasLock checkbox changed');
                     if ($(this).is(':checked')) {
                         $('#unlockDateGroup').show();
                     } else {
@@ -27,9 +25,8 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
 
                 // Handle save event using Moodle's standard save event
                 modal.getRoot().on(ModalEvents.save, function(e) {
-                    console.log('Save event triggered');
                     e.preventDefault();
-                    
+
                     var chapterName = $('#chapterName').val().trim();
 
                     if (!chapterName) {
@@ -58,8 +55,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         data.chapterid = editingChapterId;
                     }
 
-                    console.log('Sending data:', data);
-
                     // Show loading state
                     modal.getRoot().find('[data-action="save"]').prop('disabled', true).text('Saving...');
 
@@ -68,7 +63,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         methodname: 'block_mission_map_create_chapter',
                         args: data
                     }])[0].then(function(response) {
-                        console.log('AJAX response:', response);
                         if (response.success) {
                             notification.addNotification({
                                 message: editingChapterId ? 'Chapter updated successfully!' : 'Chapter created successfully!',
@@ -87,7 +81,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                             });
                         }
                     }).catch(function(error) {
-                        console.log('AJAX error:', error);
                         notification.addNotification({
                             message: 'Error saving chapter: ' + error.message,
                             type: 'error'
@@ -100,7 +93,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
 
                 // Reset form when modal is closed
                 modal.getRoot().on(ModalEvents.hidden, function() {
-                    console.log('Modal closed');
                     $('#addChapterForm')[0].reset();
                     $('#unlockDateGroup').hide();
                 });
@@ -108,7 +100,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 // Show modal when button is clicked (both main button and header button)
                 $('button[data-target="#addChapterModal"], .editing_add_chapter').on('click', function(e) {
                     e.preventDefault();
-                    console.log('Button clicked, showing modal');
                     modal.show();
                 });
 
@@ -119,9 +110,15 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     var chapterName = $(this).data('chapter-name');
                     var hasLock = $(this).data('has-lock');
                     var unlockDate = $(this).data('unlock-date');
-                    
-                    console.log('Edit chapter clicked:', chapterId);
-                    
+
+                    // Debug: log the data being received
+                    console.log('Edit chapter clicked:', {
+                        chapterId: chapterId,
+                        chapterName: chapterName,
+                        hasLock: hasLock,
+                        unlockDate: unlockDate
+                    });
+
                     // Populate modal with existing data
                     $('#chapterName').val(chapterName);
                     $('#hasLock').prop('checked', hasLock == 1);
@@ -133,16 +130,14 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     } else {
                         $('#unlockDateGroup').hide();
                     }
-                    
+
                     // Store chapter ID for update
                     modal.getRoot().data('editing-chapter-id', chapterId);
-                    
+
                     modal.show();
                 });
 
-                console.log('Modal setup complete');
             }).catch(function(error) {
-                console.error('Error creating modal:', error);
                 notification.addNotification({
                     message: 'Error creating modal: ' + error.message,
                     type: 'error'

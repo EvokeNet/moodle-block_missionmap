@@ -163,9 +163,20 @@ const randomize = () => {
             let posx = offsetLeft * 100;
             var posy = (rand() * (1 - height_discount) * 100).toFixed();
 
+            // Position the mission element
             missions[j].style.left = `${posx}%`;
             missions[j].style.top = `${posy}%`;
             missions[j].style.transform = `translate(-${posx}%, -${posy}%)`;
+            
+            // Also position the mission container if it exists
+            const missionContainer = missions[j].closest('.mission-container');
+            if (missionContainer) {
+                missionContainer.style.position = 'absolute';
+                missionContainer.style.left = `${posx}%`;
+                missionContainer.style.top = `${posy}%`;
+                missionContainer.style.transform = `translate(-${posx}%, -${posy}%)`;
+            }
+            
             offsetLeft += perc_division;
         }
     }

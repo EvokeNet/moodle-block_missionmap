@@ -49,6 +49,12 @@ class map implements renderable, templatable
             ++$mapno;
             $chapter->img = $output->image_url("map_main_{$mapno}", 'block_mission_map');
 
+            // Ensure has_lock is properly formatted (convert to int if needed)
+            $chapter->has_lock = (int)$chapter->has_lock;
+            
+            // Ensure unlocking_date is properly formatted
+            $chapter->unlocking_date = (int)$chapter->unlocking_date;
+
             if ($chapter->has_lock) {
                 if ($chapter->unlocking_date > time()) {
                     $chapter->isLocked = true;

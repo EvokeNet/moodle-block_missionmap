@@ -21,6 +21,7 @@ $string['chapter_helper'] = 'Haz click en los puntos para acceder a las misiones
 $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['add_chapter'] = 'Agregar Capítulo';
+$string['edit_chapter'] = 'Editar Capítulo';
 $string['no_chapters_yet'] = 'Aún no se han creado capítulos. Contacta a tu instructor para configurar el mapa de misiones.';
 
 $string['campaign_add_chapter'] = 'Nombre del capítulo';
@@ -120,3 +121,4 @@ $string['form_missions'] = 'Número de misiones en el capítulo';
 $string['mission_no'] = 'misión-{no}';
 
 $string['create_level_success'] = 'Nivel creado de con éxito!';
+$string['edit_mission'] = 'Editar Misión';
