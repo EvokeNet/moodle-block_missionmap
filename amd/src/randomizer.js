@@ -30,40 +30,8 @@ const initTooltips = () => {
             // Mark as initialized
             element.setAttribute('data-tooltip-initialized', 'true');
             
-            // Try different tooltip approaches
-            if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-                // Bootstrap 5
-                try {
-                    const tooltip = new bootstrap.Tooltip(element, {
-                        placement: 'top',
-                        trigger: 'hover',
-                        delay: { show: 300, hide: 100 },
-                        html: true,
-                        sanitize: false
-                    });
-                    console.log('Bootstrap 5 tooltip initialized');
-                } catch (e) {
-                    console.log('Bootstrap 5 tooltip failed:', e);
-                    initCustomTooltip(element);
-                }
-            } else if (typeof $ !== 'undefined' && $.fn.tooltip) {
-                // Bootstrap 4 or jQuery tooltip
-                try {
-                    $(element).tooltip({
-                        placement: 'top',
-                        trigger: 'hover',
-                        delay: { show: 300, hide: 100 },
-                        html: true
-                    });
-                    console.log('jQuery tooltip initialized');
-                } catch (e) {
-                    console.log('jQuery tooltip failed:', e);
-                    initCustomTooltip(element);
-                }
-            } else {
-                // Use custom tooltip implementation
-                initCustomTooltip(element);
-            }
+            // Always use custom tooltip implementation for better control
+            initCustomTooltip(element);
         }
     });
     
@@ -82,19 +50,20 @@ const initCustomTooltip = (element) => {
     tooltip.className = 'mission-tooltip';
     tooltip.innerHTML = title;
     tooltip.style.cssText = `
-        position: absolute;
-        background: #333;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.9);
         color: white;
         padding: 8px 12px;
         border-radius: 4px;
         font-size: 12px;
-        z-index: 1000;
+        z-index: 10000;
         pointer-events: none;
         opacity: 0;
+        visibility: hidden;
         transition: opacity 0.3s ease;
         max-width: 200px;
         word-wrap: break-word;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     `;
     
     document.body.appendChild(tooltip);
@@ -134,10 +103,30 @@ const initCustomTooltip = (element) => {
         clearTimeout(showTimeout);
         hideTimeout = setTimeout(() => {
             tooltip.style.opacity = '0';
+            setTimeout(() => {
+                tooltip.style.visibility = 'hidden';
+            }, 300);
         }, 100);
     });
     
-    console.log('Custom tooltip initialized for:', title);
+    // Function to update tooltip position
+    const updateTooltipPosition = () => {
+        if (tooltip.style.visibility === 'visible') {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + (rect.width / 2);
+            const tooltipX = centerX - (tooltip.offsetWidth / 2);
+            const tooltipY = rect.top - tooltip.offsetHeight - 5;
+            
+            tooltip.style.left = tooltipX + 'px';
+            tooltip.style.top = tooltipY + 'px';
+        }
+    };
+    
+    // Update position on scroll and resize
+    window.addEventListener('scroll', updateTooltipPosition, { passive: true });
+    window.addEventListener('resize', updateTooltipPosition, { passive: true });
+    
+    console.log('Custom scroll-aware tooltip initialized for:', title);
 };
 
 const randomize = () => {

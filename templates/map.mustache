@@ -28,7 +28,7 @@
         </div>
         <img src="{{img}}" /> {{#levels}}         {{#isCompleted}}
         <div class="mission-container">
-            <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>
@@ -46,7 +46,7 @@
         </div>
         {{/isCompleted}} {{^isCompleted}}
         <div class="mission-container">
-            <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>

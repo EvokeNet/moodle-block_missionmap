@@ -245,18 +245,14 @@
     white-space: nowrap;
 }
 
-/* Fix tooltip positioning to be closer to mission dots */
-.block_mission_map .map .chapter .mission[data-toggle="tooltip"] {
-    position: relative;
+/* Custom tooltip positioning for missions */
+.block_mission_map .map .chapter .mission .tooltip {
+    z-index: 1001 !important;
 }
 
-/* Override tooltip positioning for missions */
-.block_mission_map .map .chapter .mission .tooltip {
-    position: absolute !important;
-    top: -40px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 1001 !important;
+/* Ensure tooltips appear above missions */
+.block_mission_map .map .chapter .mission[data-toggle="tooltip"] {
+    position: relative;
 }
 
 .block_mission_map .map .chapter .mission .mission-tools {
