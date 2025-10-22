@@ -22,10 +22,11 @@ class level extends \external_api {
      * @param string $color Mission color
      * @param string $url Mission URL (optional)
      * @param int $cmid Course module ID (optional)
+     * @param int $sectionid Section ID (optional)
      * @param int $levelid Level ID for update (optional)
      * @return array
      */
-    public static function create($blockid, $courseid, $chapterid, $name, $description, $type, $color, $url = null, $cmid = null, $levelid = null) {
+    public static function create($blockid, $courseid, $chapterid, $name, $description, $type, $color, $url = null, $cmid = null, $sectionid = null, $levelid = null) {
         global $DB, $USER;
 
         // Validate parameters
@@ -39,6 +40,7 @@ class level extends \external_api {
             'color' => $color,
             'url' => $url,
             'cmid' => $cmid,
+            'sectionid' => $sectionid,
             'levelid' => $levelid
         ]);
 
@@ -73,7 +75,7 @@ class level extends \external_api {
             'type' => $params['type'],
             'url' => $params['url'],
             'courseid' => $params['courseid'],
-            'sectionid' => null, // Not using sections anymore
+            'sectionid' => $params['sectionid'],
             'cmid' => $params['cmid'],
             'coordinates' => null, // Will be set by frontend
             'timemodified' => time()
@@ -134,6 +136,7 @@ class level extends \external_api {
             'color' => new \external_value(PARAM_TEXT, 'Mission color'),
             'url' => new \external_value(PARAM_TEXT, 'Mission URL', VALUE_DEFAULT, null),
             'cmid' => new \external_value(PARAM_INT, 'Course module ID', VALUE_DEFAULT, null),
+            'sectionid' => new \external_value(PARAM_INT, 'Section ID', VALUE_DEFAULT, null),
             'levelid' => new \external_value(PARAM_INT, 'Level ID for update', VALUE_DEFAULT, null)
         ]);
     }

@@ -3,6 +3,10 @@ export const init = () => {
 
     for (const countdown of countdowns) {
         const countDownDate = new Date(countdown.dataset.countdown * 1000);
+        const timerValue = countdown.querySelector('.timer-value');
+        
+        if (!timerValue) continue;
+        
         window.console.log(countDownDate);
         setInterval(function () {
             var now = new Date().getTime();
@@ -17,7 +21,7 @@ export const init = () => {
             );
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            countdown.innerHTML =
+            timerValue.innerHTML =
                 zeroPad(days, 2) +
                 'd ' +
                 zeroPad(hours, 2) +
@@ -30,7 +34,7 @@ export const init = () => {
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval();
-                countdown.innerHTML = '00d 00h 00m 00s';
+                timerValue.innerHTML = '00d 00h 00m 00s';
             }
         }, 1000);
     }

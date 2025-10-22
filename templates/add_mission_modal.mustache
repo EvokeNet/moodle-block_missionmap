@@ -13,7 +13,8 @@
             <option value="">{{#str}}select_type, block_mission_map{{/str}}</option>
             <option value="1">{{#str}}mission_type_url, block_mission_map{{/str}}</option>
             <option value="2">{{#str}}mission_type_activity, block_mission_map{{/str}}</option>
-            <option value="3">{{#str}}mission_type_voting, block_mission_map{{/str}}</option>
+            <option value="3">{{#str}}mission_type_section, block_mission_map{{/str}}</option>
+            <option value="4">{{#str}}mission_type_voting, block_mission_map{{/str}}</option>
         </select>
     </div>
     <div class="form-group" id="urlGroup">
@@ -36,14 +37,24 @@
         <input type="hidden" id="selectedActivityUrl" name="activity_url">
         <small class="form-text text-muted">{{#str}}activity_select_help, block_mission_map{{/str}}</small>
     </div>
+    <div class="form-group" id="sectionGroup" style="display: none;">
+        <label for="missionSection">{{#str}}mission_section, block_mission_map{{/str}}</label>
+        <select class="form-control" id="missionSectionSelect" name="sectionid">
+            <option value="">{{#str}}select_section, block_mission_map{{/str}}</option>
+        </select>
+        <input type="hidden" id="selectedSectionUrl" name="section_url">
+        <small class="form-text text-muted">{{#str}}section_select_help, block_mission_map{{/str}}</small>
+    </div>
     <div class="form-group">
         <label for="missionColor">{{#str}}mission_color, block_mission_map{{/str}}</label>
-        <select class="form-control" id="missionColor" name="color">
-            <option value="blue">{{#str}}color_blue, block_mission_map{{/str}}</option>
-            <option value="green">{{#str}}color_green, block_mission_map{{/str}}</option>
-            <option value="red">{{#str}}color_red, block_mission_map{{/str}}</option>
-            <option value="yellow">{{#str}}color_yellow, block_mission_map{{/str}}</option>
-            <option value="purple">{{#str}}color_purple, block_mission_map{{/str}}</option>
-        </select>
+        <div class="input-group">
+            <input type="color" class="form-control" id="missionColor" name="color" value="#007bff" style="height: 38px;">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fa fa-palette"></i>
+                </span>
+            </div>
+        </div>
+        <small class="form-text text-muted">{{#str}}color_picker_help, block_mission_map{{/str}}</small>
     </div>
 </form>

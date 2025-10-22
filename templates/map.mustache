@@ -4,11 +4,14 @@
     <!-- Chapter is locked -->
     {{#isLocked}}
     <div id="chapter_{{id}}" class="chapter grid">
-        <div class="locked"></div>
+        <div class="locked">
+            <div class="countdown-timer" data-countdown="{{unlocking_date}}">
+                <span class="timer-label">{{#str}}chapter_locked, block_mission_map{{/str}}</span>
+                <span class="timer-value">00d 00h 00m 00s</span>
+            </div>
+        </div>
         <div class="chapter_header">
             <h3>{{name}}</h3>
-            <h3 class="lock_info">{{#str}} chapter_locked, block_mission_map {{/str}}</h3>
-            <h3 data-countdown="{{unlocking_date}}">{{#str}} chapter_countdown, block_mission_map {{/str}}</h3>
         </div>
         <img src="{{img}}" /> {{#levels}}
         <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
@@ -28,17 +31,17 @@
         </div>
         <img src="{{img}}" /> {{#levels}}         {{#isCompleted}}
         <div class="mission-container">
-            <a href="{{url}}" class="mission full {{color}}" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{{url}}}" class="mission full" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>
             </a>
             {{#can_add_mission}}
             <div class="mission-actions" style="display: none;">
-                <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{url}}">
+                <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{{url}}}">
                     <i class="fa fa-eye"></i> View
                 </button>
-                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                     <i class="fa fa-pencil"></i> Edit
                 </button>
             </div>
@@ -46,17 +49,17 @@
         </div>
         {{/isCompleted}} {{^isCompleted}}
         <div class="mission-container">
-            <a href="{{url}}" class="mission outlined {{color}}" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{{url}}}" class="mission outlined" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>
             </a>
             {{#can_add_mission}}
             <div class="mission-actions" style="display: none;">
-                <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{url}}">
+                <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{{url}}}">
                     <i class="fa fa-eye"></i> View
                 </button>
-                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{url}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                     <i class="fa fa-pencil"></i> Edit
                 </button>
             </div>

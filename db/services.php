@@ -41,6 +41,14 @@ $functions = [
         'type' => 'read',
         'ajax' => true
     ],
+    'block_mission_map_get_course_sections' => [
+        'classname' => 'block_mission_map\external\mission',
+        'methodname' => 'get_course_sections',
+        'classpath' => 'blocks/mission_map/classes/external/mission.php',
+        'description' => 'Gets course sections',
+        'type' => 'read',
+        'ajax' => true
+    ],
     'block_mission_map_create_level' => [
         'classname' => 'block_mission_map\external\level',
         'methodname' => 'create',

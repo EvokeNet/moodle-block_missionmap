@@ -122,3 +122,11 @@ $string['mission_no'] = 'misión-{no}';
 
 $string['create_level_success'] = 'Nivel creado de con éxito!';
 $string['edit_mission'] = 'Editar Misión';
+$string['mission_type_section'] = 'Sección del Curso';
+$string['color_picker_help'] = 'Elige un color para tu punto de misión. Esto ayudará a distinguir diferentes tipos de misiones.';
+$string['mission_completed'] = 'Misión completada';
+$string['mission_incomplete'] = 'Misión incompleta';
+$string['mission_progress'] = 'Progreso: {$a}%';
+$string['mission_click_to_access'] = 'Haz clic para acceder a la misión';
+$string['mission_completed_tooltip'] = '✓ Completada - Haz clic para revisar';
+$string['mission_incomplete_tooltip'] = '○ Incompleta - Haz clic para comenzar';

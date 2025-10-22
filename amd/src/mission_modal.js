@@ -14,19 +14,27 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 })
             }).then(function(modal) {
 
-                // Show/hide URL/Activity fields based on mission type
+                // Show/hide URL/Activity/Section fields based on mission type
                 modal.getRoot().on('change', '#missionType', function() {
                     var type = $(this).val();
                     if (type == '1') { // URL
                         $('#urlGroup').show();
                         $('#activityGroup').hide();
+                        $('#sectionGroup').hide();
                     } else if (type == '2') { // Activity
                         $('#urlGroup').hide();
                         $('#activityGroup').show();
+                        $('#sectionGroup').hide();
                         loadCourseActivities();
+                    } else if (type == '3') { // Section
+                        $('#urlGroup').hide();
+                        $('#activityGroup').hide();
+                        $('#sectionGroup').show();
+                        loadCourseSections();
                     } else { // Voting
                         $('#urlGroup').hide();
                         $('#activityGroup').hide();
+                        $('#sectionGroup').hide();
                     }
                 });
 
@@ -74,12 +82,34 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     });
                 }
 
+                // Load course sections into dropdown
+                function loadCourseSections() {
+                    ajax.call([{
+                        methodname: 'block_mission_map_get_course_sections',
+                        args: { courseid: courseid }
+                    }])[0].then(function(response) {
+                        if (response.success && response.sections) {
+                            populateSectionDropdown(response.sections);
+                        } else {
+                            notification.addNotification({
+                                message: 'Invalid response from server',
+                                type: 'error'
+                            });
+                        }
+                    }).catch(function(error) {
+                        notification.addNotification({
+                            message: 'Error loading sections: ' + (error.message || 'Unknown error'),
+                            type: 'error'
+                        });
+                    });
+                }
+
                 /**
                  * Populate the activity dropdown with grouped sections
                  * @param {Array} activities
                  */
                 function populateActivityDropdown(activities) {
-                    var dropdown = $('#missionActivitySelect');
+                    var dropdown = modal.getRoot().find('#missionActivitySelect');
                     dropdown.empty();
                     dropdown.append('<option value="">{{#str}}select_activity, block_mission_map{{/str}}</option>');
 
@@ -102,11 +132,29 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 }
 
                 /**
+                 * Populate the section dropdown
+                 * @param {Array} sections
+                 */
+                function populateSectionDropdown(sections) {
+                    var dropdown = modal.getRoot().find('#missionSectionSelect');
+                    dropdown.empty();
+                    dropdown.append('<option value="">{{#str}}select_section, block_mission_map{{/str}}</option>');
+                    
+                    sections.forEach(function(section) {
+                        var option = $('<option></option>')
+                            .attr('value', section.id)
+                            .data('url', section.url)
+                            .text(section.name);
+                        dropdown.append(option);
+                    });
+                }
+
+                /**
                  * Filter activities based on search term
                  * @param {string} searchTerm
                  */
                 function filterActivities(searchTerm) {
-                    var dropdown = $('#missionActivitySelect');
+                    var dropdown = modal.getRoot().find('#missionActivitySelect');
                     var options = dropdown.find('option');
 
                     options.each(function() {
@@ -136,16 +184,30 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     });
                 }
 
+                // Handle section selection
+                modal.getRoot().on('change', '#missionSectionSelect', function() {
+                    var selectedOption = $(this).find('option:selected');
+                    var sectionId = selectedOption.val();
+                    var url = selectedOption.data('url');
+                    
+                    if (sectionId) {
+                        $('#selectedSectionUrl').val(url);
+                    } else {
+                        $('#selectedSectionUrl').val('');
+                    }
+                });
+
                 // Handle save event using Moodle's standard save event
                 modal.getRoot().on(ModalEvents.save, function(e) {
                     e.preventDefault();
 
-                    var missionName = $('#missionName').val().trim();
-                    var missionType = $('#missionType').val();
-                    var missionUrl = $('#missionUrl').val();
-                    var selectedActivityId = $('#missionActivitySelect').val();
-                    var missionColor = $('#missionColor').val();
-                    var missionDescription = $('#missionDescription').val();
+                    var missionName = modal.getRoot().find('#missionName').val().trim();
+                    var missionType = modal.getRoot().find('#missionType').val();
+                    var missionUrl = modal.getRoot().find('#missionUrl').val();
+                    var selectedActivityId = modal.getRoot().find('#missionActivitySelect').val();
+                    var selectedSectionId = modal.getRoot().find('#missionSectionSelect').val();
+                    var missionColor = modal.getRoot().find('#missionColor').val();
+                    var missionDescription = modal.getRoot().find('#missionDescription').val();
 
                     if (!missionName) {
                         notification.addNotification({
@@ -172,6 +234,14 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         return;
                     }
 
+                    if (missionType == '3' && !selectedSectionId) {
+                        notification.addNotification({
+                            message: 'Please select a course section',
+                            type: 'error'
+                        });
+                        return;
+                    }
+
                     var editingChapterId = modal.getRoot().data('editing-chapter-id');
                     var editingMissionId = modal.getRoot().data('editing-mission-id');
 
@@ -184,8 +254,9 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         description: missionDescription,
                         type: parseInt(missionType),
                         color: missionColor,
-                        url: missionType == '1' ? missionUrl : (missionType == '2' ? $('#selectedActivityUrl').val() : null),
-                        cmid: missionType == '2' ? selectedActivityId : null
+                        url: missionType == '1' ? missionUrl : (missionType == '2' ? modal.getRoot().find('#selectedActivityUrl').val() : (missionType == '3' ? modal.getRoot().find('#selectedSectionUrl').val() : null)),
+                        cmid: missionType == '2' ? selectedActivityId : null,
+                        sectionid: missionType == '3' ? selectedSectionId : null
                     };
 
                     // Add mission ID if editing
@@ -232,11 +303,16 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
 
                 // Reset form when modal is closed
                 modal.getRoot().on(ModalEvents.hidden, function() {
-                    $('#addMissionForm')[0].reset();
-                    $('#urlGroup').show();
-                    $('#activityGroup').hide();
-                    $('#missionActivitySearch').val('');
-                    $('#missionActivitySelect').val('');
+                    var form = modal.getRoot().find('#addMissionForm')[0];
+                    if (form) {
+                        form.reset();
+                    }
+                    modal.getRoot().find('#urlGroup').show();
+                    modal.getRoot().find('#activityGroup').hide();
+                    modal.getRoot().find('#sectionGroup').hide();
+                    modal.getRoot().find('#missionActivitySearch').val('');
+                    modal.getRoot().find('#missionActivitySelect').val('');
+                    modal.getRoot().find('#missionSectionSelect').val('');
                 });
 
                 // Show modal when "Add Mission" button is clicked
@@ -253,9 +329,13 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     modal.getRoot().find('.modal-title').text('Add Mission to: ' + chapterName);
 
                     // Reset form
-                    $('#addMissionForm')[0].reset();
-                    $('#urlGroup').show();
-                    $('#activityGroup').hide();
+                    var form = modal.getRoot().find('#addMissionForm')[0];
+                    if (form) {
+                        form.reset();
+                    }
+                    modal.getRoot().find('#urlGroup').show();
+                    modal.getRoot().find('#activityGroup').hide();
+                    modal.getRoot().find('#sectionGroup').hide();
 
                     modal.show();
                 });
@@ -297,25 +377,35 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     modal.getRoot().find('.modal-title').text('Edit Mission: ' + missionName);
 
                     // Populate form with existing data
-                    $('#missionName').val(missionName);
-                    $('#missionDescription').val(missionDescription);
-                    $('#missionColor').val(missionColor);
-                    $('#missionType').val(missionType);
+                    modal.getRoot().find('#missionName').val(missionName);
+                    modal.getRoot().find('#missionDescription').val(missionDescription);
+                    modal.getRoot().find('#missionColor').val(missionColor);
+                    modal.getRoot().find('#missionType').val(missionType);
 
                     // Show/hide appropriate fields based on type
                     if (missionType == '1') { // URL
-                        $('#urlGroup').show();
-                        $('#activityGroup').hide();
-                        $('#missionUrl').val(missionUrl);
+                        modal.getRoot().find('#urlGroup').show();
+                        modal.getRoot().find('#activityGroup').hide();
+                        modal.getRoot().find('#sectionGroup').hide();
+                        modal.getRoot().find('#missionUrl').val(missionUrl);
                     } else if (missionType == '2') { // Activity
-                        $('#urlGroup').hide();
-                        $('#activityGroup').show();
+                        modal.getRoot().find('#urlGroup').hide();
+                        modal.getRoot().find('#activityGroup').show();
+                        modal.getRoot().find('#sectionGroup').hide();
                         loadCourseActivities();
                         // Set the activity URL in the hidden field
-                        $('#selectedActivityUrl').val(missionUrl);
+                        modal.getRoot().find('#selectedActivityUrl').val(missionUrl);
+                    } else if (missionType == '3') { // Section
+                        modal.getRoot().find('#urlGroup').hide();
+                        modal.getRoot().find('#activityGroup').hide();
+                        modal.getRoot().find('#sectionGroup').show();
+                        loadCourseSections();
+                        // Set the section URL in the hidden field
+                        modal.getRoot().find('#selectedSectionUrl').val(missionUrl);
                     } else { // Voting
-                        $('#urlGroup').hide();
-                        $('#activityGroup').hide();
+                        modal.getRoot().find('#urlGroup').hide();
+                        modal.getRoot().find('#activityGroup').hide();
+                        modal.getRoot().find('#sectionGroup').hide();
                     }
 
                     modal.show();
