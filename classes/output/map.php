@@ -75,13 +75,18 @@ class map implements renderable, templatable
                 } elseif (!empty($level->cmid)) {
                     // For activity-based missions, check individual activity completion
                     $cm = get_coursemodule_from_id('', $level->cmid);
-
-                    $completion_info = new \completion_info($COURSE);
-                    $completion = $completion_info->get_data($cm, false, $USER->id);
-    
-                    // $level->completion['view'] = $completion->viewed;
-                    // $level->completion['submit'] = $completion->customcompletion["completionrequiresubmit"];
-                    $level->isCompleted = !empty($completion->completionstate) ? true : false;
+                    
+                    // Check if cm exists and is valid
+                    if (!$cm || empty($cm->id)) {
+                        $level->isCompleted = false;
+                    } else {
+                        $completion_info = new \completion_info($COURSE);
+                        $completion = $completion_info->get_data($cm, false, $USER->id);
+        
+                        // $level->completion['view'] = $completion->viewed;
+                        // $level->completion['submit'] = $completion->customcompletion["completionrequiresubmit"];
+                        $level->isCompleted = !empty($completion->completionstate) ? true : false;
+                    }
                 } else {
                     // For URL-based missions, assume not completed (manual check needed)
                     $level->isCompleted = false;
@@ -167,10 +172,22 @@ class map implements renderable, templatable
 
         debugging("Found " . count($cms) . " activities with completion enabled in section {$sectionid}", DEBUG_DEVELOPER);
 
-        // Check completion for each activity
-        $completion_info = new \completion_info(get_course($courseid));
+        // Get course modinfo to retrieve proper cm_info objects
+        $modinfo = get_fast_modinfo($courseid);
+        $course = get_course($courseid);
+        $completion_info = new \completion_info($course);
         
-        foreach ($cms as $cm) {
+        foreach ($cms as $cmrecord) {
+            // Get proper cm_info object from modinfo
+            $cm = $modinfo->get_cm($cmrecord->id);
+            
+            // Skip if cm doesn't exist or is invalid
+            if (!$cm || empty($cm->id)) {
+                debugging("Skipping invalid cm {$cmrecord->id} in section {$sectionid}", DEBUG_DEVELOPER);
+                continue;
+            }
+            
+            // Get completion data using the proper cm_info object
             $completion = $completion_info->get_data($cm, false, $userid);
             
             debugging("Activity {$cm->id} completion state: " . ($completion->completionstate ?? 'null'), DEBUG_DEVELOPER);
