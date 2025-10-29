@@ -14,19 +14,22 @@ class block_mission_map extends block_base
     {
         global $DB;
 
-        // Let's check if user is in a course section, where we don't 
-        // want to display the map
+        // Let's check if user is in a course section or viewing an activity,
+        // where we only want to display the "back to map" button
         $sectionno = optional_param('section', 0, PARAM_INT);
         $returnto = optional_param('returnto', null, PARAM_TEXT);
         $chapterid = optional_param('chapterid', 0, PARAM_INT);
         $levelid = optional_param('levelid', 0, PARAM_INT);
 
+        // Check if we're viewing an activity/module page
+        $is_module_page = !empty($this->page->cm);
+
         if ($this->content !== null) {
             return $this->content;
         }
 
-        // @TODO: add voting results to a strip on the top of the course section
-        if ($sectionno != 0) {
+        // Show only "back to map" button when viewing a section or an activity
+        if ($sectionno != 0 || $is_module_page) {
             $this->content = new stdClass;
             if ($returnto == "level") {
                 $button = new \block_mission_map\output\button(new moodle_url('/blocks/mission_map/levels.php', ['chapterid' => $chapterid, 'levelid' => $levelid]));
@@ -133,7 +136,7 @@ class block_mission_map extends block_base
         return array(
             'site-index' => false,
             'course-view' => true,
-            'mod' => false,
+            'mod' => true,
             'my' => false
         );
     }
