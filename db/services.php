@@ -57,6 +57,14 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'block_mission_map_delete_level' => [
+        'classname' => 'block_mission_map\external\level',
+        'methodname' => 'delete',
+        'classpath' => 'blocks/mission_map/classes/external/level.php',
+        'description' => 'Deletes a Level/Mission',
+        'type' => 'write',
+        'ajax' => true
+    ],
     'block_mission_map_create_sublevel' => [
         'classname' => 'block_mission_map\external\sublevel',
         'methodname' => 'create',

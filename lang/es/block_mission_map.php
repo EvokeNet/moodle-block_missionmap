@@ -121,8 +121,31 @@ $string['form_missions'] = 'Número de misiones en el capítulo';
 $string['mission_no'] = 'misión-{no}';
 
 $string['create_level_success'] = 'Nivel creado de con éxito!';
+
+// Mission strings
+$string['add_mission'] = 'Agregar Misión';
 $string['edit_mission'] = 'Editar Misión';
+$string['delete_mission'] = 'Eliminar Misión';
+$string['delete_mission_confirm'] = '¿Estás seguro de que quieres eliminar la misión "{$a}"? Esta acción no se puede deshacer.';
+$string['delete_mission_success'] = 'Misión eliminada exitosamente';
+$string['delete_mission_error'] = 'Error al eliminar la misión';
+$string['mission_name'] = 'Nombre de la misión';
+$string['mission_description'] = 'Descripción de la misión';
+$string['mission_type'] = 'Tipo de misión';
+$string['mission_type_url'] = 'URL Externa';
+$string['mission_type_activity'] = 'Actividad del Curso';
 $string['mission_type_section'] = 'Sección del Curso';
+$string['mission_type_voting'] = 'Sesión de Votación';
+$string['mission_url'] = 'URL de la misión';
+$string['mission_activity'] = 'Actividad del Curso';
+$string['mission_section'] = 'Sección del Curso';
+$string['search_activities'] = 'Buscar actividades...';
+$string['select_type'] = 'Seleccionar tipo de misión...';
+$string['select_activity'] = 'Seleccionar una actividad...';
+$string['select_section'] = 'Seleccionar una sección...';
+$string['activity_select_help'] = 'Usa el cuadro de búsqueda arriba para filtrar actividades, luego selecciona del menú desplegable.';
+$string['section_select_help'] = 'Selecciona una sección del curso para vincular esta misión.';
+$string['mission_color'] = 'Color de la misión';
 $string['color_picker_help'] = 'Elige un color para tu punto de misión. Esto ayudará a distinguir diferentes tipos de misiones.';
 $string['mission_completed'] = 'Misión completada';
 $string['mission_incomplete'] = 'Misión incompleta';

@@ -16,7 +16,8 @@
 }
 
 .btn.back_to_map:hover {
-    color: white;
+    background: rgb(200, 5, 50) !important;
+    color: white !important;
 }
 
 .block_mission_map .map {

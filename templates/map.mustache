@@ -41,8 +41,11 @@
                 <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{{url}}}">
                     <i class="fa fa-eye"></i> View
                 </button>
-                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}" data-mission-cmid="{{cmid}}" data-mission-sectionid="{{sectionid}}">
                     <i class="fa fa-pencil"></i> Edit
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mission-delete-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-course-id="{{courseid}}">
+                    <i class="fa fa-trash"></i> Delete
                 </button>
             </div>
             {{/can_add_mission}}
@@ -59,8 +62,11 @@
                 <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{{url}}}">
                     <i class="fa fa-eye"></i> View
                 </button>
-                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}" data-mission-cmid="{{cmid}}" data-mission-sectionid="{{sectionid}}">
                     <i class="fa fa-pencil"></i> Edit
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mission-delete-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-course-id="{{courseid}}">
+                    <i class="fa fa-trash"></i> Delete
                 </button>
             </div>
             {{/can_add_mission}}

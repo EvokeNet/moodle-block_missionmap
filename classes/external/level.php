@@ -153,4 +153,78 @@ class level extends \external_api {
             'message' => new \external_value(PARAM_TEXT, 'Response message')
         ]);
     }
+
+    /**
+     * Delete a mission/level.
+     *
+     * @param int $levelid Level ID to delete
+     * @param int $courseid Course ID
+     * @return array
+     */
+    public static function delete($levelid, $courseid) {
+        global $DB;
+
+        // Validate parameters
+        $params = self::validate_parameters(self::delete_parameters(), [
+            'levelid' => $levelid,
+            'courseid' => $courseid
+        ]);
+
+        // Check permissions
+        $context = \context_course::instance($params['courseid']);
+        require_capability('block/mission_map:managechapters', $context);
+
+        // Get the level to verify it exists
+        $level = $DB->get_record('block_mission_map_levels', ['id' => $params['levelid']], '*', MUST_EXIST);
+
+        // Get chapter to verify course
+        $chapter = $DB->get_record('block_mission_map_chapters', ['id' => $level->chapterid], '*', MUST_EXIST);
+        
+        // Get block to verify course
+        $block = $DB->get_record('block_instances', ['id' => $chapter->blockid], '*', MUST_EXIST);
+        $blockcontext = \context::instance_by_id($block->parentcontextid);
+        
+        if ($blockcontext->instanceid != $params['courseid']) {
+            throw new \invalid_parameter_exception('Level does not belong to this course');
+        }
+
+        // Delete the level
+        $success = $DB->delete_records('block_mission_map_levels', ['id' => $params['levelid']]);
+
+        if (!$success) {
+            return [
+                'success' => false,
+                'message' => 'Failed to delete mission'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Mission deleted successfully'
+        ];
+    }
+
+    /**
+     * Parameters for delete.
+     *
+     * @return external_function_parameters
+     */
+    public static function delete_parameters() {
+        return new \external_function_parameters([
+            'levelid' => new \external_value(PARAM_INT, 'Level ID to delete'),
+            'courseid' => new \external_value(PARAM_INT, 'Course ID')
+        ]);
+    }
+
+    /**
+     * Return values for delete.
+     *
+     * @return external_single_structure
+     */
+    public static function delete_returns() {
+        return new \external_single_structure([
+            'success' => new \external_value(PARAM_BOOL, 'Whether the operation was successful'),
+            'message' => new \external_value(PARAM_TEXT, 'Response message')
+        ]);
+    }
 }

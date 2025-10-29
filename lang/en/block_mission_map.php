@@ -35,6 +35,10 @@ $string['campaign_add_chapter'] = 'Chapter name';
 // Mission strings
 $string['add_mission'] = 'Add Mission';
 $string['edit_mission'] = 'Edit Mission';
+$string['delete_mission'] = 'Delete Mission';
+$string['delete_mission_confirm'] = 'Are you sure you want to delete the mission "{$a}"? This action cannot be undone.';
+$string['delete_mission_success'] = 'Mission deleted successfully';
+$string['delete_mission_error'] = 'Failed to delete mission';
 $string['mission_name'] = 'Mission name';
 $string['mission_description'] = 'Mission description';
 $string['mission_type'] = 'Mission type';

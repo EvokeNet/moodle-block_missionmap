@@ -1,5 +1,5 @@
-define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/modal_events', 'core/templates'],
-    function($, ajax, notification, ModalFactory, ModalEvents, Templates) {
+define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/modal_events', 'core/templates', 'core/str'],
+    function($, ajax, notification, ModalFactory, ModalEvents, Templates, str) {
 
     return {
         init: function(blockid, courseid) {
@@ -65,14 +65,15 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
 
                 /**
                  * Load course activities into dropdown
+                 * @param {Number} selectedCmid Optional: CMID to select after loading
                  */
-                function loadCourseActivities() {
+                function loadCourseActivities(selectedCmid) {
                     ajax.call([{
                         methodname: 'block_mission_map_get_course_activities',
                         args: { courseid: courseid }
                     }])[0].then(function(response) {
                         if (response.success && response.activities) {
-                            populateActivityDropdown(response.activities);
+                            populateActivityDropdown(response.activities, selectedCmid);
                         }
                     }).catch(function(error) {
                         notification.addNotification({
@@ -83,13 +84,17 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 }
 
                 // Load course sections into dropdown
-                function loadCourseSections() {
+                /**
+                 * Load course sections into dropdown
+                 * @param {String} selectedSectionid Optional: Section ID to select after loading
+                 */
+                function loadCourseSections(selectedSectionid) {
                     ajax.call([{
                         methodname: 'block_mission_map_get_course_sections',
                         args: { courseid: courseid }
                     }])[0].then(function(response) {
                         if (response.success && response.sections) {
-                            populateSectionDropdown(response.sections);
+                            populateSectionDropdown(response.sections, selectedSectionid);
                         } else {
                             notification.addNotification({
                                 message: 'Invalid response from server',
@@ -107,45 +112,67 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 /**
                  * Populate the activity dropdown with grouped sections
                  * @param {Array} activities
+                 * @param {Number} selectedCmid Optional: CMID to select
                  */
-                function populateActivityDropdown(activities) {
+                function populateActivityDropdown(activities, selectedCmid) {
                     var dropdown = modal.getRoot().find('#missionActivitySelect');
                     dropdown.empty();
-                    dropdown.append('<option value="">{{#str}}select_activity, block_mission_map{{/str}}</option>');
 
-                    activities.forEach(function(section) {
-                        if (section.activities.length > 0) {
-                            // Add section header (disabled option)
-                            dropdown.append('<optgroup label="' + section.section_name + '">');
+                    // Get translated string for "Select an activity..."
+                    str.get_string('select_activity', 'block_mission_map').then(function(selectActivityText) {
+                        dropdown.append('<option value="">' + selectActivityText + '</option>');
 
-                            section.activities.forEach(function(activity) {
-                                var option = $('<option></option>')
-                                    .attr('value', activity.id)
-                                    .data('url', activity.url)
-                                    .text(activity.name + ' (' + activity.type + ')');
-                                dropdown.append(option);
-                            });
+                        activities.forEach(function(section) {
+                            if (section.activities.length > 0) {
+                                // Add section header (disabled option)
+                                dropdown.append('<optgroup label="' + section.section_name + '">');
 
-                            dropdown.append('</optgroup>');
-                        }
+                                section.activities.forEach(function(activity) {
+                                    var option = $('<option></option>')
+                                        .attr('value', activity.id)
+                                        .data('url', activity.url)
+                                        .text(activity.name + ' (' + activity.type + ')');
+                                    // Select if this is the selected activity
+                                    if (selectedCmid && String(selectedCmid) == String(activity.id)) {
+                                        option.attr('selected', 'selected');
+                                        // Also update the hidden URL field
+                                        modal.getRoot().find('#selectedActivityUrl').val(activity.url);
+                                    }
+                                    dropdown.append(option);
+                                });
+
+                                dropdown.append('</optgroup>');
+                            }
+                        });
                     });
                 }
 
                 /**
                  * Populate the section dropdown
                  * @param {Array} sections
+                 * @param {String} selectedSectionid Optional: Section ID to select
                  */
-                function populateSectionDropdown(sections) {
+                function populateSectionDropdown(sections, selectedSectionid) {
                     var dropdown = modal.getRoot().find('#missionSectionSelect');
                     dropdown.empty();
-                    dropdown.append('<option value="">{{#str}}select_section, block_mission_map{{/str}}</option>');
-                    
-                    sections.forEach(function(section) {
-                        var option = $('<option></option>')
-                            .attr('value', section.id)
-                            .data('url', section.url)
-                            .text(section.name);
-                        dropdown.append(option);
+
+                    // Get translated string for "Select a section..."
+                    str.get_string('select_section', 'block_mission_map').then(function(selectSectionText) {
+                        dropdown.append('<option value="">' + selectSectionText + '</option>');
+
+                        sections.forEach(function(section) {
+                            var option = $('<option></option>')
+                                .attr('value', section.id)
+                                .data('url', section.url)
+                                .text(section.name);
+                            // Select if this is the selected section
+                            if (selectedSectionid && String(selectedSectionid) == String(section.id)) {
+                                option.attr('selected', 'selected');
+                                // Also update the hidden URL field
+                                modal.getRoot().find('#selectedSectionUrl').val(section.url);
+                            }
+                            dropdown.append(option);
+                        });
                     });
                 }
 
@@ -189,7 +216,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     var selectedOption = $(this).find('option:selected');
                     var sectionId = selectedOption.val();
                     var url = selectedOption.data('url');
-                    
+
                     if (sectionId) {
                         $('#selectedSectionUrl').val(url);
                     } else {
@@ -254,7 +281,9 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         description: missionDescription,
                         type: parseInt(missionType),
                         color: missionColor,
-                        url: missionType == '1' ? missionUrl : (missionType == '2' ? modal.getRoot().find('#selectedActivityUrl').val() : (missionType == '3' ? modal.getRoot().find('#selectedSectionUrl').val() : null)),
+                        url: missionType == '1' ? missionUrl :
+                            (missionType == '2' ? modal.getRoot().find('#selectedActivityUrl').val() :
+                            (missionType == '3' ? modal.getRoot().find('#selectedSectionUrl').val() : null)),
                         cmid: missionType == '2' ? selectedActivityId : null,
                         sectionid: missionType == '3' ? selectedSectionId : null
                     };
@@ -343,10 +372,10 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 // Handle mission clicks to show/hide action buttons
                 $(document).on('click', '.mission', function(e) {
                     e.preventDefault();
-                    
+
                     // Hide all other action buttons
                     $('.mission-actions').hide();
-                    
+
                     // Show action buttons for this mission
                     $(this).siblings('.mission-actions').show();
                 });
@@ -355,7 +384,53 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                 $(document).on('click', '.mission-view-btn', function(e) {
                     e.preventDefault();
                     var url = $(this).data('url');
-                    window.open(url, '_blank');
+                    window.location.href = url;
+                });
+
+                // Handle delete mission buttons
+                $(document).on('click', '.mission-delete-btn', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var missionId = $(this).data('mission-id');
+                    var missionName = $(this).data('mission-name');
+                    var courseId = $(this).data('course-id');
+
+                    // Show confirmation dialog
+                    var confirmMsg = 'Are you sure you want to delete the mission "' + missionName +
+                        '"? This action cannot be undone.';
+                    if (!confirm(confirmMsg)) {
+                        return;
+                    }
+
+                    // Call delete API
+                    var request = {
+                        methodname: 'block_mission_map_delete_level',
+                        args: {
+                            levelid: missionId,
+                            courseid: courseId
+                        }
+                    };
+
+                    ajax.call([request])[0].then(function(response) {
+                        if (response.success) {
+                            notification.addNotification({
+                                message: response.message || 'Mission deleted successfully',
+                                type: 'success'
+                            });
+                            // Reload page to reflect changes
+                            window.location.reload();
+                        } else {
+                            notification.addNotification({
+                                message: response.message || 'Failed to delete mission',
+                                type: 'error'
+                            });
+                        }
+                    }).catch(function() {
+                        notification.addNotification({
+                            message: 'An error occurred while deleting the mission',
+                            type: 'error'
+                        });
+                    });
                 });
 
                 // Handle edit mission buttons
@@ -368,6 +443,8 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     var missionUrl = $(this).data('mission-url');
                     var missionColor = $(this).data('mission-color');
                     var chapterId = $(this).data('chapter-id');
+                    var missionCmid = $(this).data('mission-cmid');
+                    var missionSectionid = $(this).data('mission-sectionid');
 
                     // Store mission ID for update
                     modal.getRoot().data('editing-mission-id', missionId);
@@ -392,14 +469,14 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                         modal.getRoot().find('#urlGroup').hide();
                         modal.getRoot().find('#activityGroup').show();
                         modal.getRoot().find('#sectionGroup').hide();
-                        loadCourseActivities();
+                        loadCourseActivities(missionCmid);
                         // Set the activity URL in the hidden field
                         modal.getRoot().find('#selectedActivityUrl').val(missionUrl);
                     } else if (missionType == '3') { // Section
                         modal.getRoot().find('#urlGroup').hide();
                         modal.getRoot().find('#activityGroup').hide();
                         modal.getRoot().find('#sectionGroup').show();
-                        loadCourseSections();
+                        loadCourseSections(missionSectionid);
                         // Set the section URL in the hidden field
                         modal.getRoot().find('#selectedSectionUrl').val(missionUrl);
                     } else { // Voting
