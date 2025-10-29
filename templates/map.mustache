@@ -1,8 +1,73 @@
 {{! @template block_mission_map/map }}
 <div class="map">
     {{#chapters}}
-    <!-- Chapter is locked -->
-    {{#isLocked}}
+    <!-- Chapter is locked (for students) -->
+    {{#isLockedForStudent}}
+    {{#can_bypass_lock}}
+    {{! Admin view: Show full content with small lock badge }}
+    <div id="chapter_{{id}}" class="chapter grid">
+        <div class="locked-badge">{{#str}}chapter_locked, block_mission_map{{/str}} 🔒</div>
+        <div class="chapter_header">
+            <h3>{{name}}</h3>
+        </div>
+        <img src="{{img}}" /> 
+        {{#levels}}         {{#isCompleted}}
+        <div class="mission-container">
+            <a href="{{{url}}}" class="mission full" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+                <span class="mission-text">
+                    {{name}}
+                </span>
+            </a>
+            {{#can_add_mission}}
+            <div class="mission-actions" style="display: none;">
+                <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{{url}}}">
+                    <i class="fa fa-eye"></i> View
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}" data-mission-cmid="{{cmid}}" data-mission-sectionid="{{sectionid}}">
+                    <i class="fa fa-pencil"></i> Edit
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mission-delete-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-course-id="{{courseid}}">
+                    <i class="fa fa-trash"></i> Delete
+                </button>
+            </div>
+            {{/can_add_mission}}
+        </div>
+        {{/isCompleted}} {{^isCompleted}}
+        <div class="mission-container">
+            <a href="{{{url}}}" class="mission outlined" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+                <span class="mission-text">
+                    {{name}}
+                </span>
+            </a>
+            {{#can_add_mission}}
+            <div class="mission-actions" style="display: none;">
+                <button type="button" class="btn btn-sm btn-primary mission-view-btn" data-url="{{{url}}}">
+                    <i class="fa fa-eye"></i> View
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary mission-edit-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}" data-mission-cmid="{{cmid}}" data-mission-sectionid="{{sectionid}}">
+                    <i class="fa fa-pencil"></i> Edit
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mission-delete-btn" data-mission-id="{{id}}" data-mission-name="{{name}}" data-course-id="{{courseid}}">
+                    <i class="fa fa-trash"></i> Delete
+                </button>
+            </div>
+            {{/can_add_mission}}
+        </div>
+        {{/isCompleted}} {{/levels}}
+        {{#can_add_mission}}
+        <div style="position: absolute; top: 10px; right: 10px; z-index: 10; display: flex; gap: 5px;">
+            <button type="button" class="btn btn-sm btn-outline-primary edit-chapter-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}" data-has-lock="{{has_lock}}" data-unlock-date="{{unlocking_date}}" title="{{#str}}edit_chapter, block_mission_map{{/str}}">
+                <i class="fa fa-pencil"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-success add-mission-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}">
+                <i class="fa fa-plus"></i> Add Mission
+            </button>
+        </div>
+        {{/can_add_mission}}
+    </div>
+    {{/can_bypass_lock}}
+    {{^can_bypass_lock}}
+    {{! Student view: Full locked overlay }}
     <div id="chapter_{{id}}" class="chapter grid">
         <div class="locked">
             <div class="countdown-timer" data-countdown="{{unlocking_date}}">
@@ -13,7 +78,8 @@
         <div class="chapter_header">
             <h3>{{name}}</h3>
         </div>
-        <img src="{{img}}" /> {{#levels}}
+        <img src="{{img}}" /> 
+        {{#levels}}
         <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
             <span class="mission-text">
                             {{name}}
@@ -21,10 +87,11 @@
         </a>
         {{/levels}}
     </div>
-    {{/isLocked}}
+    {{/can_bypass_lock}}
+    {{/isLockedForStudent}}
 
-    <!-- Chapter is unlocked -->
-    {{^isLocked}}
+    <!-- Chapter is unlocked (or admin bypass) -->
+    {{^isLockedForStudent}}
     <div class="chapter grid">
         <div class="chapter_header">
             <h3>{{name}}</h3>
@@ -83,6 +150,6 @@
         </div>
         {{/can_add_mission}}
     </div>
-    {{/isLocked}} {{/chapters}}
+    {{/isLockedForStudent}} {{/chapters}}
 </div>
 {{#js}} require(['block_mission_map/randomizer'], function(module) { module.init(); } ); require(['block_mission_map/countdown'], function(module) { module.init(); } ); {{/js}}

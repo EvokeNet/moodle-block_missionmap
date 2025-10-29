@@ -40,7 +40,8 @@ class map implements renderable, templatable
             $data->edit_url = new moodle_url('/blocks/mission_map/chapters.php') . "?courseid={$COURSE->id}&blockid={$this->chapters[0]->blockid}";
         }
         
-        if (has_capability('block/mission_map:managechapters', $context)) {
+        $can_manage = has_capability('block/mission_map:managechapters', $context);
+        if ($can_manage) {
             $data->can_add_mission = true;
         }
 
@@ -56,13 +57,22 @@ class map implements renderable, templatable
             // Ensure unlocking_date is properly formatted
             $chapter->unlocking_date = (int)$chapter->unlocking_date;
 
+            // Check if chapter is locked (for students)
+            $chapter->isLockedForStudent = false;
             if ($chapter->has_lock) {
                 if ($chapter->unlocking_date > time()) {
-                    $chapter->isLocked = true;
+                    $chapter->isLockedForStudent = true;
+                    // Admins can bypass locks, so isLocked is only true for non-admins
+                    $chapter->isLocked = !$can_manage;
                 } else {
                     $chapter->isLocked = false;
                 }
+            } else {
+                $chapter->isLocked = false;
             }
+            
+            // Allow admins to edit even when locked
+            $chapter->can_bypass_lock = $can_manage;
 
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
