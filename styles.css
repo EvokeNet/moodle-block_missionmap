@@ -190,14 +190,16 @@
     z-index: 990;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
+    /* Left-align title and badge */
     gap: 0.5em;
 }
 
 .block_mission_map .map .chapter .chapter_headerwrap .locked-badge {
     position: static;
     /* Inline within wrapper */
-    margin-left: auto;
+    margin-left: 8px;
+    /* Slight spacing from title */
 }
 
 .block_mission_map .map .chapter .chapter_header h3 {

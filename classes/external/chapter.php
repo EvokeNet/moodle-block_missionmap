@@ -149,4 +149,76 @@ class chapter extends \external_api {
             'message' => new \external_value(PARAM_TEXT, 'Response message')
         ]);
     }
+
+    /**
+     * Delete a chapter and all its missions.
+     *
+     * @param int $blockid Block instance ID
+     * @param int $courseid Course ID
+     * @param int $chapterid Chapter ID to delete
+     * @return array
+     */
+    public static function delete($blockid, $courseid, $chapterid) {
+        global $DB;
+
+        $params = self::validate_parameters(self::delete_parameters(), [
+            'blockid' => $blockid,
+            'courseid' => $courseid,
+            'chapterid' => $chapterid
+        ]);
+
+        // Permission check.
+        $context = \context_course::instance($params['courseid']);
+        require_capability('block/mission_map:managechapters', $context);
+
+        // Validate block belongs to course.
+        $block = $DB->get_record('block_instances', [
+            'id' => $params['blockid'],
+            'blockname' => 'mission_map'
+        ], '*', MUST_EXIST);
+        $blockcontext = \context::instance_by_id($block->parentcontextid);
+        if ($blockcontext->instanceid != $params['courseid']) {
+            throw new \invalid_parameter_exception('Block does not belong to this course');
+        }
+
+        // Validate chapter.
+        $chapter = $DB->get_record('block_mission_map_chapters', [
+            'id' => $params['chapterid'],
+            'blockid' => $params['blockid']
+        ], '*', MUST_EXIST);
+
+        // Cascade delete missions in this chapter.
+        $DB->delete_records('block_mission_map_levels', ['chapterid' => $params['chapterid']]);
+
+        // Delete the chapter itself.
+        $success = $DB->delete_records('block_mission_map_chapters', ['id' => $params['chapterid']]);
+
+        return [
+            'success' => (bool)$success,
+            'message' => $success ? 'Chapter deleted successfully' : 'Failed to delete chapter'
+        ];
+    }
+
+    /**
+     * Parameters for delete.
+     * @return external_function_parameters
+     */
+    public static function delete_parameters() {
+        return new \external_function_parameters([
+            'blockid' => new \external_value(PARAM_INT, 'Block instance ID'),
+            'courseid' => new \external_value(PARAM_INT, 'Course ID'),
+            'chapterid' => new \external_value(PARAM_INT, 'Chapter ID to delete')
+        ]);
+    }
+
+    /**
+     * Returns structure for delete.
+     * @return external_single_structure
+     */
+    public static function delete_returns() {
+        return new \external_single_structure([
+            'success' => new \external_value(PARAM_BOOL, 'Whether the operation was successful'),
+            'message' => new \external_value(PARAM_TEXT, 'Response message')
+        ]);
+    }
 }

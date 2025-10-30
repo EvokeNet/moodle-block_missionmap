@@ -62,6 +62,9 @@
             <button type="button" class="btn btn-sm btn-success add-mission-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}">
                 <i class="fa fa-plus"></i> Add Mission
             </button>
+            <button type="button" class="btn btn-sm btn-danger delete-chapter-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}" data-course-id="{{courseid}}" data-block-id="{{blockid}}" title="{{#str}}deletechapter, block_mission_map{{/str}}">
+                <i class="fa fa-trash"></i>
+            </button>
         </div>
         {{/can_add_mission}}
     </div>
@@ -147,9 +150,12 @@
             <button type="button" class="btn btn-sm btn-success add-mission-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}">
                 <i class="fa fa-plus"></i> Add Mission
             </button>
+            <button type="button" class="btn btn-sm btn-danger delete-chapter-btn" data-chapter-id="{{id}}" data-chapter-name="{{name}}" data-course-id="{{courseid}}" data-block-id="{{blockid}}" title="{{#str}}deletechapter, block_mission_map{{/str}}">
+                <i class="fa fa-trash"></i>
+            </button>
         </div>
         {{/can_add_mission}}
     </div>
     {{/isLockedForStudent}} {{/chapters}}
 </div>
-{{#js}} require(['block_mission_map/randomizer'], function(module) { module.init(); } ); require(['block_mission_map/countdown'], function(module) { module.init(); } ); {{/js}}
+{{#js}} require(['block_mission_map/randomizer'], function(module) { module.init(); } ); require(['block_mission_map/countdown'], function(module) { module.init(); } ); require(['block_mission_map/chapter_delete'], function(module) { module.init(); }); {{/js}}

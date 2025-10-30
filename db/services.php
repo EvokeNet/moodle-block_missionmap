@@ -33,6 +33,14 @@ $functions = [
         'type' => 'write',
         'ajax' => true
     ],
+    'block_mission_map_delete_chapter' => [
+        'classname' => 'block_mission_map\external\chapter',
+        'methodname' => 'delete',
+        'classpath' => 'blocks/mission_map/classes/external/chapter.php',
+        'description' => 'Deletes a chapter and all its missions',
+        'type' => 'write',
+        'ajax' => true
+    ],
     'block_mission_map_get_course_activities' => [
         'classname' => 'block_mission_map\external\mission',
         'methodname' => 'get_course_activities',
