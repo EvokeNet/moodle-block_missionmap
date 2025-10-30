@@ -6,9 +6,9 @@
     {{#can_bypass_lock}}
     {{! Admin view: Show full content with small lock badge }}
     <div id="chapter_{{id}}" class="chapter grid">
-        <div class="locked-badge">{{#str}}chapter_locked, block_mission_map{{/str}} 🔒</div>
-        <div class="chapter_header">
-            <h3>{{name}}</h3>
+        <div class="chapter_headerwrap">
+            <div class="chapter_header"><h3>{{name}}</h3></div>
+            <div class="locked-badge">{{#str}}chapter_locked, block_mission_map{{/str}} 🔒</div>
         </div>
         <img src="{{img}}" /> 
         {{#levels}}         {{#isCompleted}}
