@@ -176,11 +176,8 @@ class map implements renderable, templatable
         
         if (empty($cms)) {
             // No activities with completion enabled in this section
-            debugging("No activities with completion enabled found in section {$sectionid}", DEBUG_DEVELOPER);
             return true;
         }
-
-        debugging("Found " . count($cms) . " activities with completion enabled in section {$sectionid}", DEBUG_DEVELOPER);
 
         // Get course modinfo to retrieve proper cm_info objects
         $modinfo = get_fast_modinfo($courseid);
@@ -193,23 +190,18 @@ class map implements renderable, templatable
             
             // Skip if cm doesn't exist or is invalid
             if (!$cm || empty($cm->id)) {
-                debugging("Skipping invalid cm {$cmrecord->id} in section {$sectionid}", DEBUG_DEVELOPER);
                 continue;
             }
             
             // Get completion data using the proper cm_info object
             $completion = $completion_info->get_data($cm, false, $userid);
             
-            debugging("Activity {$cm->id} completion state: " . ($completion->completionstate ?? 'null'), DEBUG_DEVELOPER);
-            
             // If any activity is not completed, the section is not completed
             if (empty($completion->completionstate)) {
-                debugging("Section {$sectionid} not completed due to activity {$cm->id}", DEBUG_DEVELOPER);
                 return false;
             }
         }
 
-        debugging("All activities in section {$sectionid} are completed", DEBUG_DEVELOPER);
         return true;
     }
 }
