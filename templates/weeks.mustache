@@ -10,7 +10,7 @@
     {{#chapters}}
     <!-- Chapter is locked -->
     {{#isLocked}}
-        <div id="chapter_{{id}}" class="chapter row">
+        <div id="chapter_{{id}}" class="chapter row" style="background-image: url('{{img}}');">
             <div class="locked">
                 <div class="countdown-timer" data-countdown="{{unlocking_date}}">
                     <span class="timer-label">{{#str}}chapter_locked, block_mission_map{{/str}}</span>
@@ -21,7 +21,7 @@
                 <h3>{{name}}</h3>
             </div>
             <img src="{{img}}" /> {{#levels}}
-            <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+            <a href="#" class="mission {{marker_class}}" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                 <span class="mission-text">
                     {{name}}
                 </span>
@@ -32,21 +32,21 @@
 
     <!-- Chapter is unlocked -->
     {{^isLocked}}
-        <div class="chapter row">
+        <div class="chapter row" style="background-image: url('{{img}}');">
             <div class="chapter_header">
                 <h3>{{name}}</h3>
             </div>
             <img src="{{img}}" />
             {{#levels}}
                 {{#isCompleted}}
-                    <a href="{{{url}}}" class="mission full" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+                    <a href="{{{url}}}" class="mission full {{marker_class}}" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                         <span class="mission-text">
                             {{name}}
                         </span>
                     </a>
                 {{/isCompleted}}
                 {{^isCompleted}}
-                    <a href="{{{url}}}" class="mission outlined" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" title='{{description}}'>
+                    <a href="{{{url}}}" class="mission outlined {{marker_class}}" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" title='{{description}}'>
                         <span class="mission-text">
                             {{name}}
                         </span>

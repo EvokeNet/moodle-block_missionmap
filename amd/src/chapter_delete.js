@@ -4,7 +4,6 @@
 /* global window */
 
 import {get_string as getString} from 'core/str';
-import * as Config from 'core/config';
 import Ajax from 'core/ajax';
 
 export const init = () => {
@@ -41,5 +40,4 @@ export const init = () => {
 };
 
 export default {init};
-
 

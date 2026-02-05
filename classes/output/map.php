@@ -34,6 +34,43 @@ class map implements renderable, templatable
 
         $data = new \stdClass();
         $context = \context_course::instance($COURSE->id);
+        $fs = get_file_storage();
+        $backgrounds = [];
+        $blockid = !empty($this->chapters) ? ($this->chapters[0]->blockid ?? null) : null;
+        $blockcontext = $blockid ? \context_block::instance($blockid) : null;
+        $markerstyle = 'dot';
+        if ($blockid) {
+            $blockrecord = $DB->get_record('block_instances', ['id' => $blockid], 'configdata', IGNORE_MISSING);
+            if ($blockrecord && !empty($blockrecord->configdata)) {
+                $config = @unserialize(base64_decode($blockrecord->configdata));
+                if (is_object($config) && !empty($config->marker_style)) {
+                    $markerstyle = $config->marker_style;
+                }
+            }
+        }
+        $markerclass = ($markerstyle === 'speech') ? 'mission-speech' : 'mission-dot';
+
+        for ($i = 1; $i <= 4; $i++) {
+            $backgrounds[$i] = $output->image_url("map_main_{$i}", 'block_mission_map');
+            if ($blockcontext) {
+                $filearea = "map_bg_{$i}";
+                $files = $fs->get_area_files($blockcontext->id, 'block_mission_map', $filearea, $blockid, 'itemid, filepath, filename', false);
+                if (empty($files)) {
+                    $files = $fs->get_area_files($blockcontext->id, 'block_mission_map', $filearea, 0, 'itemid, filepath, filename', false);
+                }
+                if (!empty($files)) {
+                    $file = array_values($files)[0];
+                    $backgrounds[$i] = \moodle_url::make_pluginfile_url(
+                        $blockcontext->id,
+                        'block_mission_map',
+                        $filearea,
+                        $file->get_itemid(),
+                        $file->get_filepath(),
+                        $file->get_filename()
+                    );
+                }
+            }
+        }
 
         if (has_capability('block/mission_map:managechapters', $context)) {
             $data->can_edit = true;
@@ -49,7 +86,8 @@ class map implements renderable, templatable
         $mapno = 0;
         foreach ($this->chapters as &$chapter) {
             ++$mapno;
-            $chapter->img = $output->image_url("map_main_{$mapno}", 'block_mission_map');
+            $imgindex = (($mapno - 1) % 4) + 1;
+            $chapter->img = $backgrounds[$imgindex];
 
             // Ensure has_lock is properly formatted (convert to int if needed)
             $chapter->has_lock = (int)$chapter->has_lock;
@@ -77,6 +115,7 @@ class map implements renderable, templatable
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;
+                $level->marker_class = $markerclass;
 
                 // Check completion based on mission type
                 if ($level->type == TYPE_SECTION && !empty($level->sectionid)) {

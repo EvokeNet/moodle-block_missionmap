@@ -35,12 +35,49 @@ class chapters implements renderable, templatable
         global $OUTPUT;
 
         $data = new \stdClass();
+        $fs = get_file_storage();
+        $backgrounds = [];
+        $blockcontext = $this->blockid ? \context_block::instance($this->blockid) : null;
+        $markerstyle = 'dot';
+        if ($this->blockid) {
+            $blockrecord = $DB->get_record('block_instances', ['id' => $this->blockid], 'configdata', IGNORE_MISSING);
+            if ($blockrecord && !empty($blockrecord->configdata)) {
+                $config = @unserialize(base64_decode($blockrecord->configdata));
+                if (is_object($config) && !empty($config->marker_style)) {
+                    $markerstyle = $config->marker_style;
+                }
+            }
+        }
+        $markerclass = ($markerstyle === 'speech') ? 'mission-speech' : 'mission-dot';
+
+        for ($i = 1; $i <= 4; $i++) {
+            $backgrounds[$i] = $OUTPUT->image_url("map_main_{$i}", 'block_mission_map');
+            if ($blockcontext) {
+                $filearea = "map_bg_{$i}";
+                $files = $fs->get_area_files($blockcontext->id, 'block_mission_map', $filearea, $this->blockid, 'itemid, filepath, filename', false);
+                if (empty($files)) {
+                    $files = $fs->get_area_files($blockcontext->id, 'block_mission_map', $filearea, 0, 'itemid, filepath, filename', false);
+                }
+                if (!empty($files)) {
+                    $file = array_values($files)[0];
+                    $backgrounds[$i] = \moodle_url::make_pluginfile_url(
+                        $blockcontext->id,
+                        'block_mission_map',
+                        $filearea,
+                        $file->get_itemid(),
+                        $file->get_filepath(),
+                        $file->get_filename()
+                    );
+                }
+            }
+        }
 
         $i = 0;
         $mapno = 0;
         foreach ($this->chapters as &$chapter) {
             ++$mapno;
-            $chapter->img = $OUTPUT->image_url("map_main_{$mapno}", 'block_mission_map');
+            $imgindex = (($mapno - 1) % 4) + 1;
+            $chapter->img = $backgrounds[$imgindex];
 
             if ($chapter->has_lock) {
                 if ($chapter->unlocking_date > time()) {
@@ -53,6 +90,7 @@ class chapters implements renderable, templatable
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;
+                $level->marker_class = $markerclass;
                 switch ($level->type) {
                     case TYPE_SUBLEVEL:
                         $level->url = new moodle_url('/blocks/mission_map/levels.php') . "?chapterid={$level->chapterid}&levelid={$level->id}";

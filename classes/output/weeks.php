@@ -33,17 +33,55 @@ class weeks implements renderable, templatable
 
         $data = new \stdClass();
         $context = \context_course::instance($COURSE->id);
+        $fs = get_file_storage();
+        $backgrounds = [];
+        $blockid = !empty($this->chapters) ? ($this->chapters[0]->blockid ?? null) : null;
+        $blockcontext = $blockid ? \context_block::instance($blockid) : null;
+        $markerstyle = 'dot';
+        if ($blockid) {
+            $blockrecord = $DB->get_record('block_instances', ['id' => $blockid], 'configdata', IGNORE_MISSING);
+            if ($blockrecord && !empty($blockrecord->configdata)) {
+                $config = @unserialize(base64_decode($blockrecord->configdata));
+                if (is_object($config) && !empty($config->marker_style)) {
+                    $markerstyle = $config->marker_style;
+                }
+            }
+        }
+        $markerclass = ($markerstyle === 'speech') ? 'mission-speech' : 'mission-dot';
 
         if (has_capability('block/mission_map:managechapters', $context)) {
             $data->can_edit = true;
             $data->edit_url = new moodle_url('/blocks/mission_map/chapters.php') . "?courseid={$COURSE->id}&blockid={$this->chapters[0]->blockid}";
         }
 
+        for ($i = 1; $i <= 4; $i++) {
+            $backgrounds[$i] = $output->image_url("map_main_{$i}", 'block_mission_map');
+            if ($blockcontext) {
+                $filearea = "map_bg_{$i}";
+                $files = $fs->get_area_files($blockcontext->id, 'block_mission_map', $filearea, $blockid, 'itemid, filepath, filename', false);
+                if (empty($files)) {
+                    $files = $fs->get_area_files($blockcontext->id, 'block_mission_map', $filearea, 0, 'itemid, filepath, filename', false);
+                }
+                if (!empty($files)) {
+                    $file = array_values($files)[0];
+                    $backgrounds[$i] = \moodle_url::make_pluginfile_url(
+                        $blockcontext->id,
+                        'block_mission_map',
+                        $filearea,
+                        $file->get_itemid(),
+                        $file->get_filepath(),
+                        $file->get_filename()
+                    );
+                }
+            }
+        }
+
         $i = 0;
         $mapno = 0;
         foreach ($this->chapters as &$chapter) {
             ++$mapno;
-            $chapter->img = $output->image_url("map_main_{$mapno}", 'block_mission_map');
+            $imgindex = (($mapno - 1) % 4) + 1;
+            $chapter->img = $backgrounds[$imgindex];
 
             if ($chapter->has_lock) {
                 if ($chapter->unlocking_date > time()) {
@@ -56,6 +94,7 @@ class weeks implements renderable, templatable
             if (!isset($chapter->levels)) continue;
             foreach ($chapter->levels as &$level) {
                 $level->no = ++$i;
+                $level->marker_class = $markerclass;
 
                 if (!empty($level->cmid)) {
                     $cm = get_coursemodule_from_id('', $level->cmid);

@@ -13,7 +13,7 @@
             <img src="{{img}}" />
             {{#sublevels}}
                 {{#isEditing}}
-                    <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                    <div class="mission {{marker_class}}" data-toggle="tooltip" data-placement="top" title="{{name}}">
                         <div class="mission-tools">
                             <a href={{{url}}} class="btn btn-secondary btn-sm go_level">go</a>
                             <a href={{{editurl}}} class="btn btn-primary btn-sm edit_level">edit</a>
@@ -31,13 +31,13 @@
                 {{/isEditing}}
                 {{^isEditing}}
                     {{#isLocked}}
-                        <div class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <div class="mission {{marker_class}}" data-toggle="tooltip" data-placement="top" title="{{name}}">
                             <div class="locked"></div>
                             <span class="mission-text">?</span>
                         </div>
                     {{/isLocked}}
                     {{^isLocked}}
-                        <a href="{{{url}}}" class="mission" data-toggle="tooltip" data-placement="top" title="{{name}}">
+                        <a href="{{{url}}}" class="mission {{marker_class}}" data-toggle="tooltip" data-placement="top" title="{{name}}">
                             <span class="mission-text">
                                 {{no}}
                             </span>

@@ -12,6 +12,13 @@ $string['map_format_header'] = 'Map format settings';
 $string['map_format_grid'] = 'Grid';
 $string['map_format_row'] = 'Row';
 $string['map_format_label'] = 'Display label on map';
+$string['map_backgrounds_header'] = 'Map background images';
+$string['map_backgrounds_manage'] = 'Manage background images';
+$string['map_background'] = 'Map background {$a}';
+$string['mission_style_header'] = 'Mission marker style';
+$string['mission_style'] = 'Marker style';
+$string['mission_style_dot'] = 'Dot';
+$string['mission_style_speech'] = 'Speech bubble';
 
 // GENERAL
 $string['back_map'] = 'Back to map';
@@ -29,6 +36,9 @@ $string['chapter_countdown'] = '--d --h --m --s';
 
 $string['add_chapter'] = 'Add Chapter';
 $string['edit_chapter'] = 'Edit Chapter';
+$string['delete_chapter'] = 'Delete Chapter';
+$string['deletechapter'] = 'Delete Chapter';
+$string['confirmdeletechapter'] = 'Are you sure you want to delete the chapter "{$a}"? This action cannot be undone.';
 $string['no_chapters_yet'] = 'No chapters created yet. Contact your instructor to set up the mission map.';
 $string['campaign_add_chapter'] = 'Chapter name';
 

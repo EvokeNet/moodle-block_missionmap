@@ -5,7 +5,7 @@
     {{#isLockedForStudent}}
     {{#can_bypass_lock}}
     {{! Admin view: Show full content with small lock badge }}
-    <div id="chapter_{{id}}" class="chapter grid">
+    <div id="chapter_{{id}}" class="chapter grid" style="background-image: url('{{img}}');">
         <div class="chapter_headerwrap">
             <div class="chapter_header"><h3>{{name}}</h3></div>
             <div class="locked-badge">{{#str}}chapter_locked, block_mission_map{{/str}} 🔒</div>
@@ -13,7 +13,7 @@
         <img src="{{img}}" /> 
         {{#levels}}         {{#isCompleted}}
         <div class="mission-container">
-            <a href="{{{url}}}" class="mission full" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{{url}}}" class="mission full {{marker_class}}" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>
@@ -34,7 +34,7 @@
         </div>
         {{/isCompleted}} {{^isCompleted}}
         <div class="mission-container">
-            <a href="{{{url}}}" class="mission outlined" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{{url}}}" class="mission outlined {{marker_class}}" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>
@@ -71,7 +71,7 @@
     {{/can_bypass_lock}}
     {{^can_bypass_lock}}
     {{! Student view: Full locked overlay }}
-    <div id="chapter_{{id}}" class="chapter grid">
+    <div id="chapter_{{id}}" class="chapter grid" style="background-image: url('{{img}}');">
         <div class="locked">
             <div class="countdown-timer" data-countdown="{{unlocking_date}}">
                 <span class="timer-label">{{#str}}chapter_locked, block_mission_map{{/str}}</span>
@@ -83,7 +83,7 @@
         </div>
         <img src="{{img}}" /> 
         {{#levels}}
-        <a href="#" class="mission" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
+        <a href="#" class="mission {{marker_class}}" data-toggle="tooltip" data-placement="top" title="{{description}}" data-html="true">
             <span class="mission-text">
                             {{name}}
                         </span>
@@ -95,13 +95,13 @@
 
     <!-- Chapter is unlocked (or admin bypass) -->
     {{^isLockedForStudent}}
-    <div class="chapter grid">
+    <div class="chapter grid" style="background-image: url('{{img}}');">
         <div class="chapter_header">
             <h3>{{name}}</h3>
         </div>
         <img src="{{img}}" /> {{#levels}}         {{#isCompleted}}
         <div class="mission-container">
-            <a href="{{{url}}}" class="mission full" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{{url}}}" class="mission full {{marker_class}}" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>
@@ -122,7 +122,7 @@
         </div>
         {{/isCompleted}} {{^isCompleted}}
         <div class="mission-container">
-            <a href="{{{url}}}" class="mission outlined" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
+            <a href="{{{url}}}" class="mission outlined {{marker_class}}" style="--mission-color: {{color}};" data-toggle="tooltip" data-placement="top" data-boundary="viewport" title="{{description}}" data-html="true" data-mission-id="{{id}}" data-mission-name="{{name}}" data-mission-description="{{description}}" data-mission-type="{{type}}" data-mission-url="{{{url}}}" data-mission-color="{{color}}" data-chapter-id="{{chapterid}}">
                 <span class="mission-text">
                     {{name}}
                 </span>

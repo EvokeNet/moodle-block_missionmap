@@ -169,16 +169,19 @@ function block_mission_map_pluginfile($course, $birecord_or_cm, $context, $filea
         // At this point there is no way to check SYSTEM context, so ignoring it.
     }
 
-    if ($filearea !== 'content') {
+    $allowedfileareas = ['content', 'map_bg_1', 'map_bg_2', 'map_bg_3', 'map_bg_4'];
+    if (!in_array($filearea, $allowedfileareas, true)) {
         send_file_not_found();
     }
 
     $fs = get_file_storage();
 
     $filename = array_pop($args);
-    $filepath = $args ? '/'.implode('/', $args).'/' : '/';
+    $pathinfo = block_mission_map_get_path_from_pluginfile($filearea, $args);
+    $filepath = $pathinfo['filepath'];
+    $itemid = $pathinfo['itemid'];
 
-    if (!$file = $fs->get_file($context->id, 'block_mission_map', 'content', 0, $filepath, $filename) or $file->is_directory()) {
+    if (!$file = $fs->get_file($context->id, 'block_mission_map', $filearea, $itemid, $filepath, $filename) or $file->is_directory()) {
         send_file_not_found();
     }
 
@@ -207,8 +210,8 @@ function block_mission_map_pluginfile($course, $birecord_or_cm, $context, $filea
  * @return array The itemid and the filepath inside the $args path, for the defined filearea.
  */
 function block_mission_map_get_path_from_pluginfile(string $filearea, array $args) : array {
-    // This block never has an itemid (the number represents the revision but it's not stored in database).
-    array_shift($args);
+    // First argument is itemid.
+    $itemid = (int)array_shift($args);
 
     // Get the filepath.
     if (empty($args)) {
@@ -218,7 +221,7 @@ function block_mission_map_get_path_from_pluginfile(string $filearea, array $arg
     }
 
     return [
-        'itemid' => 0,
+        'itemid' => $itemid,
         'filepath' => $filepath,
     ];
 }

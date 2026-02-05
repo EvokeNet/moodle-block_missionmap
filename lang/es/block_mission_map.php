@@ -5,6 +5,13 @@ $string['mission_map:addinstance'] = 'Añadir un nuevo bloque del Mapa de Mision
 $string['mission_map:myaddinstance'] = 'Añadir un nuevo bloque del Mapa de Misiones a la página de Mi Moodle';
 
 $string['block_title'] = 'Tus misiones';
+$string['map_backgrounds_header'] = 'Imágenes de fondo del mapa';
+$string['map_backgrounds_manage'] = 'Administrar fondos del mapa';
+$string['map_background'] = 'Fondo del mapa {$a}';
+$string['mission_style_header'] = 'Estilo del marcador de misión';
+$string['mission_style'] = 'Estilo del marcador';
+$string['mission_style_dot'] = 'Punto';
+$string['mission_style_speech'] = 'Globo de diálogo';
 
 // GENERAL
 $string['back_map'] = 'Volver al mapa';

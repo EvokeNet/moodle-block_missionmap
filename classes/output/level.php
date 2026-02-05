@@ -35,11 +35,26 @@ class level implements renderable, templatable
         $context = \context_course::instance($COURSE->id);
 
         $data = new \stdClass();
+        $markerstyle = 'dot';
+        if (!empty($this->level->chapterid)) {
+            $chapter = $DB->get_record('block_mission_map_chapters', ['id' => $this->level->chapterid], 'blockid', IGNORE_MISSING);
+            if ($chapter && !empty($chapter->blockid)) {
+                $blockrecord = $DB->get_record('block_instances', ['id' => $chapter->blockid], 'configdata', IGNORE_MISSING);
+                if ($blockrecord && !empty($blockrecord->configdata)) {
+                    $config = @unserialize(base64_decode($blockrecord->configdata));
+                    if (is_object($config) && !empty($config->marker_style)) {
+                        $markerstyle = $config->marker_style;
+                    }
+                }
+            }
+        }
+        $markerclass = ($markerstyle === 'speech') ? 'mission-speech' : 'mission-dot';
 
         $i = 0;
         foreach ($this->sublevels as &$sublevel) {
             $sublevel->no = ++$i;
             $sublevel->isLocked = false;
+            $sublevel->marker_class = $markerclass;
 
             switch ($sublevel->type) {
                 case TYPE_SUBLEVEL:

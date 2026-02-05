@@ -151,6 +151,27 @@ class block_mission_map extends block_base
         return false;
     }
 
+    public function instance_config_save($data, $nolongerused = false) {
+        $context = $this->context;
+        $fs = get_file_storage();
+        $config = clone($data);
+
+        foreach (['map_bg_1', 'map_bg_2', 'map_bg_3', 'map_bg_4'] as $filearea) {
+            $field = 'config_' . $filearea;
+            if (isset($data->$field)) {
+                file_save_draft_area_files($data->$field, $context->id, 'block_mission_map', $filearea, 0, [
+                    'subdirs' => 0,
+                    'maxfiles' => 1
+                ]);
+            }
+
+            $hasfiles = $fs->get_area_files($context->id, 'block_mission_map', $filearea, 0, 'id', false);
+            $config->$field = !empty($hasfiles) ? 1 : 0;
+        }
+
+        parent::instance_config_save($config, $nolongerused);
+    }
+
     public function instance_delete()
     {
         global $DB;
@@ -180,5 +201,12 @@ class block_mission_map extends block_base
         }
         // Finally, let's delete chapters
         $DB->delete_records('block_mission_map_chapters', ['blockid' => $this->instance->id]);
+
+        $fs = get_file_storage();
+        foreach (['map_bg_1', 'map_bg_2', 'map_bg_3', 'map_bg_4'] as $filearea) {
+            $fs->delete_area_files($this->context->id, 'block_mission_map', $filearea, 0);
+        }
+
+        return true;
     }
 }

@@ -111,14 +111,6 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/modal_factory', 'core/
                     var hasLock = $(this).data('has-lock');
                     var unlockDate = $(this).data('unlock-date');
 
-                    // Debug: log the data being received
-                    console.log('Edit chapter clicked:', {
-                        chapterId: chapterId,
-                        chapterName: chapterName,
-                        hasLock: hasLock,
-                        unlockDate: unlockDate
-                    });
-
                     // Populate modal with existing data
                     $('#chapterName').val(chapterName);
                     $('#hasLock').prop('checked', hasLock == 1);
